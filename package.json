@@ -1,0 +1,34 @@
+{
+    "name": "vanced-voxiom-client",
+    "version": "0.0.1",
+    "description": "Client for voxiom.io with usefull and helpful utility.",
+    "main": "index.js",
+    "scripts": {
+        "test": "electron .",
+        "build": "electron-builder --win --x64"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/NamekujiLSDs/VancedVoxiomClient.git"
+    },
+    "author": "Namekuji",
+    "license": "LGPL-3.0-or-later",
+    "devDependencies": {
+        "electron": "^9.4.4",
+        "electron-builder": "^24.9.1"
+    },
+    "dependencies": {
+        "electron-localshortcut": "^3.2.1",
+        "electron-updater": "^6.1.7"
+    },
+    "homepage": "https://github.com/NamekujiLSDs/VancedVoxiomClient#readme",
+    "build": {
+        "appId": "vanced.voxiom.client",
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "target": "nsis"
+        }
+    }
+}

@@ -1,0 +1,82 @@
+<a onclick="menuHide()" class="visible" id="hideturn"></a>
+<div id="settingBox">
+    <div id="miniTitle">
+        Logo and BG
+    </div>
+    <div class="setVal">
+        <div class="minibox">
+            LogoURL
+            <input type="url" name="URL" id="logoUrl" oninput="vvcSettingChange('logo')">
+        </div>
+        <div class="minibox">
+            LogoText
+            <input type="text" name="TEXT" id="subTitle" oninput="vvcSettingChange('subt')">
+        </div>
+        <div class="minibox">
+            BGURL
+            <input type="text" name="TEXT" id="BGURL" oninput="vvcSettingChange('bg')">
+        </div>
+    </div>
+    <div id="miniTitle">
+        Crosshair
+    </div>
+    <div class="setVal">
+        <div class="minibox">
+            CrosshairURL
+            <input type="url" name="URL" id="xUrlInput" oninput="vvcSettingChange('xurl')">
+        </div>
+        <div class="minibox">
+            Size X
+            <div id="boxinbox">
+                <input type="range" name="RANGE" id="xXrange" min="0" max="256" oninput="vvcSettingChange('xxr')">
+                <input type="number" name="NUM" id="xXnum" class="num" oninput="vvcSettingChange('xxn')">
+            </div>
+        </div>
+        <div class="minibox">
+            Size Y
+            <div id="boxinbox">
+                <input type="range" name="RANGE" id="xYrange" min="0" max="256" oninput="vvcSettingChange('xyr')">
+                <input type="number" name="NUM" id="xYnum" class="num" oninput="vvcSettingChange('xyn')">
+            </div>
+        </div>
+        <div class="minibox">
+            Reset size
+            <input type="button" value="BTN" onclick="resetXsize()">
+        </div>
+    </div>
+    <div id="miniTitle">
+        CSS
+    </div>
+    <div class="setVal">
+        <div class="minibox TtB css">
+            Enter CSS below
+            <textarea name="TA" id="customCSS" cols="30" rows="10" oninput="vvcSettingChange('css')"></textarea>
+        </div>
+    </div>
+    <div id="miniTitle">
+        Login/Logout
+    </div>
+    <div class="setVal">
+        <a href="https://voxiom.io/" id="loginOut">Back to Voxiom</a>
+    </div>
+    <div class="setVal">
+        <a href="https://accounts.google.com/servicelogin" id="loginOut">Open Google</a>
+    </div>
+    <div class="setVal">
+        <a href="https://discord.com/login" id="loginOut">Open Discord</a>
+    </div>
+    <div class="setVal">
+        <a href="https://www.facebook.com/login/" id="loginOut">Open Facebook</a>
+    </div>
+    <div id="miniTitle">
+        Dangerous Setting
+
+    </div>
+    <div class="setVal">
+        <a onclick="resetAsk()" id="reset">RESET CLIENT SETTINGS</a>
+    </div>
+</div>
+
+<style>
+
+</style>
