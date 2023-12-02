@@ -25,7 +25,7 @@ function createWindow() {
         {
             width: 1920,
             height: 1080,
-            kiosk: true,
+            fullscreen: true,
             title: "VVC",
             icon: path.join(__dirname, "icon.ico"),
             webPreferences: {

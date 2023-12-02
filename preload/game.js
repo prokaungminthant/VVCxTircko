@@ -2,9 +2,14 @@ const { ipcRenderer } = require("electron")
 const account = require("../util/account")
 const path = require('path');
 
-//ESCの入力を受け取り   
+// //ESCの入力を受け取り   
+//55ms秒のDelayを入れるとメニューが消えなくて済む。機体によっても差が出るかもしれないから要検証
 ipcRenderer.on("ESC", () => {
-    document.exitPointerLock()
+    setTimeout(() => {
+        document.exitPointerLock();
+        console.log("55ms")
+    }, 55
+    )
 })
 
 function newPage() {
