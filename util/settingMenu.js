@@ -82,9 +82,10 @@ function addSettingMenu() {
                     <input type="range" name="RANGE" id="xYrange" min="0" max="256" oninput="vvcSettingChange('xyr')">
                     <input type="number" name="NUM" id="xYnum" class="num" oninput="vvcSettingChange('xyn')">
                 </div>
-                <div class="minibox">
-                    Reset size
-                </div>
+            </div>
+            <div class="minibox">
+                Reset size
+                <input type="button" value="Reset!" onclick="resetXsize()">
             </div>
         </div>
         <div id="miniTitle">
@@ -119,15 +120,17 @@ function addSettingMenu() {
             <a onclick="resetAsk()" id="reset">RESET CLIENT SETTINGS</a>
         </div>
     </div>
+    
     `
     document.body.insertAdjacentHTML("beforeend", tempDom);
     let tempDom2 = `<img id="crosshair">`
     let tempDom3 = `<style id="injectCSS"></style>`
-    document.getElementById("app").insertAdjacentHTML("beforeend", tempDom2)
+    document.body.insertAdjacentHTML("afterbegin", tempDom2)
     document.body.insertAdjacentHTML("afterbegin", tempDom3)
     configs()
     menuDisplayInit()
     menuItemInit()
+    vvcLogo()
 }
 
 //メニューの表示の初期設定
@@ -225,16 +228,36 @@ function vvcSettingChange(val) {
 }
 
 function resetAsk() {
+
     const result = confirm("Are you sure you want RESET settings?");
     if (result) {
         console.log("Reset");
         vvcReset()
+        configs()
+        menuItemInit()
+        location.reload()
     } else {
         console.log("Canceled");
     }
 }
-
+function vvcLogo() {
+    let tempDom4 = `<div id="clientLogo">Vanced Voxiom Client</div>`
+    document.body.insertAdjacentHTML("beforeend", tempDom4)
+}
 function resetXsize() {
+    const xXnum = document.getElementById("xXnum");
+    const xXrange = document.getElementById("xXrange");
+    const xYnum = document.getElementById("xYnum");
+    const xYrange = document.getElementById("xYrange");
+    const crosshair = document.getElementById("crosshair")
+    localStorage.setItem("xXSize", crosshair.naturalWidth)
+    localStorage.setItem("xYSize", crosshair.naturalHeight)
+
+    xXnum.value = crosshair.naturalWidth
+    xXrange.value = crosshair.naturalWidth
+    xYrange.value = crosshair.naturalHeight
+    xYnum.value = crosshair.naturalHeight
+    crosshair.setAttribute("style", `width:${crosshair.naturalWidth}px;height:${crosshair.naturalHeight}px`)
 }
 
 //Logoが作成されるかの監視

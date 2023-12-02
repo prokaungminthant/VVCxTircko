@@ -3,6 +3,7 @@ const autoUpdater = require("electron-updater")
 const localShortcut = require("electron-localshortcut")
 const path = require("path")
 
+
 //Electron@9を使用するため、脆弱性の対策
 delete require('electron').nativeImage.createThumbnailFromPath;
 if (!app.requestSingleInstanceLock()) {
@@ -38,7 +39,6 @@ function createWindow() {
         }
     );
     Menu.setApplicationMenu(null);
-
     //ESCの実装。Preloadで受け取り
     localShortcut.register(gameWin, 'Esc', () => {
         gameWin.webContents.send("ESC");
