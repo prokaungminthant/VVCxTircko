@@ -1,6 +1,21 @@
 <a onclick="menuHide()" class="visible" id="hideturn"></a>
 <div id="settingBox">
     <div id="miniTitle">
+        Links
+    </div>
+    <div class="setVal">
+        <div class="minibox">
+            Invite
+            <div id="boxinbox">
+                <input type="url" name="URL" id="joinURL">
+                <input type="button" value="JOIN" onclick="location.href = document.getElementById('joinURL').value">
+            </div>
+        </div>
+    </div>
+    <div class="setVal">
+        <a id="copyBtn" type="button" value="COPY LINK" onclick="copyURL()">
+    </div>
+    <div id="miniTitle">
         Logo and BG
     </div>
     <div class="setVal">
@@ -76,7 +91,3 @@
         <a onclick="resetAsk()" id="reset">RESET CLIENT SETTINGS</a>
     </div>
 </div>
-
-<style>
-
-</style>

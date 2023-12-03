@@ -24,9 +24,9 @@ function configs() {
 }
 
 function vvcReset() {
-    localStorage.setItem("logoUrl", "https://voxiom.io/package/ea55824826de52b7ccc3.png")
-    localStorage.setItem("bgUrl", "https://voxiom.io/package/c30b27cd3f6c8d9bb236.jpg")
-    localStorage.setItem("subTitle", "Open Alpha Testing - Pre-Season")
+    localStorage.setItem("logoUrl", 'https://cdn.discordapp.com/attachments/983598732505411595/1180727500163264614/image_3.png');
+    localStorage.setItem("bgUrl", 'https://cdn.discordapp.com/attachments/983598732505411595/1180727500670767195/template.png');
+    localStorage.setItem("subTitle", "DIE FOR DIE")
     localStorage.setItem("xXSize", "20")
     localStorage.setItem("xYSize", "20")
     localStorage.setItem("xUrl", "https://cdn.discordapp.com/attachments/920182601761832980/920182755025907762/Cross_-_yellow.png")
@@ -44,6 +44,21 @@ function onLoadMod() {
 function addSettingMenu() {
     let tempDom = `<a onclick="menuHide()" class="visible" id="hideturn"></a>
     <div id="settingBox">
+        <div id="miniTitle">
+            Links
+        </div>
+        <div class="setVal">
+            <div class="minibox">
+                Invite
+                <div id="boxinbox">
+                    <input type="url" name="URL" id="joinURL">
+                    <input type="button" value="JOIN" onclick="location.href = document.getElementById('joinURL').value">
+                </div>
+            </div>
+        </div>
+        <div class="setVal">
+            <a id="copyBtn" type="button" onclick="copyURL()">COPY LINK</a>
+        </div>
         <div id="miniTitle">
             Logo and BG
         </div>
@@ -85,7 +100,7 @@ function addSettingMenu() {
             </div>
             <div class="minibox">
                 Reset size
-                <input type="button" value="Reset!" onclick="resetXsize()">
+                <input type="button" value="BTN" onclick="resetXsize()">
             </div>
         </div>
         <div id="miniTitle">
@@ -119,9 +134,7 @@ function addSettingMenu() {
         <div class="setVal">
             <a onclick="resetAsk()" id="reset">RESET CLIENT SETTINGS</a>
         </div>
-    </div>
-    
-    `
+    </div>`
     document.body.insertAdjacentHTML("beforeend", tempDom);
     let tempDom2 = `<img id="crosshair">`
     let tempDom3 = `<style id="injectCSS"></style>`
@@ -179,6 +192,7 @@ function menuItemInit() {
     xYrange.value = xYSize;
     crosshair.setAttribute("src", xUrl);
     crosshair.setAttribute("style", `width:${xXSize}px;height:${xYSize}px`);
+    document.getElementsByClassName("sc-gKclnd")[0].setAttribute("style", `background-image:url("${bgUrl}")`)
     injCSS.textContent = css;
 }
 function vvcSettingChange(val) {
@@ -260,16 +274,38 @@ function resetXsize() {
     crosshair.setAttribute("style", `width:${crosshair.naturalWidth}px;height:${crosshair.naturalHeight}px`)
 }
 
-//Logoが作成されるかの監視
-const obs = new MutationObserver((mutationsList, observer) => {
+//ロゴの要素が追加されるまで監視する
+//オプション
+const options = {
+    childList: true, //直接の子の変更を監視
+    characterData: true, //文字の変化を監視
+    characterDataOldValue: true, //属性の変化前を記録
+    attributes: true, //属性の変化を監視
+    subtree: true, //全ての子要素を監視
+};
+
+
+//コールバック関数
+function callback(mutationsList, observer) {
     for (const mutation of mutationsList) {
         const tags = mutation.target;
-        if (tags.classList.contains("sc-iaUyqC") && mutation.attributeName === "src") {
-            obs.disconnect();
-            onLoadMod();
+        for (const node of tags.querySelectorAll("img")) {
+            if (node.getAttribute("class") === "sc-iaUyqC hrxbol") {
+                obs.disconnect();
+                const logoText = document.getElementsByClassName("yYlig")[0];
+                logoText.textContent = subTitle
+                const logo = document.getElementsByClassName("hrxbol")[0];
+                logo.setAttribute("src", logoUrl);
+            }
         }
     }
-});
+}
+//ターゲット要素をDOMで取得
+const target = document.getElementById("app");
+//インスタンス化
+const obs = new MutationObserver(callback);
+//ターゲット要素の監視を開始
+obs.observe(target, options);
 
 //メニュー画面の表示切替
 function menuHide() {
@@ -284,6 +320,25 @@ function menuHide() {
         localStorage.setItem("menuDisplay", true);
         console.log("Set to true");
     }
+}
+
+function copyURL() {
+    // 現在のページのURLを取得
+    var url = window.location.href;
+
+    // ページのURLをクリップボードにコピーする処理
+    navigator.clipboard.writeText(url)
+        .then(function () {
+            // コピー成功時の処理
+            document.getElementById('copyBtn').innerText = 'COPIED!!';
+            setTimeout(function () {
+                document.getElementById('copyBtn').innerText = 'COPY LINK';
+            }, 3000); // 3秒後に元のテキストに戻す
+        })
+        .catch(function (err) {
+            // コピー失敗時の処理
+            console.error('URLのコピーに失敗しました: ', err);
+        });
 }
 setInterval(() => onbeforeunload = null, 1000)
 window.onload = addSettingMenu()

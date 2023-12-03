@@ -46,6 +46,10 @@ function createWindow() {
     localShortcut.register(gameWin, 'F5', () => {
         gameWin.reload();
     });
+    localShortcut.register(gameWin, 'F8', () => {
+        gameWin.webContents.loadURL("https://voxiom.io");
+        gameWin.reload();
+    });
     localShortcut.register(gameWin, "F11", () => {
         const isFS = gameWin.isFullScreen()
         gameWin.setFullScreen(!isFS);

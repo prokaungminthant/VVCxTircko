@@ -119,13 +119,15 @@ input {
 }
 
 #loginOut,
-#reset {
+#reset,
+#copyBtn {
     color: white;
     display: flex;
     justify-content: center;
     text-decoration: none;
     border: #fff2 solid 2px;
     margin-bottom: 2px;
+    cursor: pointer;
 }
 
 input[type="range"] {
