@@ -1,4 +1,4 @@
-const { app, Menu, BrowserWindow, protocol, ipcMain } = require('electron')
+const { app, log, Menu, BrowserWindow, protocol, ipcMain } = require('electron')
 const autoUpdater = require("electron-updater")
 const localShortcut = require("electron-localshortcut")
 const path = require("path")

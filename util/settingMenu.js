@@ -185,7 +185,7 @@ function vvcSettingChange(val) {
     const logoUrlInput = document.getElementById("logoUrl");
     const bgUrlInput = document.getElementById("BGURL");
     const subTitleInput = document.getElementById("subTitle");
-    const xUrlInput = document.getElementById("xUrl");
+    const xUrlInput = document.getElementById("xUrlInput");
     const cssInput = document.getElementById("customCSS");
     const xXnum = document.getElementById("xXnum");
     const xXrange = document.getElementById("xXrange");
@@ -204,7 +204,7 @@ function vvcSettingChange(val) {
         document.getElementsByClassName("sc-gKclnd")[0].setAttribute("style", `background-image:url("${bgUrlInput.value}")`)
     } else if (val == "xurl") {
         localStorage.setItem("xUrl", xUrlInput.value);
-        document.getElementById('crosshair').setAttribute("url")
+        document.getElementById('crosshair').setAttribute("src", xUrlInput.value)
     } else if (val == "xxr") {
         localStorage.setItem("xXSize", xXrange.value)
         xXnum.value = xXrange.value;
