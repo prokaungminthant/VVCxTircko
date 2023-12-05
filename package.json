@@ -1,6 +1,6 @@
 {
     "name": "vanced-voxiom-client",
-    "version": "0.0.3",
+    "version": "0.0.6",
     "description": "Client for voxiom.io with usefull and helpful utility.",
     "main": "index.js",
     "scripts": {

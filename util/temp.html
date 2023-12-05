@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="setVal">
-        <a id="copyBtn" type="button" value="COPY LINK" onclick="copyURL()">
+        <a id="copyBtn" type="button" onclick="copyURL()">COPY LINK</a>
     </div>
     <div id="miniTitle">
         Logo and BG
@@ -56,10 +56,18 @@
         </div>
         <div class="minibox">
             Reset size
-            <input type="button" value="BTN" onclick="resetXsize()">
+            <input type="button" value="RESET!" onclick="resetXsize()">
+        </div>
+        <div class="minibox">
+            Overlay
+            <input type="url" name="URL" id="overlayInput" oninput="vvcSettingChange('ovl')">
+        </div>
+        <div class="minibox">
+            Overlay Switch
+            <input type="checkbox" name="CHECKBOX" id="overlayOnoff" oninput="vvcSettingChange('ovs')">
         </div>
     </div>
-    <div id="miniTitle">
+    <div id=" miniTitle">
         CSS
     </div>
     <div class="setVal">
@@ -75,7 +83,7 @@
         <a href="https://voxiom.io/" id="loginOut">Back to Voxiom</a>
     </div>
     <div class="setVal">
-        <a href="https://accounts.google.com/servicelogin" id="loginOut">Open Google</a>
+        <a href="https://google.com/" id="loginOut">Open Google</a>
     </div>
     <div class="setVal">
         <a href="https://discord.com/login" id="loginOut">Open Discord</a>

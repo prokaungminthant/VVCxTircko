@@ -6,7 +6,10 @@ let xXSize = "";
 let xUrl = "";
 let css = "";
 let menuDisplay = "";
+let overlaySwitch = "";
+let version = "0.0.6"
 
+//ローカルからの設定の読み取り
 function configs() {
     let firstTime = localStorage.getItem("firstTime")
     if (firstTime == null) {
@@ -20,20 +23,26 @@ function configs() {
     xYSize = localStorage.getItem("xYSize")
     xUrl = localStorage.getItem("xUrl")
     css = localStorage.getItem("css")
+    overlayUrl = localStorage.getItem("overlayUrl")
     menuDisplay = localStorage.getItem("menuDisplay")
+    overlaySwitch = localStorage.getItem("overlayOnOff")
 }
 
+//全部リセットする
 function vvcReset() {
-    localStorage.setItem("logoUrl", 'https://cdn.discordapp.com/attachments/983598732505411595/1180727500163264614/image_3.png');
-    localStorage.setItem("bgUrl", 'https://cdn.discordapp.com/attachments/983598732505411595/1180727500670767195/template.png');
+    localStorage.setItem("logoUrl", 'https://cdn.discordapp.com/attachments/983598732505411595/1181131421830623312/image_3-min.png');
+    localStorage.setItem("bgUrl", 'https://cdn.discordapp.com/attachments/983598732505411595/1181099378149175358/image_13_1.png');
     localStorage.setItem("subTitle", "DIE FOR DIE")
     localStorage.setItem("xXSize", "20")
     localStorage.setItem("xYSize", "20")
     localStorage.setItem("xUrl", "https://cdn.discordapp.com/attachments/920182601761832980/920182755025907762/Cross_-_yellow.png")
     localStorage.setItem("css", "")
     localStorage.setItem("menuDisplay", true)
+    localStorage.setItem("overlay", "")
+    localStorage.setItem("overlayOnOff", true);
 }
 
+// タイトルがロードされたときの処理
 function onLoadMod() {
     configs()
     document.getElementsByClassName("sc-iaUyqC")[0].setAttribute("src", logoUrl)
@@ -41,6 +50,7 @@ function onLoadMod() {
     document.getElementsByClassName("sc-kdneuM")[0].textContent = subTitle
 }
 
+//設定メニュー自体の追加
 function addSettingMenu() {
     let tempDom = `<a onclick="menuHide()" class="visible" id="hideturn"></a>
     <div id="settingBox">
@@ -100,10 +110,18 @@ function addSettingMenu() {
             </div>
             <div class="minibox">
                 Reset size
-                <input type="button" value="BTN" onclick="resetXsize()">
+                <input type="button" value="RESET!" onclick="resetXsize()">
+            </div>
+            <div class="minibox">
+                Overlay
+                <input type="url" name="URL" id="overlayInput" oninput="vvcSettingChange('ovl')">
+            </div>
+            <div class="minibox">
+                Enable Overlay
+                <input type="checkbox" name="CHECKBOX" id="overlayOnoff" oninput="vvcSettingChange('ovs')">
             </div>
         </div>
-        <div id="miniTitle">
+        <div id=" miniTitle">
             CSS
         </div>
         <div class="setVal">
@@ -119,7 +137,7 @@ function addSettingMenu() {
             <a href="https://voxiom.io/" id="loginOut">Back to Voxiom</a>
         </div>
         <div class="setVal">
-            <a href="https://accounts.google.com/servicelogin" id="loginOut">Open Google</a>
+            <a href="https://google.com/" id="loginOut">Open Google</a>
         </div>
         <div class="setVal">
             <a href="https://discord.com/login" id="loginOut">Open Discord</a>
@@ -138,8 +156,10 @@ function addSettingMenu() {
     document.body.insertAdjacentHTML("beforeend", tempDom);
     let tempDom2 = `<img id="crosshair">`
     let tempDom3 = `<style id="injectCSS"></style>`
+    let tempDom5 = `<img id="overlay">`
     document.body.insertAdjacentHTML("afterbegin", tempDom2)
     document.body.insertAdjacentHTML("afterbegin", tempDom3)
+    document.body.insertAdjacentHTML("afterbegin", tempDom5)
     configs()
     menuDisplayInit()
     menuItemInit()
@@ -174,6 +194,9 @@ function menuItemInit() {
     const xYrange = document.getElementById("xYrange");
     const injCSS = document.getElementById("injectCSS")
     const crosshair = document.getElementById("crosshair");
+    const overlayUrlInput = document.getElementById("overlayInput")
+    const overlay = document.getElementById("overlay");
+    const overlaySwitching = document.getElementById("overlayOnoff");
     console.log(logoUrl)
     logoUrlInput.value = logoUrl;
     console.log(bgUrl)
@@ -194,7 +217,19 @@ function menuItemInit() {
     crosshair.setAttribute("style", `width:${xXSize}px;height:${xYSize}px`);
     document.getElementsByClassName("sc-gKclnd")[0].setAttribute("style", `background-image:url("${bgUrl}")`)
     injCSS.textContent = css;
+    overlayUrlInput.value = overlayUrl;
+    overlay.setAttribute("src", overlayUrl)
+    if (overlaySwitch === "true") {
+        overlay.setAttribute("style", "display:block")
+        overlaySwitching.checked = true
+    } else if (overlaySwitch === "false") {
+        overlay.setAttribute("style", "display:none")
+        overlaySwitching.checked = false
+    }
+    console.log("overlay is " + overlaySwitch)
 }
+
+//メニューに変更があった時のアレ
 function vvcSettingChange(val) {
     const logoUrlInput = document.getElementById("logoUrl");
     const bgUrlInput = document.getElementById("BGURL");
@@ -205,8 +240,12 @@ function vvcSettingChange(val) {
     const xXrange = document.getElementById("xXrange");
     const xYnum = document.getElementById("xYnum");
     const xYrange = document.getElementById("xYrange");
-    const crosshair = document.getElementById("crosshair")
-    const injCSS = document.getElementById("injectCSS")
+    const crosshair = document.getElementById("crosshair");
+    const injCSS = document.getElementById("injectCSS");
+    const overlayUrlInput = document.getElementById("overlayInput");
+    const overlay = document.getElementById("overlay");
+    const overlaySwitching = document.getElementById("overlayOnoff");
+
     if (val == "logo") {
         localStorage.setItem("logoUrl", logoUrlInput.value);
         document.getElementsByClassName("sc-iaUyqC")[0].setAttribute("src", logoUrlInput.value)
@@ -238,11 +277,24 @@ function vvcSettingChange(val) {
     } else if (val == "css") {
         localStorage.setItem('css', cssInput.value);
         injCSS.innerText = cssInput.value;
+    } else if (val == "ovl") {
+        localStorage.setItem('overlayUrl', overlayUrlInput.value);
+        overlay.setAttribute("src", overlayUrlInput.value)
+    } else if (val == "ovs") {
+        if (overlaySwitching.checked) {
+            console.log(overlaySwitching.checked);
+            overlay.setAttribute("style", "display:block");
+            localStorage.setItem("overlayOnOff", "true")
+        } else if (!overlaySwitching.checked) {
+            console.log(overlaySwitching.checked);
+            overlay.setAttribute("style", "display:none");
+            localStorage.setItem("overlayOnOff", "false")
+        }
     }
 }
 
+//リセットするかの確認
 function resetAsk() {
-
     const result = confirm("Are you sure you want RESET settings?");
     if (result) {
         console.log("Reset");
@@ -254,10 +306,14 @@ function resetAsk() {
         console.log("Canceled");
     }
 }
+
+//右下のロゴ
 function vvcLogo() {
-    let tempDom4 = `<div id="clientLogo">Vanced Voxiom Client</div>`
+    let tempDom4 = `<div id="clientLogo">Vanced Voxiom Client v${version}</div>`
     document.body.insertAdjacentHTML("beforeend", tempDom4)
 }
+
+//クロスヘアサイズリセット
 function resetXsize() {
     const xXnum = document.getElementById("xXnum");
     const xXrange = document.getElementById("xXrange");
@@ -340,5 +396,6 @@ function copyURL() {
             console.error('URLのコピーに失敗しました: ', err);
         });
 }
+
 setInterval(() => onbeforeunload = null, 1000)
 window.onload = addSettingMenu()

@@ -172,3 +172,12 @@ input[type="range"]::-webkit-slider-thumb {
     font-weight: bolder;
     size: 20px;
 }
+
+#overlay {
+    height: 1080px;
+    width: 1920px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

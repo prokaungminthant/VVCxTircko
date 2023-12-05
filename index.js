@@ -47,8 +47,9 @@ function createWindow() {
         gameWin.reload();
     });
     localShortcut.register(gameWin, 'F8', () => {
-        gameWin.webContents.loadURL("https://voxiom.io");
-        gameWin.reload();
+        gameWin.loadURL("https://voxiom.io")
+        // gameWin.reload();
+        gameWin.webContents.loadURL("https://voxiom.io/experimental")
     });
     localShortcut.register(gameWin, "F11", () => {
         const isFS = gameWin.isFullScreen()
@@ -59,7 +60,7 @@ function createWindow() {
     });
 
     //UAの設定
-    gameWin.webContents.setUserAgent(gameWin.webContents.getUserAgent() + "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
+    // gameWin.webContents.setUserAgent(gameWin.webContents.userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
     gameWin.webContents.loadURL("https://voxiom.io")
 
     app.on('close', () => {

@@ -8,10 +8,12 @@ ipcRenderer.on("ESC", () => {
     setTimeout(() => {
         document.exitPointerLock();
         console.log("55ms")
-    }, 55
+    }, 100
     )
 })
-
+ipcRenderer.on("F8", () => {
+    location.href = "https://voxiom.io/"
+})
 function newPage() {
     //VVC用の最低限のCSSをinject
     let cssIn = document.createElement("link")
