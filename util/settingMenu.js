@@ -63,9 +63,9 @@ function addSettingMenu() {
         </div>
         <div class="setVal">
             <div class="minibox">
-                Invite
+                Join
                 <div id="boxinbox">
-                    <input type="url" name="URL" id="joinURL">
+                    <input type="url" name="URL" id="joinURL" placeholder="Put game link here">
                     <input type="button" value="JOIN" onclick="location.href = document.getElementById('joinURL').value">
                 </div>
             </div>
