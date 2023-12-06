@@ -165,7 +165,8 @@ input[type="button"] {
     padding: 2px;
 }
 
-input {
+input,
+textarea {
     height: 20px !important;
     background: black;
     color: gray;
