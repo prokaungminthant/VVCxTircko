@@ -164,8 +164,13 @@ function addSettingMenu() {
     menuDisplayInit()
     menuItemInit()
     vvcLogo()
+    titleSetter()
 }
 
+//ウィンドウタイトルをうんちゃらするためのやつ
+titleSetter = () => {
+    document.getElementsByTagName("title")[0].innerText = "Vanced Voxiom Client"
+}
 //メニューの表示の初期設定
 function menuDisplayInit() {
     let setBox = document.getElementById('settingBox');

@@ -27,7 +27,7 @@ function createWindow() {
             width: 1920,
             height: 1080,
             fullscreen: true,
-            title: "VVC",
+            title: "Vanded Voxiom Client",
             icon: path.join(__dirname, "icon.ico"),
             webPreferences: {
                 preload: path.join(__dirname, './preload/game.js'),
