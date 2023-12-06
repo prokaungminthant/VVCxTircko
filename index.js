@@ -38,6 +38,13 @@ function createWindow() {
             },
         }
     );
+    // ウインドウタイトルを固定する
+    gameWin.setTitle('Vanded Voxiom Client');
+
+    // ウインドウタイトルが変更されたときに、元のタイトルに戻す
+    gameWin.on('titleChanged', () => {
+        gameWin.setTitle('Vanded Voxiom Client');
+    });
     Menu.setApplicationMenu(null);
     //ESCの実装。Preloadで受け取り
     localShortcut.register(gameWin, 'Esc', () => {
