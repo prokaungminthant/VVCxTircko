@@ -7,7 +7,7 @@ let xUrl = "";
 let css = "";
 let menuDisplay = "";
 let overlaySwitch = "";
-let version = "0.0.6"
+let version = "0.0.7"
 
 //ローカルからの設定の読み取り
 function configs() {

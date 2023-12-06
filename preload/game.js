@@ -30,9 +30,14 @@ function newPage() {
     console.log("Setting.js injected");
 
     //ページの変遷を検知してページごとに動作を分岐
+    const regex = /https:\/\/voxiom.io\/(.*)/;
     let url = location.href;
     if (url === "https://voxiom.io/account") {
         account.pageload()
+    } else if (url === "https://voxiom.io/#google_vignette") {
+        location.href = "https://voxiom.io/experimental"
+    } else if (url === "https://voxiom.io/experimental#google_vignette") {
+        location.href = "https://voxiom.io/"
     }
 }
 
