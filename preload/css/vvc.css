@@ -117,6 +117,12 @@ h1 {
 
 textarea {
     resize: vertical;
+    background: black;
+    color: gray;
+    box-shadow: unset;
+    border: unset;
+    border-bottom: 1px solid #868686;
+    padding-bottom: 4px;
 }
 
 
@@ -165,8 +171,7 @@ input[type="button"] {
     padding: 2px;
 }
 
-input,
-textarea {
+input {
     height: 20px !important;
     background: black;
     color: gray;
