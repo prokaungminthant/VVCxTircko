@@ -7,7 +7,8 @@ let xUrl = "";
 let css = "";
 let menuDisplay = "";
 let overlaySwitch = "";
-let version = "0.0.7"
+let dfg = "";
+let version = "0.0.8"
 
 //ローカルからの設定の読み取り
 function configs() {
@@ -25,7 +26,8 @@ function configs() {
     css = localStorage.getItem("css")
     overlayUrl = localStorage.getItem("overlayUrl")
     menuDisplay = localStorage.getItem("menuDisplay")
-    overlaySwitch = localStorage.getItem("overlayOnOff")
+    overlaySwitch = localStorage.getItem("overlayOnOff");
+    dfg = localStorage.getItem("dfg");
 }
 
 //全部リセットする
@@ -40,6 +42,7 @@ function vvcReset() {
     localStorage.setItem("menuDisplay", true)
     localStorage.setItem("overlay", "")
     localStorage.setItem("overlayOnOff", true);
+    localStorage.setItem("dfg", false)
 }
 
 // タイトルがロードされたときの処理
@@ -54,8 +57,9 @@ function onLoadMod() {
 function addSettingMenu() {
     let tempDom = `<a onclick="menuHide()" class="visible" id="hideturn"></a>
     <div id="settingBox">
+        <h1>VANCED VOXIOM CLIENT</h1>
         <div id="miniTitle">
-            Links
+            GameLink
         </div>
         <div class="setVal">
             <div class="minibox">
@@ -65,10 +69,11 @@ function addSettingMenu() {
                     <input type="button" value="JOIN" onclick="location.href = document.getElementById('joinURL').value">
                 </div>
             </div>
+            <div class="minibox">
+                <a id="copyBtn" type="button" onclick="copyURL()">COPY LINK</a>
+            </div>
         </div>
-        <div class="setVal">
-            <a id="copyBtn" type="button" onclick="copyURL()">COPY LINK</a>
-        </div>
+    
         <div id="miniTitle">
             Logo and BG
         </div>
@@ -121,7 +126,7 @@ function addSettingMenu() {
                 <input type="checkbox" name="CHECKBOX" id="overlayOnoff" oninput="vvcSettingChange('ovs')">
             </div>
         </div>
-        <div id=" miniTitle">
+        <div id="miniTitle">
             CSS
         </div>
         <div class="setVal">
@@ -131,35 +136,50 @@ function addSettingMenu() {
             </div>
         </div>
         <div id="miniTitle">
-            Login/Logout
+            Mini Tools
         </div>
         <div class="setVal">
-            <a href="https://voxiom.io/" id="loginOut">Back to Voxiom</a>
+            <div class="minibox">
+                Disable Free Gem Popup
+                <input type="checkbox" name="CHECKBOX" id="dfg" oninput="vvcSettingChange('dfg')">
+            </div>
+        </div>
+        <div id="miniTitle">
+            Social Logins
         </div>
         <div class="setVal">
-            <a href="https://google.com/" id="loginOut">Open Google</a>
-        </div>
-        <div class="setVal">
-            <a href="https://discord.com/login" id="loginOut">Open Discord</a>
-        </div>
-        <div class="setVal">
-            <a href="https://www.facebook.com/login/" id="loginOut">Open Facebook</a>
+            <div class="minibox">
+                <a href="https://voxiom.io/" id="loginOut">Back to Voxiom</a>
+            </div>
+            <div class="minibox">
+                <a href="https://google.com/" id="loginOut">Open Google</a>
+            </div>
+            <div class="minibox">
+                <a href="https://discord.com/login" id="loginOut">Open Discord</a>
+            </div>
+            <div class="minibox">
+                <a href="https://www.facebook.com/login/" id="loginOut">Open Facebook</a>
+            </div>
         </div>
         <div id="miniTitle">
             Dangerous Setting
     
         </div>
         <div class="setVal">
-            <a onclick="resetAsk()" id="reset">RESET CLIENT SETTINGS</a>
+            <div class="minibox">
+                <a onclick="resetAsk()" id="reset">RESET CLIENT SETTINGS</a>
+            </div>
         </div>
     </div>`
     document.body.insertAdjacentHTML("beforeend", tempDom);
     let tempDom2 = `<img id="crosshair">`
     let tempDom3 = `<style id="injectCSS"></style>`
     let tempDom5 = `<img id="overlay">`
-    document.body.insertAdjacentHTML("afterbegin", tempDom2)
-    document.body.insertAdjacentHTML("afterbegin", tempDom3)
-    document.body.insertAdjacentHTML("afterbegin", tempDom5)
+    let tempDom6 = `<style id="dfgcss"></style>`
+    document.body.insertAdjacentHTML("afterbegin", tempDom2);
+    document.body.insertAdjacentHTML("afterbegin", tempDom3);
+    document.body.insertAdjacentHTML("afterbegin", tempDom5);
+    document.body.insertAdjacentHTML("afterbegin", tempDom6);
     configs()
     menuDisplayInit()
     menuItemInit()
@@ -171,6 +191,8 @@ function addSettingMenu() {
 titleSetter = () => {
     document.getElementsByTagName("title")[0].innerText = "Vanced Voxiom Client"
 }
+
+
 //メニューの表示の初期設定
 function menuDisplayInit() {
     let setBox = document.getElementById('settingBox');
@@ -202,6 +224,9 @@ function menuItemInit() {
     const overlayUrlInput = document.getElementById("overlayInput")
     const overlay = document.getElementById("overlay");
     const overlaySwitching = document.getElementById("overlayOnoff");
+    const dfgCheck = document.getElementById("dfg");
+    const dfgcss = document.getElementById("dfgcss");
+
     console.log(logoUrl)
     logoUrlInput.value = logoUrl;
     console.log(bgUrl)
@@ -231,7 +256,13 @@ function menuItemInit() {
         overlay.setAttribute("style", "display:none")
         overlaySwitching.checked = false
     }
-    console.log("overlay is " + overlaySwitch)
+    if (dfg === "true") {
+        dfgcss.innerText = `.ksWDWD{display:none !important}`
+        dfgCheck.checked = true
+    } else if (dfg === "false") {
+        dfgcss.innerText = ``
+        dfgCheck.checked = false
+    }
 }
 
 //メニューに変更があった時のアレ
@@ -250,6 +281,8 @@ function vvcSettingChange(val) {
     const overlayUrlInput = document.getElementById("overlayInput");
     const overlay = document.getElementById("overlay");
     const overlaySwitching = document.getElementById("overlayOnoff");
+    const dfgCheck = document.getElementById("dfg");
+    const dfgcss = document.getElementById("dfgcss")
 
     if (val == "logo") {
         localStorage.setItem("logoUrl", logoUrlInput.value);
@@ -295,9 +328,16 @@ function vvcSettingChange(val) {
             overlay.setAttribute("style", "display:none");
             localStorage.setItem("overlayOnOff", "false")
         }
+    } else if (val == "dfg") {
+        if (dfgCheck.checked) {
+            dfgcss.innerText = `.ksWDWD{display:none !important}`;
+            localStorage.setItem("dfg", true)
+        } else if (!dfgCheck.checked) {
+            dfgcss.innerText = ``;
+            localStorage.setItem("dfg", false)
+        }
     }
 }
-
 //リセットするかの確認
 function resetAsk() {
     const result = confirm("Are you sure you want RESET settings?");

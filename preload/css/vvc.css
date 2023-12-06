@@ -59,11 +59,20 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+h1 {
+    font-size: 15px;
+    margin: auto;
+    text-shadow: 0 0 10px red;
 }
 
 #miniTitle {
-    font-weight: bolder;
+    font-weight: 700;
     color: white;
+    margin-top: 5px;
 }
 
 .TtB {
@@ -75,11 +84,19 @@
     margin-left: unset !important;
 }
 
+.setVal {
+    margin-left: 10px;
+    padding-left: 10px;
+    border-bottom-left-radius: 10px;
+    border-left: solid 1px darkgray;
+}
+
 .minibox {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 20px;
+    margin-top: 2px;
+    margin-bottom: 2px;
     justify-content: space-between;
 }
 
@@ -87,9 +104,6 @@ textarea {
     resize: vertical;
 }
 
-input {
-    height: 20px !important;
-}
 
 .num {
     width: 40px;
@@ -125,9 +139,25 @@ input {
     display: flex;
     justify-content: center;
     text-decoration: none;
-    border: #fff2 solid 2px;
+    border: rgba(150, 150, 150, 0.133) solid 2px;
     margin-bottom: 2px;
     cursor: pointer;
+    width: 90%;
+}
+
+input[type="button"] {
+    border: 1px solid;
+    padding: 2px;
+}
+
+input {
+    height: 20px !important;
+    background: black;
+    color: gray;
+    box-shadow: unset;
+    border: unset;
+    border-bottom: 1px solid #868686;
+    padding-bottom: 4px;
 }
 
 input[type="range"] {
