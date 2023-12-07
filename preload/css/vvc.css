@@ -63,6 +63,16 @@
     overflow-y: scroll;
 }
 
+:focus {
+    outline: unset !important;
+    box-shadow: 0 0 5px #848484, 0 0 8px white;
+}
+
+::selection {
+    background: white;
+    color: black
+}
+
 ::-webkit-scrollbar {
     width: 6px;
 }

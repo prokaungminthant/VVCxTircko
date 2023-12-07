@@ -1,18 +1,41 @@
 {
     "name": "vanced-voxiom-client",
-    "version": "0.0.8",
+    "version": "1.0.0",
     "description": "Client for voxiom.io with usefull and helpful utility.",
     "main": "index.js",
     "scripts": {
         "test": "electron .",
-        "build": "electron-builder --win --x64"
+        "build": "electron-builder --win --x64 --publish never",
+        "publish": "electron-builder --win --x64 --publish always"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/NamekujiLSDs/VancedVoxiomClient.git"
     },
+    "bugs": {
+        "url": "https://github.com/NamekujiLSDs/ElectronUpdaterTest/issues"
+    },
     "author": "Namekuji",
     "license": "LGPL-3.0-or-later",
+    "homepage": "https://github.com/NamekujiLSDs/VancedVoxiomClient#readme",
+    "build": {
+        "appId": "vanced.voxiom.client",
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "publish": {
+                "provider": "github",
+                "owner": "NamekujiLSDs"
+            },
+            "target": {
+                "target": "nsis"
+            }
+        },
+        "nsis": {
+            "oneClick": true
+        }
+    },
     "devDependencies": {
         "electron": "^9.4.4",
         "electron-builder": "^24.9.1"
@@ -21,15 +44,5 @@
         "electron-localshortcut": "^3.2.1",
         "electron-updater": "^6.1.7",
         "stats.js": "^0.17.0"
-    },
-    "homepage": "https://github.com/NamekujiLSDs/VancedVoxiomClient#readme",
-    "build": {
-        "appId": "vanced.voxiom.client",
-        "directories": {
-            "output": "dist"
-        },
-        "win": {
-            "target": "nsis"
-        }
     }
 }

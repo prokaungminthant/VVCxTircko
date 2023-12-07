@@ -8,7 +8,6 @@ let css = "";
 let menuDisplay = "";
 let overlaySwitch = "";
 let dfg = "";
-let version = "0.0.8"
 
 //ローカルからの設定の読み取り
 function configs() {
@@ -183,7 +182,6 @@ function addSettingMenu() {
     configs()
     menuDisplayInit()
     menuItemInit()
-    vvcLogo()
     titleSetter()
 }
 
@@ -352,11 +350,6 @@ function resetAsk() {
     }
 }
 
-//右下のロゴ
-function vvcLogo() {
-    let tempDom4 = `<div id="clientLogo">Vanced Voxiom Client v${version}</div>`
-    document.body.insertAdjacentHTML("beforeend", tempDom4)
-}
 
 //クロスヘアサイズリセット
 function resetXsize() {

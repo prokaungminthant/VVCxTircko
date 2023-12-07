@@ -1,8 +1,11 @@
 const { app, log, Menu, BrowserWindow, protocol, ipcMain } = require('electron')
-const autoUpdater = require("electron-updater")
+const { autoUpdater } = require('electron-updater');
 const localShortcut = require("electron-localshortcut")
 const path = require("path")
+const { clearTimeout } = require("timers");
 
+let gameWin = null
+let splashWin = null
 
 //Electron@9を使用するため、脆弱性の対策
 delete require('electron').nativeImage.createThumbnailFromPath;
@@ -10,6 +13,13 @@ if (!app.requestSingleInstanceLock()) {
     log.error('Other process(es) are already existing. Quit. If you can\'t see the window, please kill all task(s).');
     app.exit();
 }
+
+//ビルドしてなくてもしてるように見せかける
+// Object.defineProperty(app, 'isPackaged', {
+//     get() {
+//         return true;
+//     }
+// });
 
 // vvc://から始まるプロトコルの実装。ローカルファイルにアクセスしていろいろできるようにする
 protocol.registerSchemesAsPrivileged([{
@@ -20,13 +30,82 @@ protocol.registerSchemesAsPrivileged([{
     }
 }])
 
+function createSplash() {
+    splashWin = new BrowserWindow({
+        show: false,
+        frame: false,
+        width: 600,
+        height: 300,
+        resizable: false,
+        transparent: true,
+        alwaysOnTop: true,
+        webPreferences: {
+            preload: path.join(__dirname, "splashWin/preload.js"),
+        },
+    });
+    const update = async () => {
+        let updateCheck = null
+        autoUpdater.on('checking-for-update', () => {
+            splashWin.webContents.send("status", "Checking for updates...");
+            updateCheck = setTimeout(() => {
+                splashWin.webContents.send("status", "Update check error!")
+                setTimeout(() => {
+                    createWindow()
+                }, 1000);
+            }, 15000);
+        });
+        autoUpdater.on("update-available", (i) => {
+            if (updateCheck) clearTimeout(updateCheck);
+            splashWin.webContents.send("status", `Found new verison v${i.version}`)
+        });
+        autoUpdater.on("update-not-available", () => {
+            if (updateCheck) clearTimeout(updateCheck);
+            splashWin.webContents.send('status', "You using latest version.");
+            setTimeout(() => {
+                createWindow();
+            }, 1000);
+        });
+
+        autoUpdater.on('error', (e) => {
+            if (updateCheck) clearTimeout(updateCheck);
+            splashWin.webContents.send('status', "Error!" + e.name);
+            setTimeout(() => {
+                createWindow();
+            }, 1000);
+        });
+        autoUpdater.on('download-progress', (i) => {
+            if (updateCheck) clearTimeout(updateCheck);
+            splashWin.webContents.send('status', "Downloading new version...");
+        });
+        autoUpdater.on('update-downloaded', (i) => {
+            if (updateCheck) clearTimeout(updateCheck);
+            splashWin.webContents.send("status", "Update downloaded");
+            setTimeout(() => {
+                autoUpdater.quitAndInstall();
+            }, 1000);
+        });
+        autoUpdater.autoDownload = "download";
+        autoUpdater.allowPrerelease = false;
+        autoUpdater.checkForUpdates();
+    };
+    // スプラッシュ用のHTMLを表示
+    splashWin.loadFile(path.join(__dirname, "splashWin/splash.html"))
+
+    // 準備が整ったら表示
+    splashWin.webContents.on("did-finish-load", () => {
+        splashWin.show();
+        update()
+    })
+}
+
 //ウィンドウの作成
 function createWindow() {
-    let gameWin = new BrowserWindow(
+    gameWin = new BrowserWindow(
         {
             width: 1920,
             height: 1080,
             fullscreen: true,
+            show: false,
             title: "Vanded Voxiom Client",
             icon: path.join(__dirname, "icon.ico"),
             webPreferences: {
@@ -41,10 +120,6 @@ function createWindow() {
     // ウインドウタイトルを固定する
     gameWin.setTitle('Vanded Voxiom Client');
 
-    // ウインドウタイトルが変更されたときに、元のタイトルに戻す
-    gameWin.on('titleChanged', () => {
-        gameWin.setTitle('Vanded Voxiom Client');
-    });
     Menu.setApplicationMenu(null);
     //ESCの実装。Preloadで受け取り
     localShortcut.register(gameWin, 'Esc', () => {
@@ -65,21 +140,12 @@ function createWindow() {
     localShortcut.register(gameWin, "F12", () => {
         gameWin.webContents.openDevTools();
     });
-
-    //UAの設定
-    // gameWin.webContents.setUserAgent(gameWin.webContents.userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
     gameWin.webContents.loadURL("https://voxiom.io")
 
-    app.on('close', () => {
-        // gameWin = null;
-        gameWin = null
-        gameWin = new BrowserWindow()
-        gameWin.destroy()
-    })
-    gameWin.onbeforeunload = (event) => {
-        // イベントをキャンセルします。
-        event.returnValue = true;
-    };
+    gameWin.once("ready-to-show", () => {
+        splashWin.destroy();
+        gameWin.show();
+    });
 }
 
 //flags
@@ -91,9 +157,16 @@ app.commandLine.appendSwitch('enable-quic');
 app.commandLine.appendSwitch('enable-gpu-rasterization');
 
 //app
-app.on("ready", () => {
-    createWindow()
+app.whenReady().then(() => {
+    // スプラッシュを最初に表示
+    createSplash();
 });
+
 app.on("ready", () => {
     protocol.registerFileProtocol('vvc', (request, callback) => callback(decodeURI(request.url.replace(/^vvc:\//, ''))));
 })
+
+ipcMain.handle("appVer", () => {
+    const version = app.getVersion();
+    return version;
+});
