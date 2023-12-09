@@ -50,20 +50,13 @@ body {
 div[style="position: relative; overflow: hidden; width: 370px; height: auto; min-height: 0px; max-height: 150px; background-color: rgba(0, 0, 0, 0.3);"] {
     max-height: 360px !important;
     background: #0001 !important;
-    user-select: auto;
 }
 
-div[style="position: relative; overflow: scroll; margin-right: -17px; margin-bottom: -17px; min-height: 17px; max-height: 167px;"] {
+div[style="position: relative; overflow: scroll; margin-right: -6px; margin-bottom: -6px; min-height: 6px; max-height: 156px;"] {
     max-height: 350px !important;
     background: #0001 !important;
-    user-select: auto;
     overflow: unset !important;
     overflow-y: scroll !important;
-}
-
-div[style="position: relative; overflow: scroll; margin-right: -17px; margin-bottom: -17px; min-height: 17px; max-height: 167px;"] *,
-div[style="position: relative; overflow: hidden; width: 370px; height: auto; min-height: 0px; max-height: 150px; background-color: rgba(0, 0, 0, 0.3);"] * {
-    user-select: auto;
 }
 
 .iXWCkR {
