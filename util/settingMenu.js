@@ -8,6 +8,7 @@ let css = "";
 let menuDisplay = "";
 let overlaySwitch = "";
 let dfg = "";
+let dfs = "";
 
 //ローカルからの設定の読み取り
 function configs() {
@@ -27,6 +28,7 @@ function configs() {
     menuDisplay = localStorage.getItem("menuDisplay")
     overlaySwitch = localStorage.getItem("overlayOnOff");
     dfg = localStorage.getItem("dfg");
+    dfs = localStorage.getItem("dfs");
 }
 
 //全部リセットする
@@ -42,6 +44,7 @@ function vvcReset() {
     localStorage.setItem("overlay", "")
     localStorage.setItem("overlayOnOff", true);
     localStorage.setItem("dfg", false)
+    localStorage.setItem("dfs", false)
 }
 
 // タイトルがロードされたときの処理
@@ -142,6 +145,10 @@ function addSettingMenu() {
                 Disable Free Gem Popup
                 <input type="checkbox" name="CHECKBOX" id="dfg" oninput="vvcSettingChange('dfg')">
             </div>
+            <div class="minibox">
+                Disable Snowflakes
+                <input type="checkbox" name="CHECKBOX" id="dfs" oninput="vvcSettingChange('dfs')">
+            </div>
         </div>
         <div id="miniTitle">
             Social Logins
@@ -175,10 +182,12 @@ function addSettingMenu() {
     let tempDom3 = `<style id="injectCSS"></style>`
     let tempDom5 = `<img id="overlay">`
     let tempDom6 = `<style id="dfgcss"></style>`
+    let tempDom7 = `<style id="dfscss"></style>`
     document.body.insertAdjacentHTML("afterbegin", tempDom2);
     document.body.insertAdjacentHTML("afterbegin", tempDom3);
     document.body.insertAdjacentHTML("afterbegin", tempDom5);
     document.body.insertAdjacentHTML("afterbegin", tempDom6);
+    document.body.insertAdjacentHTML("afterbegin", tempDom7);
     configs()
     menuDisplayInit()
     menuItemInit()
@@ -223,7 +232,9 @@ function menuItemInit() {
     const overlay = document.getElementById("overlay");
     const overlaySwitching = document.getElementById("overlayOnoff");
     const dfgCheck = document.getElementById("dfg");
+    const dfsCheck = document.getElementById("dfs");
     const dfgcss = document.getElementById("dfgcss");
+    const dfscss = document.getElementById("dfscss");
 
     console.log(logoUrl)
     logoUrlInput.value = logoUrl;
@@ -261,6 +272,13 @@ function menuItemInit() {
         dfgcss.innerText = ``
         dfgCheck.checked = false
     }
+    if (dfs === "true") {
+        dfscss.innerText = `.snowflake,.snowflake .inner{animation:none !important;display:none !important}`
+        dfsCheck.checked = true
+    } else if (dfs === "false") {
+        dfscss.innerText = ``
+        dfsCheck.checked = false
+    }
 }
 
 //メニューに変更があった時のアレ
@@ -280,7 +298,9 @@ function vvcSettingChange(val) {
     const overlay = document.getElementById("overlay");
     const overlaySwitching = document.getElementById("overlayOnoff");
     const dfgCheck = document.getElementById("dfg");
+    const dfsCheck = document.getElementById("dfs");
     const dfgcss = document.getElementById("dfgcss")
+    const dfscss = document.getElementById("dfscss")
 
     if (val == "logo") {
         localStorage.setItem("logoUrl", logoUrlInput.value);
@@ -333,6 +353,14 @@ function vvcSettingChange(val) {
         } else if (!dfgCheck.checked) {
             dfgcss.innerText = ``;
             localStorage.setItem("dfg", false)
+        }
+    } else if (val == "dfs") {
+        if (dfsCheck.checked) {
+            dfscss.innerText = `.snowflake,.snowflake .inner{animation:none !important;display:none !important}`
+            localStorage.setItem("dfs", true)
+        } else if (!dfsCheck.checked) {
+            dfscss.innerText = ``;
+            localStorage.setItem("dfs", false)
         }
     }
 }
