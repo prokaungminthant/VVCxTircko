@@ -501,11 +501,22 @@ function copyURL() {
 setInterval(() => (onbeforeunload = null), 1000);
 window.onload = addSettingMenu();
 
+//ESCキーの調整
+let exitTime = Date.now();
 document.addEventListener("keydown", function (event) {
   if (event.key === "Escape") {
     setTimeout(() => {
       document.activeElement.blur();
       document.exitPointerLock();
-    }, 100);
+      // exitPointerlockを実行した時間の記録
+      exitTime = Date.now();
+    }, 200);
+  }
+});
+// ポインターロックの試行を検出する
+document.addEventListener("pointerlockchange", function (event) {
+  // exitPointerlockを実行してから0.1秒以内の場合は、ブロックする
+  if (Date.now() - exitTime < 100) {
+    event.preventDefault();
   }
 });
