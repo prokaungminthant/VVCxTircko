@@ -12,52 +12,63 @@ let dfs = "";
 
 //ローカルからの設定の読み取り
 function configs() {
-    let firstTime = localStorage.getItem("firstTime")
-    if (firstTime == null) {
-        vvcReset()
-        localStorage.setItem("firstTime", "no")
-    }
-    logoUrl = localStorage.getItem("logoUrl")
-    bgUrl = localStorage.getItem("bgUrl")
-    subTitle = localStorage.getItem("subTitle")
-    xXSize = localStorage.getItem("xXSize")
-    xYSize = localStorage.getItem("xYSize")
-    xUrl = localStorage.getItem("xUrl")
-    css = localStorage.getItem("css")
-    overlayUrl = localStorage.getItem("overlayUrl")
-    menuDisplay = localStorage.getItem("menuDisplay")
-    overlaySwitch = localStorage.getItem("overlayOnOff");
-    dfg = localStorage.getItem("dfg");
-    dfs = localStorage.getItem("dfs");
+  let firstTime = localStorage.getItem("firstTime");
+  if (firstTime == null) {
+    vvcReset();
+    localStorage.setItem("firstTime", "no");
+  }
+  logoUrl = localStorage.getItem("logoUrl");
+  bgUrl = localStorage.getItem("bgUrl");
+  subTitle = localStorage.getItem("subTitle");
+  xXSize = localStorage.getItem("xXSize");
+  xYSize = localStorage.getItem("xYSize");
+  xUrl = localStorage.getItem("xUrl");
+  css = localStorage.getItem("css");
+  overlayUrl = localStorage.getItem("overlayUrl");
+  menuDisplay = localStorage.getItem("menuDisplay");
+  overlaySwitch = localStorage.getItem("overlayOnOff");
+  dfg = localStorage.getItem("dfg");
+  dfs = localStorage.getItem("dfs");
 }
 
 //全部リセットする
 function vvcReset() {
-    localStorage.setItem("logoUrl", 'https://cdn.discordapp.com/attachments/983598732505411595/1181131421830623312/image_3-min.png');
-    localStorage.setItem("bgUrl", 'https://cdn.discordapp.com/attachments/983598732505411595/1181099378149175358/image_13_1.png');
-    localStorage.setItem("subTitle", "DIE FOR DIE")
-    localStorage.setItem("xXSize", "20")
-    localStorage.setItem("xYSize", "20")
-    localStorage.setItem("xUrl", "https://cdn.discordapp.com/attachments/920182601761832980/920182755025907762/Cross_-_yellow.png")
-    localStorage.setItem("css", "")
-    localStorage.setItem("menuDisplay", true)
-    localStorage.setItem("overlay", "")
-    localStorage.setItem("overlayOnOff", true);
-    localStorage.setItem("dfg", false)
-    localStorage.setItem("dfs", false)
+  localStorage.setItem(
+    "logoUrl",
+    "https://cdn.discordapp.com/attachments/983598732505411595/1181131421830623312/image_3-min.png"
+  );
+  localStorage.setItem(
+    "bgUrl",
+    "https://cdn.discordapp.com/attachments/983598732505411595/1181099378149175358/image_13_1.png"
+  );
+  localStorage.setItem("subTitle", "DIE FOR DIE");
+  localStorage.setItem("xXSize", "20");
+  localStorage.setItem("xYSize", "20");
+  localStorage.setItem(
+    "xUrl",
+    "https://cdn.discordapp.com/attachments/920182601761832980/920182755025907762/Cross_-_yellow.png"
+  );
+  localStorage.setItem("css", "");
+  localStorage.setItem("menuDisplay", true);
+  localStorage.setItem("overlay", "");
+  localStorage.setItem("overlayOnOff", true);
+  localStorage.setItem("dfg", false);
+  localStorage.setItem("dfs", false);
 }
 
 // タイトルがロードされたときの処理
 function onLoadMod() {
-    configs()
-    document.getElementsByClassName("sc-iaUyqC")[0].setAttribute("src", logoUrl)
-    document.getElementsByClassName("sc-gKclnd")[0].setAttribute("style", `background-image:url("${bgUrl}")`)
-    document.getElementsByClassName("sc-kdneuM")[0].textContent = subTitle
+  configs();
+  document.getElementsByClassName("sc-iaUyqC")[0].setAttribute("src", logoUrl);
+  document
+    .getElementsByClassName("sc-gKclnd")[0]
+    .setAttribute("style", `background-image:url("${bgUrl}")`);
+  document.getElementsByClassName("sc-kdneuM")[0].textContent = subTitle;
 }
 
 //設定メニュー自体の追加
 function addSettingMenu() {
-    let tempDom = `<a onclick="menuHide()" class="visible" id="hideturn"></a>
+  let tempDom = `<a onclick="menuHide()" class="visible" id="hideturn"></a>
     <div id="settingBox">
         <h1>VANCED VOXIOM CLIENT</h1>
         <div id="miniTitle">
@@ -176,251 +187,270 @@ function addSettingMenu() {
                 <a onclick="resetAsk()" id="reset">RESET CLIENT SETTINGS</a>
             </div>
         </div>
-    </div>`
-    document.body.insertAdjacentHTML("beforeend", tempDom);
-    let tempDom2 = `<img id="crosshair">`
-    let tempDom3 = `<style id="injectCSS"></style>`
-    let tempDom5 = `<img id="overlay">`
-    let tempDom6 = `<style id="dfgcss"></style>`
-    let tempDom7 = `<style id="dfscss"></style>`
-    document.body.insertAdjacentHTML("afterbegin", tempDom2);
-    document.body.insertAdjacentHTML("afterbegin", tempDom3);
-    document.body.insertAdjacentHTML("afterbegin", tempDom5);
-    document.body.insertAdjacentHTML("afterbegin", tempDom6);
-    document.body.insertAdjacentHTML("afterbegin", tempDom7);
-    configs()
-    menuDisplayInit()
-    menuItemInit()
-    titleSetter()
+    </div>`;
+  document.body.insertAdjacentHTML("beforeend", tempDom);
+  let tempDom2 = `<img id="crosshair">`;
+  let tempDom3 = `<style id="injectCSS"></style>`;
+  let tempDom5 = `<img id="overlay">`;
+  let tempDom6 = `<style id="dfgcss"></style>`;
+  let tempDom7 = `<style id="dfscss"></style>`;
+  document.body.insertAdjacentHTML("afterbegin", tempDom2);
+  document.body.insertAdjacentHTML("afterbegin", tempDom3);
+  document.body.insertAdjacentHTML("afterbegin", tempDom5);
+  document.body.insertAdjacentHTML("afterbegin", tempDom6);
+  document.body.insertAdjacentHTML("afterbegin", tempDom7);
+  configs();
+  menuDisplayInit();
+  menuItemInit();
+  titleSetter();
 }
 
 //ウィンドウタイトルをうんちゃらするためのやつ
 titleSetter = () => {
-    document.getElementsByTagName("title")[0].innerText = "Vanced Voxiom Client"
-}
-
+  document.getElementsByTagName("title")[0].innerText = "Vanced Voxiom Client";
+};
 
 //メニューの表示の初期設定
 function menuDisplayInit() {
-    let setBox = document.getElementById('settingBox');
-    let checkBox = document.getElementById('hideturn');
-    if (localStorage.getItem("menuDisplay") == "true") {
-        setBox.setAttribute("style", "display:flex");
-        checkBox.setAttribute("class", "visible")
-        console.log("true")
-    } else if (localStorage.getItem("menuDisplay") == "false") {
-        setBox.setAttribute("style", "display:none");
-        checkBox.setAttribute("class", "hidden")
-        console.log("false")
-    }
+  let setBox = document.getElementById("settingBox");
+  let checkBox = document.getElementById("hideturn");
+  if (localStorage.getItem("menuDisplay") == "true") {
+    setBox.setAttribute("style", "display:flex");
+    checkBox.setAttribute("class", "visible");
+    console.log("true");
+  } else if (localStorage.getItem("menuDisplay") == "false") {
+    setBox.setAttribute("style", "display:none");
+    checkBox.setAttribute("class", "hidden");
+    console.log("false");
+  }
 }
 
 //メニューの中身を初期設定
 function menuItemInit() {
-    const logoUrlInput = document.getElementById("logoUrl");
-    const bgUrlInput = document.getElementById("BGURL");
-    const subTitleInput = document.getElementById("subTitle");
-    const xUrlInput = document.getElementById("xUrlInput");
-    const cssInput = document.getElementById("customCSS");
-    const xXnum = document.getElementById("xXnum");
-    const xXrange = document.getElementById("xXrange");
-    const xYnum = document.getElementById("xYnum");
-    const xYrange = document.getElementById("xYrange");
-    const injCSS = document.getElementById("injectCSS")
-    const crosshair = document.getElementById("crosshair");
-    const overlayUrlInput = document.getElementById("overlayInput")
-    const overlay = document.getElementById("overlay");
-    const overlaySwitching = document.getElementById("overlayOnoff");
-    const dfgCheck = document.getElementById("dfg");
-    const dfsCheck = document.getElementById("dfs");
-    const dfgcss = document.getElementById("dfgcss");
-    const dfscss = document.getElementById("dfscss");
+  const logoUrlInput = document.getElementById("logoUrl");
+  const bgUrlInput = document.getElementById("BGURL");
+  const subTitleInput = document.getElementById("subTitle");
+  const xUrlInput = document.getElementById("xUrlInput");
+  const cssInput = document.getElementById("customCSS");
+  const xXnum = document.getElementById("xXnum");
+  const xXrange = document.getElementById("xXrange");
+  const xYnum = document.getElementById("xYnum");
+  const xYrange = document.getElementById("xYrange");
+  const injCSS = document.getElementById("injectCSS");
+  const crosshair = document.getElementById("crosshair");
+  const overlayUrlInput = document.getElementById("overlayInput");
+  const overlay = document.getElementById("overlay");
+  const overlaySwitching = document.getElementById("overlayOnoff");
+  const dfgCheck = document.getElementById("dfg");
+  const dfsCheck = document.getElementById("dfs");
+  const dfgcss = document.getElementById("dfgcss");
+  const dfscss = document.getElementById("dfscss");
 
-    console.log(logoUrl)
-    logoUrlInput.value = logoUrl;
-    console.log(bgUrl)
-    bgUrlInput.value = bgUrl;
-    console.log(subTitle);
-    subTitleInput.value = subTitle;
-    console.log(css);
-    cssInput.value = css;
-    console.log(xUrl);
-    xUrlInput.value = xUrl;
-    console.log(xXSize);
-    xXnum.value = xXSize;
-    xXrange.value = xXSize;
-    console.log(xYSize);
-    xYnum.value = xYSize;
-    xYrange.value = xYSize;
-    crosshair.setAttribute("src", xUrl);
-    crosshair.setAttribute("style", `width:${xXSize}px;height:${xYSize}px`);
-    document.getElementsByClassName("sc-gKclnd")[0].setAttribute("style", `background-image:url("${bgUrl}")`)
-    injCSS.textContent = css;
-    overlayUrlInput.value = overlayUrl;
-    overlay.setAttribute("src", overlayUrl)
-    if (overlaySwitch === "true") {
-        overlay.setAttribute("style", "display:block")
-        overlaySwitching.checked = true
-    } else if (overlaySwitch === "false") {
-        overlay.setAttribute("style", "display:none")
-        overlaySwitching.checked = false
-    }
-    if (dfg === "true") {
-        dfgcss.innerText = `.ksWDWD{display:none !important}`
-        dfgCheck.checked = true
-    } else if (dfg === "false") {
-        dfgcss.innerText = ``
-        dfgCheck.checked = false
-    }
-    if (dfs === "true") {
-        dfscss.innerText = `.snowflake,.snowflake .inner{animation:none !important;display:none !important}`
-        dfsCheck.checked = true
-    } else if (dfs === "false") {
-        dfscss.innerText = ``
-        dfsCheck.checked = false
-    }
+  console.log(logoUrl);
+  logoUrlInput.value = logoUrl;
+  console.log(bgUrl);
+  bgUrlInput.value = bgUrl;
+  console.log(subTitle);
+  subTitleInput.value = subTitle;
+  console.log(css);
+  cssInput.value = css;
+  console.log(xUrl);
+  xUrlInput.value = xUrl;
+  console.log(xXSize);
+  xXnum.value = xXSize;
+  xXrange.value = xXSize;
+  console.log(xYSize);
+  xYnum.value = xYSize;
+  xYrange.value = xYSize;
+  crosshair.setAttribute("src", xUrl);
+  crosshair.setAttribute("style", `width:${xXSize}px;height:${xYSize}px`);
+  document
+    .getElementsByClassName("sc-gKclnd")[0]
+    .setAttribute("style", `background-image:url("${bgUrl}")`);
+  injCSS.textContent = css;
+  overlayUrlInput.value = overlayUrl;
+  overlay.setAttribute("src", overlayUrl);
+  if (overlaySwitch === "true") {
+    overlay.setAttribute("style", "display:block");
+    overlaySwitching.checked = true;
+  } else if (overlaySwitch === "false") {
+    overlay.setAttribute("style", "display:none");
+    overlaySwitching.checked = false;
+  }
+  if (dfg === "true") {
+    dfgcss.innerText = `.ksWDWD{display:none !important}`;
+    dfgCheck.checked = true;
+  } else if (dfg === "false") {
+    dfgcss.innerText = ``;
+    dfgCheck.checked = false;
+  }
+  if (dfs === "true") {
+    dfscss.innerText = `.snowflake,.snowflake .inner{animation:none !important;display:none !important}`;
+    dfsCheck.checked = true;
+  } else if (dfs === "false") {
+    dfscss.innerText = ``;
+    dfsCheck.checked = false;
+  }
 }
 
 //メニューに変更があった時のアレ
 function vvcSettingChange(val) {
-    const logoUrlInput = document.getElementById("logoUrl");
-    const bgUrlInput = document.getElementById("BGURL");
-    const subTitleInput = document.getElementById("subTitle");
-    const xUrlInput = document.getElementById("xUrlInput");
-    const cssInput = document.getElementById("customCSS");
-    const xXnum = document.getElementById("xXnum");
-    const xXrange = document.getElementById("xXrange");
-    const xYnum = document.getElementById("xYnum");
-    const xYrange = document.getElementById("xYrange");
-    const crosshair = document.getElementById("crosshair");
-    const injCSS = document.getElementById("injectCSS");
-    const overlayUrlInput = document.getElementById("overlayInput");
-    const overlay = document.getElementById("overlay");
-    const overlaySwitching = document.getElementById("overlayOnoff");
-    const dfgCheck = document.getElementById("dfg");
-    const dfsCheck = document.getElementById("dfs");
-    const dfgcss = document.getElementById("dfgcss")
-    const dfscss = document.getElementById("dfscss")
+  const logoUrlInput = document.getElementById("logoUrl");
+  const bgUrlInput = document.getElementById("BGURL");
+  const subTitleInput = document.getElementById("subTitle");
+  const xUrlInput = document.getElementById("xUrlInput");
+  const cssInput = document.getElementById("customCSS");
+  const xXnum = document.getElementById("xXnum");
+  const xXrange = document.getElementById("xXrange");
+  const xYnum = document.getElementById("xYnum");
+  const xYrange = document.getElementById("xYrange");
+  const crosshair = document.getElementById("crosshair");
+  const injCSS = document.getElementById("injectCSS");
+  const overlayUrlInput = document.getElementById("overlayInput");
+  const overlay = document.getElementById("overlay");
+  const overlaySwitching = document.getElementById("overlayOnoff");
+  const dfgCheck = document.getElementById("dfg");
+  const dfsCheck = document.getElementById("dfs");
+  const dfgcss = document.getElementById("dfgcss");
+  const dfscss = document.getElementById("dfscss");
 
-    if (val == "logo") {
-        localStorage.setItem("logoUrl", logoUrlInput.value);
-        document.getElementsByClassName("sc-iaUyqC")[0].setAttribute("src", logoUrlInput.value)
-    } else if (val == "subt") {
-        localStorage.setItem("subTitle", subTitleInput.value);
-        document.getElementsByClassName("sc-kdneuM")[0].textContent = subTitleInput.value
-    } else if (val == "bg") {
-        localStorage.setItem("bgUrl", bgUrlInput.value);
-        document.getElementsByClassName("sc-gKclnd")[0].setAttribute("style", `background-image:url("${bgUrlInput.value}")`)
-    } else if (val == "xurl") {
-        localStorage.setItem("xUrl", xUrlInput.value);
-        document.getElementById('crosshair').setAttribute("src", xUrlInput.value)
-    } else if (val == "xxr") {
-        localStorage.setItem("xXSize", xXrange.value)
-        xXnum.value = xXrange.value;
-        crosshair.setAttribute("style", `width:${xXrange.value}px;height:${xYrange.value}px`)
-    } else if (val == "xxn") {
-        localStorage.setItem("xXSize", xXnum.value)
-        xXrange.value = xXnum.value
-        crosshair.setAttribute("style", `width:${xXnum.value}px;height:${xYnum.value}px`)
-    } else if (val == "xyr") {
-        localStorage.setItem("xYSize", xYrange.value)
-        xYnum.value = xYrange.value;
-        crosshair.setAttribute("style", `width:${xXrange.value}px;height:${xYrange.value}px`)
-    } else if (val == "xyn") {
-        localStorage.setItem("xYSize", xYnum.value)
-        xYrange.value = xYnum.value
-        crosshair.setAttribute("style", `width:${xXnum.value}px;height:${xYnum.value}px`)
-    } else if (val == "css") {
-        localStorage.setItem('css', cssInput.value);
-        injCSS.innerText = cssInput.value;
-    } else if (val == "ovl") {
-        localStorage.setItem('overlayUrl', overlayUrlInput.value);
-        overlay.setAttribute("src", overlayUrlInput.value)
-    } else if (val == "ovs") {
-        if (overlaySwitching.checked) {
-            console.log(overlaySwitching.checked);
-            overlay.setAttribute("style", "display:block");
-            localStorage.setItem("overlayOnOff", "true")
-        } else if (!overlaySwitching.checked) {
-            console.log(overlaySwitching.checked);
-            overlay.setAttribute("style", "display:none");
-            localStorage.setItem("overlayOnOff", "false")
-        }
-    } else if (val == "dfg") {
-        if (dfgCheck.checked) {
-            dfgcss.innerText = `.ksWDWD{display:none !important}`;
-            localStorage.setItem("dfg", true)
-        } else if (!dfgCheck.checked) {
-            dfgcss.innerText = ``;
-            localStorage.setItem("dfg", false)
-        }
-    } else if (val == "dfs") {
-        if (dfsCheck.checked) {
-            dfscss.innerText = `.snowflake,.snowflake .inner{animation:none !important;display:none !important}`
-            localStorage.setItem("dfs", true)
-        } else if (!dfsCheck.checked) {
-            dfscss.innerText = ``;
-            localStorage.setItem("dfs", false)
-        }
+  if (val == "logo") {
+    localStorage.setItem("logoUrl", logoUrlInput.value);
+    document
+      .getElementsByClassName("sc-iaUyqC")[0]
+      .setAttribute("src", logoUrlInput.value);
+  } else if (val == "subt") {
+    localStorage.setItem("subTitle", subTitleInput.value);
+    document.getElementsByClassName("sc-kdneuM")[0].textContent =
+      subTitleInput.value;
+  } else if (val == "bg") {
+    localStorage.setItem("bgUrl", bgUrlInput.value);
+    document
+      .getElementsByClassName("sc-gKclnd")[0]
+      .setAttribute("style", `background-image:url("${bgUrlInput.value}")`);
+  } else if (val == "xurl") {
+    localStorage.setItem("xUrl", xUrlInput.value);
+    document.getElementById("crosshair").setAttribute("src", xUrlInput.value);
+  } else if (val == "xxr") {
+    localStorage.setItem("xXSize", xXrange.value);
+    xXnum.value = xXrange.value;
+    crosshair.setAttribute(
+      "style",
+      `width:${xXrange.value}px;height:${xYrange.value}px`
+    );
+  } else if (val == "xxn") {
+    localStorage.setItem("xXSize", xXnum.value);
+    xXrange.value = xXnum.value;
+    crosshair.setAttribute(
+      "style",
+      `width:${xXnum.value}px;height:${xYnum.value}px`
+    );
+  } else if (val == "xyr") {
+    localStorage.setItem("xYSize", xYrange.value);
+    xYnum.value = xYrange.value;
+    crosshair.setAttribute(
+      "style",
+      `width:${xXrange.value}px;height:${xYrange.value}px`
+    );
+  } else if (val == "xyn") {
+    localStorage.setItem("xYSize", xYnum.value);
+    xYrange.value = xYnum.value;
+    crosshair.setAttribute(
+      "style",
+      `width:${xXnum.value}px;height:${xYnum.value}px`
+    );
+  } else if (val == "css") {
+    localStorage.setItem("css", cssInput.value);
+    injCSS.innerText = cssInput.value;
+  } else if (val == "ovl") {
+    localStorage.setItem("overlayUrl", overlayUrlInput.value);
+    overlay.setAttribute("src", overlayUrlInput.value);
+  } else if (val == "ovs") {
+    if (overlaySwitching.checked) {
+      console.log(overlaySwitching.checked);
+      overlay.setAttribute("style", "display:block");
+      localStorage.setItem("overlayOnOff", "true");
+    } else if (!overlaySwitching.checked) {
+      console.log(overlaySwitching.checked);
+      overlay.setAttribute("style", "display:none");
+      localStorage.setItem("overlayOnOff", "false");
     }
+  } else if (val == "dfg") {
+    if (dfgCheck.checked) {
+      dfgcss.innerText = `.ksWDWD{display:none !important}`;
+      localStorage.setItem("dfg", true);
+    } else if (!dfgCheck.checked) {
+      dfgcss.innerText = ``;
+      localStorage.setItem("dfg", false);
+    }
+  } else if (val == "dfs") {
+    if (dfsCheck.checked) {
+      dfscss.innerText = `.snowflake,.snowflake .inner{animation:none !important;display:none !important}`;
+      localStorage.setItem("dfs", true);
+    } else if (!dfsCheck.checked) {
+      dfscss.innerText = ``;
+      localStorage.setItem("dfs", false);
+    }
+  }
 }
 //リセットするかの確認
 function resetAsk() {
-    const result = confirm("Are you sure you want RESET settings?");
-    if (result) {
-        console.log("Reset");
-        vvcReset()
-        configs()
-        menuItemInit()
-        location.reload()
-    } else {
-        console.log("Canceled");
-    }
+  const result = confirm("Are you sure you want RESET settings?");
+  if (result) {
+    console.log("Reset");
+    vvcReset();
+    configs();
+    menuItemInit();
+    location.reload();
+  } else {
+    console.log("Canceled");
+  }
 }
-
 
 //クロスヘアサイズリセット
 function resetXsize() {
-    const xXnum = document.getElementById("xXnum");
-    const xXrange = document.getElementById("xXrange");
-    const xYnum = document.getElementById("xYnum");
-    const xYrange = document.getElementById("xYrange");
-    const crosshair = document.getElementById("crosshair")
-    localStorage.setItem("xXSize", crosshair.naturalWidth)
-    localStorage.setItem("xYSize", crosshair.naturalHeight)
+  const xXnum = document.getElementById("xXnum");
+  const xXrange = document.getElementById("xXrange");
+  const xYnum = document.getElementById("xYnum");
+  const xYrange = document.getElementById("xYrange");
+  const crosshair = document.getElementById("crosshair");
+  localStorage.setItem("xXSize", crosshair.naturalWidth);
+  localStorage.setItem("xYSize", crosshair.naturalHeight);
 
-    xXnum.value = crosshair.naturalWidth
-    xXrange.value = crosshair.naturalWidth
-    xYrange.value = crosshair.naturalHeight
-    xYnum.value = crosshair.naturalHeight
-    crosshair.setAttribute("style", `width:${crosshair.naturalWidth}px;height:${crosshair.naturalHeight}px`)
+  xXnum.value = crosshair.naturalWidth;
+  xXrange.value = crosshair.naturalWidth;
+  xYrange.value = crosshair.naturalHeight;
+  xYnum.value = crosshair.naturalHeight;
+  crosshair.setAttribute(
+    "style",
+    `width:${crosshair.naturalWidth}px;height:${crosshair.naturalHeight}px`
+  );
 }
 
 //ロゴの要素が追加されるまで監視する
 //オプション
 const options = {
-    childList: true, //直接の子の変更を監視
-    characterData: true, //文字の変化を監視
-    characterDataOldValue: true, //属性の変化前を記録
-    attributes: true, //属性の変化を監視
-    subtree: true, //全ての子要素を監視
+  childList: true, //直接の子の変更を監視
+  characterData: true, //文字の変化を監視
+  characterDataOldValue: true, //属性の変化前を記録
+  attributes: true, //属性の変化を監視
+  subtree: true, //全ての子要素を監視
 };
-
 
 //コールバック関数
 function callback(mutationsList, observer) {
-    for (const mutation of mutationsList) {
-        const tags = mutation.target;
-        for (const node of tags.querySelectorAll("img")) {
-            if (node.getAttribute("class") === "sc-iaUyqC hrxbol") {
-                obs.disconnect();
-                const logoText = document.getElementsByClassName("yYlig")[0];
-                logoText.textContent = subTitle
-                const logo = document.getElementsByClassName("hrxbol")[0];
-                logo.setAttribute("src", logoUrl);
-            }
-        }
+  for (const mutation of mutationsList) {
+    const tags = mutation.target;
+    for (const node of tags.querySelectorAll("img")) {
+      if (node.getAttribute("class") === "sc-iaUyqC hrxbol") {
+        obs.disconnect();
+        const logoText = document.getElementsByClassName("yYlig")[0];
+        logoText.textContent = subTitle;
+        const logo = document.getElementsByClassName("hrxbol")[0];
+        logo.setAttribute("src", logoUrl);
+      }
     }
+  }
 }
 //ターゲット要素をDOMで取得
 const target = document.getElementById("app");
@@ -431,37 +461,51 @@ obs.observe(target, options);
 
 //メニュー画面の表示切替
 function menuHide() {
-    if (localStorage.getItem("menuDisplay") === "true") {
-        document.getElementById("settingBox").setAttribute("style", "display:none;");
-        document.getElementById("hideturn").setAttribute("class", "hidden")
-        localStorage.setItem("menuDisplay", false)
-        console.log("Set to false");
-    } else if (localStorage.getItem("menuDisplay") === "false") {
-        document.getElementById("settingBox").setAttribute("style", "display:flex;");
-        document.getElementById("hideturn").setAttribute("class", "visible")
-        localStorage.setItem("menuDisplay", true);
-        console.log("Set to true");
-    }
+  if (localStorage.getItem("menuDisplay") === "true") {
+    document
+      .getElementById("settingBox")
+      .setAttribute("style", "display:none;");
+    document.getElementById("hideturn").setAttribute("class", "hidden");
+    localStorage.setItem("menuDisplay", false);
+    console.log("Set to false");
+  } else if (localStorage.getItem("menuDisplay") === "false") {
+    document
+      .getElementById("settingBox")
+      .setAttribute("style", "display:flex;");
+    document.getElementById("hideturn").setAttribute("class", "visible");
+    localStorage.setItem("menuDisplay", true);
+    console.log("Set to true");
+  }
 }
 
 function copyURL() {
-    // 現在のページのURLを取得
-    var url = window.location.href;
+  // 現在のページのURLを取得
+  var url = window.location.href;
 
-    // ページのURLをクリップボードにコピーする処理
-    navigator.clipboard.writeText(url)
-        .then(function () {
-            // コピー成功時の処理
-            document.getElementById('copyBtn').innerText = 'COPIED!!';
-            setTimeout(function () {
-                document.getElementById('copyBtn').innerText = 'COPY LINK';
-            }, 3000); // 3秒後に元のテキストに戻す
-        })
-        .catch(function (err) {
-            // コピー失敗時の処理
-            console.error('URLのコピーに失敗しました: ', err);
-        });
+  // ページのURLをクリップボードにコピーする処理
+  navigator.clipboard
+    .writeText(url)
+    .then(function () {
+      // コピー成功時の処理
+      document.getElementById("copyBtn").innerText = "COPIED!!";
+      setTimeout(function () {
+        document.getElementById("copyBtn").innerText = "COPY LINK";
+      }, 3000); // 3秒後に元のテキストに戻す
+    })
+    .catch(function (err) {
+      // コピー失敗時の処理
+      console.error("URLのコピーに失敗しました: ", err);
+    });
 }
 
-setInterval(() => onbeforeunload = null, 1000)
-window.onload = addSettingMenu()
+setInterval(() => (onbeforeunload = null), 1000);
+window.onload = addSettingMenu();
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    setTimeout(() => {
+      document.activeElement.blur();
+      document.exitPointerLock();
+    }, 100);
+  }
+});
