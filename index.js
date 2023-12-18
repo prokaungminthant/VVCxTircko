@@ -183,14 +183,6 @@ function createWindow() {
         splashWin.destroy();
         gameWin.show();
     });
-    const handleUrlOpen = (e, url) => {
-        if (url.match(/^http/)) {
-            e.preventDefault();
-            shell.openExternal(url);
-        }
-    };
-    gameWin.webContents.on("will-navigate", handleUrlOpen);
-    gameWin.webContents.on("new-window", handleUrlOpen);
 }
 
 //flags
