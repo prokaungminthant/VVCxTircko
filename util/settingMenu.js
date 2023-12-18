@@ -194,17 +194,35 @@ function addSettingMenu() {
   let tempDom5 = `<img id="overlay">`;
   let tempDom6 = `<style id="dfgcss"></style>`;
   let tempDom7 = `<style id="dfscss"></style>`;
+  let tempDom8 = `<div id="matchList" style="display:none">
+  <div id="matchListTitleBar">
+      <div id="matchListTitle"></div>
+      <div id="matchListCloser" onclick="listClose()">
+          <span class="material-symbols-outlined">
+              close
+          </span>
+      </div>
+  </div>
+  <div id="listBox">
+  </div>
+</div>`;
+  let tempDom9 = `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />`;
   document.body.insertAdjacentHTML("afterbegin", tempDom2);
   document.body.insertAdjacentHTML("afterbegin", tempDom3);
   document.body.insertAdjacentHTML("afterbegin", tempDom5);
   document.body.insertAdjacentHTML("afterbegin", tempDom6);
   document.body.insertAdjacentHTML("afterbegin", tempDom7);
+  document.getElementById("app").insertAdjacentHTML("afterbegin", tempDom8);
+  document.head.insertAdjacentHTML("afterbegin", tempDom9);
   configs();
   menuDisplayInit();
   menuItemInit();
   titleSetter();
 }
-
+//サーバーリストを閉じるやつ
+const listClose = () => {
+  document.getElementById("matchList").setAttribute("style", "display:none");
+};
 //ウィンドウタイトルをうんちゃらするためのやつ
 titleSetter = () => {
   document.getElementsByTagName("title")[0].innerText = "Vanced Voxiom Client";

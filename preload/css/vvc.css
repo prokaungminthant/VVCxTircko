@@ -242,3 +242,73 @@ input[type="range"]::-webkit-slider-thumb {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+div#matchList {
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 600px;
+    width: 800px;
+    background: #222;
+    position: absolute;
+}
+
+div#matchListTitleBar {
+    display: flex;
+    background: #fff2;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+    padding: 0 0px 0 15px
+}
+
+div#matchListCloser {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+div#matchListCloser:hover {
+    background: red;
+}
+
+#row {
+    width: 90%;
+    grid-template-columns: 15% 15% 40% 15% 15%;
+    display: grid;
+    margin: auto;
+    height: 30px;
+}
+
+#row div {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #fff2;
+    align-items: center;
+    cursor: pointer;
+}
+
+#row div:hover {
+    background: #fff1
+}
+
+#row div:hover .material-symbols-outlined {
+    font-size: 28px;
+    text-shadow: 0 0 2px red;
+}
+
+.listT {
+    font-weight: 700;
+}
+
+.listHead div:hover {
+    background: transparent !important;
+}
+
+div#listBox {
+    overflow-y: scroll;
+    height: 570px;
+}   

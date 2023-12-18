@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "electron .",
+        "testbuild": "electron-builder --win --x64",
         "build": "electron-builder --win --x64 --publish never",
         "publish": "electron-builder --win --x64 --publish always"
     },
@@ -41,8 +42,6 @@
         "electron-builder": "^24.9.1"
     },
     "dependencies": {
-        "@cliqz/adblocker-electron": "1.15",
-        "cross-fetch": "^4.0.0",
         "electron-localshortcut": "^3.2.1",
         "electron-updater": "^6.1.7",
         "stats.js": "^0.17.0"
