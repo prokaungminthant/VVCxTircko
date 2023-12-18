@@ -5,6 +5,7 @@ const {
   BrowserWindow,
   protocol,
   ipcMain,
+  shell,
 } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const localShortcut = require("electron-localshortcut");
@@ -13,7 +14,6 @@ const { clearTimeout } = require("timers");
 const clientID = "1186209799935889469";
 const DiscordRPC = require("discord-rpc");
 const RPC = new DiscordRPC.Client({ transport: "ipc" });
-
 DiscordRPC.register(clientID);
 function setActiv() {
   const time = Date.now();
@@ -29,6 +29,10 @@ function setActiv() {
       {
         label: `Get Vanced Voxiom Client`,
         url: `https://namekujilsds.github.io/VVC/`,
+      },
+      {
+        label: `VVC Support Server`,
+        url: `https://discord.gg/EcZytWAJkn`,
       },
     ],
   });
@@ -179,6 +183,14 @@ function createWindow() {
     splashWin.destroy();
     gameWin.show();
   });
+  const handleUrlOpen = (e, url) => {
+    if (url.match(/^http/)) {
+      e.preventDefault();
+      shell.openExternal(url);
+    }
+  };
+  gameWin.webContents.on("will-navigate", handleUrlOpen);
+  gameWin.webContents.on("new-window", handleUrlOpen);
 }
 
 //flags

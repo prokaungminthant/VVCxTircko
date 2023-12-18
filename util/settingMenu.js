@@ -196,7 +196,7 @@ function addSettingMenu() {
   let tempDom7 = `<style id="dfscss"></style>`;
   let tempDom8 = `<div id="matchList" style="display:none">
   <div id="matchListTitleBar">
-      <div id="matchListTitle"></div>
+      <div id="matchListTitle">Match List Console (WIP)</div>
       <div id="matchListCloser" onclick="listClose()">
           <span class="material-symbols-outlined">
               close

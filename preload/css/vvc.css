@@ -227,11 +227,15 @@ input[type="range"]::-webkit-slider-thumb {
 
 #clientLogo {
     position: fixed;
-    right: 10px;
-    bottom: 5px;
+    left: 10px;
+    top: 5px;
     color: #fff;
     font-weight: bolder;
-    size: 20px;
+    size: 25px;
+}
+
+.bDPhkn {
+    top: 20px;
 }
 
 #overlay {
@@ -311,4 +315,4 @@ div#matchListCloser:hover {
 div#listBox {
     overflow-y: scroll;
     height: 570px;
-}   
+}
