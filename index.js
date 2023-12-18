@@ -10,6 +10,35 @@ const { autoUpdater } = require("electron-updater");
 const localShortcut = require("electron-localshortcut");
 const path = require("path");
 const { clearTimeout } = require("timers");
+const clientID = "1186209799935889469";
+const DiscordRPC = require("discord-rpc");
+const RPC = new DiscordRPC.Client({ transport: "ipc" });
+
+DiscordRPC.register(clientID);
+function setActiv() {
+  const time = Date.now();
+  if (!RPC) return;
+  RPC.setActivity({
+    state: "on Vanced Voxiom Client",
+    details: "Playing Voxiom.io",
+    startTimestamp: time,
+    largeImageKey: "vvclogo",
+    largeImageText: `Vanced Voxiom Client`,
+    instance: false,
+    buttons: [
+      {
+        label: `Get Vanced Voxiom Client`,
+        url: `https://namekujilsds.github.io/VVC/`,
+      },
+    ],
+  });
+}
+
+RPC.on("ready", () => {
+  setActiv();
+});
+
+RPC.login({ clientId: clientID }).catch(console.error);
 
 let gameWin = null;
 let splashWin = null;
