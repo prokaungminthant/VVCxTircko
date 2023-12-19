@@ -10,6 +10,8 @@ let overlaySwitch = "";
 let dfg = "";
 let dfs = "";
 let webhookUrl = "";
+let qjReg = ""
+let qjMode = ""
 
 //ローカルからの設定の読み取り
 function configs() {
@@ -31,6 +33,8 @@ function configs() {
     dfg = localStorage.getItem("dfg");
     dfs = localStorage.getItem("dfs");
     webhookUrl = localStorage.getItem("webhookUrl")
+    qjMode = localStorage.getItem("qjMode")
+    qjReg = localStorage.getItem("qjReg")
 }
 
 //全部リセットする
@@ -57,6 +61,8 @@ function vvcReset() {
     localStorage.setItem("dfg", false);
     localStorage.setItem("dfs", false);
     localStorage.setItem("webhookUrl", null)
+    qjMode = localStorage.setItem("qjMode", "ctg")
+    qjReg = localStorage.setItem("qjReg", 0)
 }
 
 // タイトルがロードされたときの処理
@@ -152,6 +158,29 @@ function addSettingMenu() {
             </div>
         </div>
         <div id="miniTitle">
+            Quick Join
+        </div>
+        <div id="setVal">
+            <div class="minibox">
+                Region
+                <select name="selectReg" id="selectReg" size="1" oninput="vvcSettingChange('qjReg')">
+                    <option value="0">US West</option>
+                    <option value="1">US East</option>
+                    <option value="2">Europe</option>
+                    <option value="3">Asia</option>
+                </select>
+            </div>
+            <div class="minibox">
+                Mode
+                <select name="selectReg" id="selectMode" size="1" oninput="vvcSettingChange('qjMode')">
+                    <option value="ctg">CTG</option>
+                    <option value="br">BR</option>
+                    <option value="svv">Survival</option>
+                    <option value="ffa">FFA</option>
+                </select>
+            </div>
+        </div>
+        <div id="miniTitle">
             Mini Tools
         </div>
         <div class="setVal">
@@ -172,13 +201,13 @@ function addSettingMenu() {
                 <a href="https://voxiom.io/" id="loginOut">Back to Voxiom</a>
             </div>
             <div class="minibox">
-                <a href="https://google.com/" id="loginOut">Open Google</a>
+                <a href="https://google.com/" id="loginOut">Open Google Login</a>
             </div>
             <div class="minibox">
-                <a href="https://discord.com/login" id="loginOut">Open Discord</a>
+                <a href="https://discord.com/login" id="loginOut">Open Discord Login</a>
             </div>
             <div class="minibox">
-                <a href="https://www.facebook.com/login/" id="loginOut">Open Facebook</a>
+                <a href="https://www.facebook.com/login/" id="loginOut">Open Facebook Login</a>
             </div>
         </div>
         <div id="miniTitle">
@@ -271,6 +300,8 @@ function menuItemInit() {
     const dfgcss = document.getElementById("dfgcss");
     const dfscss = document.getElementById("dfscss");
     const webhookUrlInput = document.getElementById("webhookUrlInput")
+    const qjRegInput = document.getElementById("selectReg")
+    const qjModeInput = document.getElementById("selectMode")
 
     console.log(logoUrl);
     logoUrlInput.value = logoUrl;
@@ -318,6 +349,9 @@ function menuItemInit() {
         dfsCheck.checked = false;
     }
     webhookUrlInput.value = webhookUrl;
+    qjRegInput.options[qjReg].selected = true
+    qjModeInput.options[qjMode].selected = true
+
 }
 
 //メニューに変更があった時のアレ
@@ -341,6 +375,8 @@ function vvcSettingChange(val) {
     const dfgcss = document.getElementById("dfgcss");
     const dfscss = document.getElementById("dfscss");
     const webhookUrlInput = document.getElementById("webhookUrlInput")
+    const qjRegInput = document.getElementById("selectReg")
+    const qjModeInput = document.getElementById("selectMode")
 
     if (val == "logo") {
         localStorage.setItem("logoUrl", logoUrlInput.value);
@@ -421,6 +457,18 @@ function vvcSettingChange(val) {
         }
     } else if (val === "webhook") {
         localStorage.setItem("webhookUrl", webhookUrlInput.value)
+    } else if (val === "qjReg") {
+        localStorage.setItem("qjReg", qjRegInput.value)
+    } else if (val === "qjMode") {
+        if (qjModeInput.value === "ctg") {
+            localStorage.setItem("qjMode", 0)
+        } else if (qjModeInput.value === "br") {
+            localStorage.setItem("qjMode", 1)
+        } else if (qjModeInput.value === "svv") {
+            localStorage.setItem("qjMode", 2)
+        } else if (qjModeInput.value === "ffa") {
+            localStorage.setItem("qjMode", 3)
+        }
     }
 }
 //リセットするかの確認
@@ -497,26 +545,26 @@ const observer2 = new MutationObserver((mutations) => {
 });
 
 const sendWebhook = (txt) => {
-        whUrl = document.getElementById('webhookUrlInput').value
-        let gameurl = window.location.href
-        const req = {
-            content: `${txt}`,
-            username: `VVC[${gameurl}]`,
-            avatar_url: "https://i.imgur.com/bdClDSq.png",
-            allowed_mentions: {
-                parse: []
-            }
+    whUrl = document.getElementById('webhookUrlInput').value
+    let gameurl = window.location.href
+    const req = {
+        content: `${txt}`,
+        username: `VVC[${gameurl}]`,
+        avatar_url: "https://i.imgur.com/bdClDSq.png",
+        allowed_mentions: {
+            parse: []
+        }
 
-        };
-        fetch(whUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(req),
-        })
-    }
-    //ターゲット要素をDOMで取得
+    };
+    fetch(whUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req),
+    })
+}
+//ターゲット要素をDOMで取得
 const target = document.getElementById("app");
 //インスタンス化
 const obs = new MutationObserver(callback);
@@ -551,14 +599,14 @@ function copyURL() {
     // ページのURLをクリップボードにコピーする処理
     navigator.clipboard
         .writeText(url)
-        .then(function() {
+        .then(function () {
             // コピー成功時の処理
             document.getElementById("copyBtn").innerText = "COPIED!!";
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementById("copyBtn").innerText = "COPY LINK";
             }, 3000); // 3秒後に元のテキストに戻す
         })
-        .catch(function(err) {
+        .catch(function (err) {
             // コピー失敗時の処理
             console.error("URLのコピーに失敗しました: ", err);
         });
@@ -569,7 +617,7 @@ window.onload = addSettingMenu();
 
 //ESCキーの調整
 let exitTime = Date.now();
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") {
         setTimeout(() => {
             document.activeElement.blur();
@@ -580,7 +628,7 @@ document.addEventListener("keydown", function(event) {
     }
 });
 // ポインターロックの試行を検出する
-document.addEventListener("pointerlockchange", function(event) {
+document.addEventListener("pointerlockchange", function (event) {
     // exitPointerlockを実行してから0.1秒以内の場合は、ブロックする
     if (Date.now() - exitTime < 100) {
         event.preventDefault();

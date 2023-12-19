@@ -27,13 +27,13 @@ function setActiv() {
         largeImageText: `Vanced Voxiom Client`,
         instance: false,
         buttons: [{
-                label: `Get Vanced Voxiom Client`,
-                url: `https://namekujilsds.github.io/VVC/`,
-            },
-            {
-                label: `VVC Support Server`,
-                url: `https://discord.gg/EcZytWAJkn`,
-            },
+            label: `Get Vanced Voxiom Client`,
+            url: `https://namekujilsds.github.io/VVC/`,
+        },
+        {
+            label: `VVC Support Server`,
+            url: `https://discord.gg/EcZytWAJkn`,
+        },
         ],
     });
 }
@@ -57,11 +57,11 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 // ビルドしてなくてもしてるように見せかける
-Object.defineProperty(app, "isPackaged", {
-    get() {
-        return true;
-    },
-});
+// Object.defineProperty(app, "isPackaged", {
+//     get() {
+//         return true;
+//     },
+// });
 
 // vvc://から始まるプロトコルの実装。ローカルファイルにアクセスしていろいろできるようにする
 protocol.registerSchemesAsPrivileged([{
@@ -70,7 +70,7 @@ protocol.registerSchemesAsPrivileged([{
         secure: true,
         corsEnabled: true,
     },
-}, ]);
+},]);
 
 function createSplash() {
     splashWin = new BrowserWindow({
@@ -85,7 +85,7 @@ function createSplash() {
             preload: path.join(__dirname, "splashWin/preload.js"),
         },
     });
-    const update = async() => {
+    const update = async () => {
         let updateCheck = null;
         autoUpdater.on("checking-for-update", () => {
             splashWin.webContents.send("status", "Checking for updates...");
@@ -164,6 +164,9 @@ function createWindow() {
     });
     localShortcut.register(gameWin, "F5", () => {
         gameWin.reload();
+    });
+    localShortcut.register(gameWin, "F6", () => {
+        gameWin.webContents.send("F6");
     });
     localShortcut.register(gameWin, "F8", () => {
         gameWin.webContents.send("F8");
