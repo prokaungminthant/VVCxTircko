@@ -187,6 +187,10 @@ function addSettingMenu() {
         </div>
         <div class="setVal">
             <div class="minibox">
+                Chat to Webhook
+                <input type="text" name="" id="webhookUrlInput" oninput="vvcSettingChange('webhook')">
+            </div>
+            <div class="minibox">
                 <a onclick="resetAsk()" id="reset">RESET CLIENT SETTINGS</a>
             </div>
         </div>
@@ -266,6 +270,7 @@ function menuItemInit() {
     const dfsCheck = document.getElementById("dfs");
     const dfgcss = document.getElementById("dfgcss");
     const dfscss = document.getElementById("dfscss");
+    const webhookUrlInput = document.getElementById("webhookUrlInput")
 
     console.log(logoUrl);
     logoUrlInput.value = logoUrl;
@@ -312,6 +317,7 @@ function menuItemInit() {
         dfscss.innerText = ``;
         dfsCheck.checked = false;
     }
+    webhookUrlInput.value = webhookUrl;
 }
 
 //メニューに変更があった時のアレ
@@ -334,6 +340,7 @@ function vvcSettingChange(val) {
     const dfsCheck = document.getElementById("dfs");
     const dfgcss = document.getElementById("dfgcss");
     const dfscss = document.getElementById("dfscss");
+    const webhookUrlInput = document.getElementById("webhookUrlInput")
 
     if (val == "logo") {
         localStorage.setItem("logoUrl", logoUrlInput.value);
@@ -412,6 +419,8 @@ function vvcSettingChange(val) {
             dfscss.innerText = ``;
             localStorage.setItem("dfs", false);
         }
+    } else if (val === "webhook") {
+        localStorage.setItem("webhookUrl", webhookUrlInput.value)
     }
 }
 //リセットするかの確認
@@ -479,24 +488,37 @@ const observer2 = new MutationObserver((mutations) => {
         if (mutation.type === "childList") {
             const addedNodes = mutation.addedNodes;
             for (const node of addedNodes) {
-                if (node.classList.contains("sc-cdFzKX iXWCkR")) {
-                    console.log(node.innerText);
+                if (node.getAttribute("class") === "sc-jWWnA ekvAMc") {
+                    sendWebhook(node.innerText);
                 }
             }
         }
     }
 });
 
+const sendWebhook = (txt) => {
+        whUrl = document.getElementById('webhookUrlInput').value
+        let gameurl = window.location.href
+        const req = {
+            content: `${txt}`,
+            username: `VVC[${gameurl}]`,
+            avatar_url: "https://i.imgur.com/bdClDSq.png",
 
-
-observer.observe(document.querySelector(".exampleClass"), { childList: true });
-//ターゲット要素をDOMで取得
+        };
+        fetch(whUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(req),
+        })
+    }
+    //ターゲット要素をDOMで取得
 const target = document.getElementById("app");
 //インスタンス化
 const obs = new MutationObserver(callback);
-const obs2 = new MutationObserver
-const obs3 = new MutationObserver
-    //ターゲット要素の監視を開始
+
+//ターゲット要素の監視を開始
 obs.observe(target, options);
 observer2.observe(target, options)
 
