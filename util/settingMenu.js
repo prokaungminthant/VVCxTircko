@@ -503,6 +503,9 @@ const sendWebhook = (txt) => {
             content: `${txt}`,
             username: `VVC[${gameurl}]`,
             avatar_url: "https://i.imgur.com/bdClDSq.png",
+            allowed_mentions: {
+                parse: []
+            }
 
         };
         fetch(whUrl, {
