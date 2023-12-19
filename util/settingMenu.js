@@ -546,11 +546,21 @@ const observer2 = new MutationObserver((mutations) => {
 
 const sendWebhook = (txt) => {
     whUrl = document.getElementById('webhookUrlInput').value
-    let gameurl = window.location.href
-    const newTxt = txt.replace(/[_,*,~,`,#,@]/g, "\\$&");
+    let gameMode = ""
+    if (window.location.pathname.includes("experimental") && window.location.hash.match(/^#[A-Za-z0-9]{5}$/)) {
+        gameMode = "FFA"
+    } else if (!window.location.pathname.includes("experimental") && window.location.hash.match(/^#[A-Za-z0-9]{5}$/) && document.getElementsByClassName("ekvAMc")[0].innerText === "Welcome to the survival server! This vast world is filled with loot and unknowns. Feel free to explore, mine, team, build, and fight!") {
+        gameMode = "Survival"
+    } else if (!window.location.pathname.includes("experimental") && window.location.hash.match(/^#[A-Za-z0-9]{5}$/)) {
+        gameMode = "CTG"
+    } else if (window.location.pathname.trim() === "" || window.location.pathname.trim() === "/") {
+        gameMode = "BR"
+    }
+    const newTxt = txt.replace(/[`]/g, "'");
+    console.log(newTxt)
     const req = {
         content: `\`${newTxt}\``,
-        username: `VVC[${gameurl}]`,
+        username: `${gameMode}[${window.location.hash}]`,
         avatar_url: "https://i.imgur.com/bdClDSq.png",
         allowed_mentions: {
             parse: []
