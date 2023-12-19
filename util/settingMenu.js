@@ -547,8 +547,9 @@ const observer2 = new MutationObserver((mutations) => {
 const sendWebhook = (txt) => {
     whUrl = document.getElementById('webhookUrlInput').value
     let gameurl = window.location.href
+    const newTxt = txt.replace(/[_,*,~,`,#,@]/g, "\\$&");
     const req = {
-        content: `${txt}`,
+        content: `\`${newTxt}\``,
         username: `VVC[${gameurl}]`,
         avatar_url: "https://i.imgur.com/bdClDSq.png",
         allowed_mentions: {
