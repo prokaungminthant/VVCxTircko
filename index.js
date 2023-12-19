@@ -15,6 +15,7 @@ const clientID = "1186209799935889469";
 const DiscordRPC = require("discord-rpc");
 const RPC = new DiscordRPC.Client({ transport: "ipc" });
 DiscordRPC.register(clientID);
+
 function setActiv() {
     const time = Date.now();
     if (!RPC) return;
@@ -25,8 +26,7 @@ function setActiv() {
         largeImageKey: "vvclogo",
         largeImageText: `Vanced Voxiom Client`,
         instance: false,
-        buttons: [
-            {
+        buttons: [{
                 label: `Get Vanced Voxiom Client`,
                 url: `https://namekujilsds.github.io/VVC/`,
             },
@@ -57,22 +57,20 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 // ビルドしてなくてもしてるように見せかける
-// Object.defineProperty(app, "isPackaged", {
-//   get() {
-//     return true;
-//   },
-// });
+Object.defineProperty(app, "isPackaged", {
+    get() {
+        return true;
+    },
+});
 
 // vvc://から始まるプロトコルの実装。ローカルファイルにアクセスしていろいろできるようにする
-protocol.registerSchemesAsPrivileged([
-    {
-        scheme: "vvc",
-        privileges: {
-            secure: true,
-            corsEnabled: true,
-        },
+protocol.registerSchemesAsPrivileged([{
+    scheme: "vvc",
+    privileges: {
+        secure: true,
+        corsEnabled: true,
     },
-]);
+}, ]);
 
 function createSplash() {
     splashWin = new BrowserWindow({
@@ -87,7 +85,7 @@ function createSplash() {
             preload: path.join(__dirname, "splashWin/preload.js"),
         },
     });
-    const update = async () => {
+    const update = async() => {
         let updateCheck = null;
         autoUpdater.on("checking-for-update", () => {
             splashWin.webContents.send("status", "Checking for updates...");
@@ -100,11 +98,11 @@ function createSplash() {
         });
         autoUpdater.on("update-available", (i) => {
             if (updateCheck) clearTimeout(updateCheck);
-            splashWin.webContents.send("status", `Found new verison v${i.version}`);
+            splashWin.webContents.send("status", `Found new verison v${i.version}!`);
         });
         autoUpdater.on("update-not-available", () => {
             if (updateCheck) clearTimeout(updateCheck);
-            splashWin.webContents.send("status", "You using latest version.");
+            splashWin.webContents.send("status", "You are using the latest version!");
             setTimeout(() => {
                 createWindow();
             }, 1000);
