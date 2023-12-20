@@ -66,7 +66,6 @@ function vvcReset() {
     localStorage.setItem("qjMode", "ctg")
     localStorage.setItem("qjReg", 0)
     localStorage.setItem("enableCC", true)
-
 }
 
 // タイトルがロードされたときの処理
@@ -207,12 +206,20 @@ function addSettingMenu() {
         </div>
         <div class="setVal">
             <div class="minibox">
-                Skin URL
+                Normal Skin URL
                 <input type="url" name="CHECKBOX" id="skinUrlInput" oninput="window.gt.resChange(this.value)">
             </div>
             <div class="minibox">
+                Red Skin URL
+                <input type="url" name="CHECKBOX" id="skinUrlInputR" oninput="window.gt.resChangeR(this.value)">
+            </div>
+            <div class="minibox">
+                Blue Skin URL
+                <input type="url" name="CHECKBOX" id="skinUrlInputB" oninput="window.gt.resChangeB(this.value)">
+            </div>
+            <div class="minibox">
                 Skin URL Reset
-                <input type="button" value="RESET!" oninput="window.gt.resReset()">
+                <input type="button" value="RESET!" onclick="window.gt.resReset()">
             </div>
         </div>
     
@@ -371,6 +378,17 @@ function menuItemInit() {
     webhookUrlInput.value = webhookUrl;
     qjRegInput.options[qjReg].selected = true
     qjModeInput.options[qjMode].selected = true
+    if (enableCC === "true") {
+        ecc.checked = true
+        document.getElementById("crosshair").setAttribute("class", "")
+    } else if (enableCC === "false") {
+        ecc.checked = false
+        document.getElementById("crosshair").setAttribute("class", "ccHide")
+    } else if (enableCC === null) {
+        ecc.checked = true
+        document.getElementById("crosshair").setAttribute("class", "")
+        vvcSettingChange(ecc)
+    }
 
 }
 
@@ -397,7 +415,7 @@ function vvcSettingChange(val) {
     const webhookUrlInput = document.getElementById("webhookUrlInput")
     const qjRegInput = document.getElementById("selectReg")
     const qjModeInput = document.getElementById("selectMode")
-
+    const ecc = document.getElementById("enableCC")
     if (val == "logo") {
         localStorage.setItem("logoUrl", logoUrlInput.value);
         document
@@ -488,6 +506,14 @@ function vvcSettingChange(val) {
             localStorage.setItem("qjMode", 2)
         } else if (qjModeInput.value === "ffa") {
             localStorage.setItem("qjMode", 3)
+        }
+    } else if (val === "ecc") {
+        if (ecc.checked === true) {
+            localStorage.setItem("enableCC", true)
+            document.getElementById("crosshair").setAttribute("class", "")
+        } else if (ecc.checked === false) {
+            localStorage.setItem("enableCC", false)
+            document.getElementById("crosshair").setAttribute("class", "ccHide")
         }
     }
 }

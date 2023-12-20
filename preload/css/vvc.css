@@ -135,7 +135,6 @@ textarea {
     padding-bottom: 4px;
 }
 
-
 .num {
     width: 40px;
 }
@@ -199,14 +198,18 @@ input[type="range"] {
     cursor: pointer;
 }
 
+
 /* Track: Chrome, Safari, Opera, Edge Chromium */
+
 input[type="range"]::-webkit-slider-runnable-track {
     background: #888;
     height: 4px;
     border-radius: 8px;
 }
 
+
 /* Thumb: Chrome, Safari, Opera, Edge Chromium */
+
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -315,4 +318,8 @@ div#matchListCloser:hover {
 div#listBox {
     overflow-y: scroll;
     height: 570px;
+}
+
+.ccHide {
+    display: none !important;
 }
