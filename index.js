@@ -185,12 +185,26 @@ function createWindow() {
         gameWin.show();
     });
     let su = store.get("skinUrl")
+    let suR = store.get("skinUrlR")
+    let suB = store.get("skinUrlB")
     gameWin.webContents.session.webRequest.onBeforeRequest((details, callback) => {
         if (details.url === 'https://voxiom.io/package/cb1d14c1ff0efb6a282b.png') {
-            if (su.trim() === "" || su.trim() === "null") {
+            if (su === "" || su === "null") {
                 callback({ redirectURL: `https://voxiom.io/package/cb1d14c1ff0efb6a282b.png` });
             } else {
                 callback({ redirectURL: `${su}` });
+            }
+        } else if (details.url === 'https://voxiom.io/package/aef55bdd0c3c3c3734f8.png') {
+            if (suR === "" || suR === "null") {
+                callback({ redirectURL: `https://voxiom.io/package/aef55bdd0c3c3c3734f8.png` });
+            } else {
+                callback({ redirectURL: `${suR}` });
+            }
+        } else if (details.url === 'https://voxiom.io/package/ecca1227c2e0406be225.png') {
+            if (suB === "" || suB === "null") {
+                callback({ redirectURL: `https://voxiom.io/package/ecca1227c2e0406be225.png` });
+            } else {
+                callback({ redirectURL: `${suB}` });
             }
         } else {
             callback({});

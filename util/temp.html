@@ -39,6 +39,10 @@
     </div>
     <div class="setVal">
         <div class="minibox">
+            Enable Custom Crosshair
+            <input type="checkbox" id="enableCC" onclick="vvcSettingChange('ecc')">
+        </div>
+        <div class="minibox">
             CrosshairURL
             <input type="url" name="URL" id="xUrlInput" oninput="vvcSettingChange('xurl')">
         </div>
@@ -114,6 +118,29 @@
             <input type="checkbox" name="CHECKBOX" id="dfs" oninput="vvcSettingChange('dfs')">
         </div>
     </div>
+
+    <div id="miniTitle">
+        Skin Changer
+    </div>
+    <div class="setVal">
+        <div class="minibox">
+            Normal Skin URL
+            <input type="url" name="CHECKBOX" id="skinUrlInput" oninput="window.gt.resChange(this.value)">
+        </div>
+        <div class="minibox">
+            Red Skin URL
+            <input type="url" name="CHECKBOX" id="skinUrlInput" oninput="window.gt.resChangeR(this.value)">
+        </div>
+        <div class="minibox">
+            Blue Skin URL
+            <input type="url" name="CHECKBOX" id="skinUrlInput" oninput="window.gt.resChangeB(this.value)">
+        </div>
+        <div class="minibox">
+            Skin URL Reset
+            <input type="button" value="RESET!" oninput="window.gt.resReset()">
+        </div>
+    </div>
+
     <div id="miniTitle">
         Social Logins
     </div>

@@ -10,8 +10,9 @@ let overlaySwitch = "";
 let dfg = "";
 let dfs = "";
 let webhookUrl = "";
-let qjReg = ""
-let qjMode = ""
+let qjReg = "";
+let qjMode = "";
+let enableCC = "";
 
 //ローカルからの設定の読み取り
 function configs() {
@@ -35,6 +36,7 @@ function configs() {
     webhookUrl = localStorage.getItem("webhookUrl")
     qjMode = localStorage.getItem("qjMode")
     qjReg = localStorage.getItem("qjReg")
+    enableCC = localStorage.getItem("enableCC")
 }
 
 //全部リセットする
@@ -57,12 +59,14 @@ function vvcReset() {
     localStorage.setItem("css", "");
     localStorage.setItem("menuDisplay", true);
     localStorage.setItem("overlay", "");
-    localStorage.setItem("overlayOnOff", true);
+    localStorage.setItem("overlayOnOff", false);
     localStorage.setItem("dfg", false);
     localStorage.setItem("dfs", false);
     localStorage.setItem("webhookUrl", null)
-    qjMode = localStorage.setItem("qjMode", "ctg")
-    qjReg = localStorage.setItem("qjReg", 0)
+    localStorage.setItem("qjMode", "ctg")
+    localStorage.setItem("qjReg", 0)
+    localStorage.setItem("enableCC", true)
+
 }
 
 // タイトルがロードされたときの処理
@@ -117,6 +121,10 @@ function addSettingMenu() {
             Crosshair
         </div>
         <div class="setVal">
+            <div class="minibox">
+                Enable Custom Crosshair
+                <input type="checkbox" id="enableCC" onclick="vvcSettingChange('ecc')">
+            </div>
             <div class="minibox">
                 CrosshairURL
                 <input type="url" name="URL" id="xUrlInput" oninput="vvcSettingChange('xurl')">
@@ -193,6 +201,21 @@ function addSettingMenu() {
                 <input type="checkbox" name="CHECKBOX" id="dfs" oninput="vvcSettingChange('dfs')">
             </div>
         </div>
+    
+        <div id="miniTitle">
+            Skin Changer
+        </div>
+        <div class="setVal">
+            <div class="minibox">
+                Skin URL
+                <input type="url" name="CHECKBOX" id="skinUrlInput" oninput="window.gt.resChange(this.value)">
+            </div>
+            <div class="minibox">
+                Skin URL Reset
+                <input type="button" value="RESET!" oninput="window.gt.resReset()">
+            </div>
+        </div>
+    
         <div id="miniTitle">
             Social Logins
         </div>
@@ -253,15 +276,11 @@ function addSettingMenu() {
     configs();
     menuDisplayInit();
     menuItemInit();
-    titleSetter();
+    window.gt.resIn()
 }
 //サーバーリストを閉じるやつ
 const listClose = () => {
     document.getElementById("matchList").setAttribute("style", "display:none");
-};
-//ウィンドウタイトルをうんちゃらするためのやつ
-titleSetter = () => {
-    document.getElementsByTagName("title")[0].innerText = "Vanced Voxiom Client";
 };
 
 //メニューの表示の初期設定
@@ -302,6 +321,7 @@ function menuItemInit() {
     const webhookUrlInput = document.getElementById("webhookUrlInput")
     const qjRegInput = document.getElementById("selectReg")
     const qjModeInput = document.getElementById("selectMode")
+    const ecc = document.getElementById("enableCC")
 
     console.log(logoUrl);
     logoUrlInput.value = logoUrl;

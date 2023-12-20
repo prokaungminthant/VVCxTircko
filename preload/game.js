@@ -70,6 +70,7 @@ function newPage() {
         );
         document.body.appendChild(settingJsIn);
         console.log("Setting.js injected");
+
     }
 
     //ページの変遷を検知してページごとに動作を分岐
