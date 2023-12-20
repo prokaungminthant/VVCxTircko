@@ -1,18 +1,18 @@
-let logoUrl = "";
-let bgUrl = "";
-let subTitle = "";
-let xYSize = "";
-let xXSize = "";
-let xUrl = "";
-let css = "";
-let menuDisplay = "";
-let overlaySwitch = "";
-let dfg = "";
-let dfs = "";
-let webhookUrl = "";
-let qjReg = "";
-let qjMode = "";
-let enableCC = "";
+let logoUrl = ""; //ロゴのURL
+let bgUrl = ""; //背景のURL
+let subTitle = ""; //ロゴの下の文字
+let enableCC = ""; //クロスヘアのオンオフ
+let xYSize = ""; //クロスヘアの横幅
+let xXSize = ""; //クロスヘアの縦幅
+let xUrl = ""; //クロスヘアのURL
+let css = ""; //カスタムCSS
+let menuDisplay = ""; //メニュー画面の表示非表示
+let overlaySwitch = ""; //オーバーレイの行事非表示
+let dfg = ""; //FreeGemの切り替え
+let dfs = ""; //雪の表示切替
+let webhookUrl = ""; //Chat to WebhookのURL
+let qjReg = ""; //QuickJoinのregion
+let qjMode = ""; //QJのMode
 
 //ローカルからの設定の読み取り
 function configs() {
@@ -260,7 +260,7 @@ function addSettingMenu() {
     </div>`;
     document.body.insertAdjacentHTML("beforeend", tempDom);
     let tempDom2 = `<img id="crosshair">`;
-    let tempDom3 = `<style id="injectCSS"></style>`;
+    let tempDom3 = `<style id="injectCSS">${css}</style>`;
     let tempDom5 = `<img id="overlay">`;
     let tempDom6 = `<style id="dfgcss"></style>`;
     let tempDom7 = `<style id="dfscss"></style>`;

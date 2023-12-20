@@ -57,11 +57,11 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 // ビルドしてなくてもしてるように見せかける
-// Object.defineProperty(app, "isPackaged", {
-//     get() {
-//         return true;
-//     },
-// });
+Object.defineProperty(app, "isPackaged", {
+    get() {
+        return true;
+    },
+});
 
 // vvc://から始まるプロトコルの実装。ローカルファイルにアクセスしていろいろできるようにする
 protocol.registerSchemesAsPrivileged([{
