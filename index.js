@@ -57,11 +57,11 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 // ビルドしてなくてもしてるように見せかける
-Object.defineProperty(app, "isPackaged", {
-    get() {
-        return true;
-    },
-});
+// Object.defineProperty(app, "isPackaged", {
+//     get() {
+//         return true;
+//     },
+// });
 
 // vvc://から始まるプロトコルの実装。ローカルファイルにアクセスしていろいろできるようにする
 protocol.registerSchemesAsPrivileged([{
@@ -187,10 +187,12 @@ function createWindow() {
     let su
     let suR
     let suB
+    let ind
     gameWin.webContents.session.webRequest.onBeforeRequest((details, callback) => {
         su = store.get("skinUrl")
         suR = store.get("skinUrlR")
         suB = store.get("skinUrlB")
+        ind = store.get("indUrl")
         if (details.url === 'https://voxiom.io/package/cb1d14c1ff0efb6a282b.png') {
             if (su === "" || su === "null") {
                 callback({ redirectURL: `https://i.imgur.com/DuIFdsQ.png` });
@@ -208,6 +210,12 @@ function createWindow() {
                 callback({ redirectURL: `https://i.imgur.com/um1vHZg.png` });
             } else {
                 callback({ redirectURL: `${suB}` });
+            }
+        } else if (details.url === 'https://voxiom.io/package/9223b6316bedee5652fb.png') {
+            if (ind === "" || ind === "null") {
+                callback({ redirectURL: `https://i.imgur.com/rVaV2HD.png` });
+            } else {
+                callback({ redirectURL: `${ind}` });
             }
         } else {
             callback({});
