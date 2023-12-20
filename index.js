@@ -14,6 +14,9 @@ const { clearTimeout } = require("timers");
 const clientID = "1186209799935889469";
 const DiscordRPC = require("discord-rpc");
 const RPC = new DiscordRPC.Client({ transport: "ipc" });
+const Store = require('electron-store');
+const store = new Store();
+
 DiscordRPC.register(clientID);
 
 function setActiv() {
@@ -50,18 +53,15 @@ let splashWin = null;
 //Electron@9を使用するため、脆弱性の対策
 delete require("electron").nativeImage.createThumbnailFromPath;
 if (!app.requestSingleInstanceLock()) {
-    log.error(
-        "Other process(es) are already existing. Quit. If you can't see the window, please kill all task(s)."
-    );
     app.exit();
 }
 
 // ビルドしてなくてもしてるように見せかける
-// Object.defineProperty(app, "isPackaged", {
-//     get() {
-//         return true;
-//     },
-// });
+Object.defineProperty(app, "isPackaged", {
+    get() {
+        return true;
+    },
+});
 
 // vvc://から始まるプロトコルの実装。ローカルファイルにアクセスしていろいろできるようにする
 protocol.registerSchemesAsPrivileged([{
@@ -183,6 +183,18 @@ function createWindow() {
     gameWin.once("ready-to-show", () => {
         splashWin.destroy();
         gameWin.show();
+    });
+    let su = store.get("skinUrl")
+    gameWin.webContents.session.webRequest.onBeforeRequest((details, callback) => {
+        if (details.url === 'https://voxiom.io/package/cb1d14c1ff0efb6a282b.png') {
+            if (su.trim() === "" || su.trim() === "null") {
+                callback({ redirectURL: `https://voxiom.io/package/cb1d14c1ff0efb6a282b.png` });
+            } else {
+                callback({ redirectURL: `${su}` });
+            }
+        } else {
+            callback({});
+        }
     });
 }
 

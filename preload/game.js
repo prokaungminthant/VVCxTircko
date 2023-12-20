@@ -1,8 +1,13 @@
 const { ipcRenderer, ipcMain } = require("electron");
-const account = require("../util/account");
 const path = require("path");
+const Store = require('electron-store');
+const store = new Store();
+
 let ver = "";
+const account = require("../util/account");
 const matchConsole = require("../util/match");
+const reswap = require("../util/resorce")
+window.gt = new reswap.resIn()
 
 ipcRenderer.invoke("appVer").then((version) => {
     ver = version;
