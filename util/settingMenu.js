@@ -288,6 +288,7 @@ function addSettingMenu() {
     menuDisplayInit();
     menuItemInit();
     window.gt.resIn()
+    menuItemInit();
 }
 //サーバーリストを閉じるやつ
 const listClose = () => {
@@ -393,7 +394,6 @@ function menuItemInit() {
         document.getElementById("crosshair").setAttribute("class", "")
         vvcSettingChange(ecc)
     }
-
 }
 
 //メニューに変更があった時のアレ
@@ -695,3 +695,10 @@ document.addEventListener("pointerlockchange", function (event) {
         event.preventDefault();
     }
 });
+
+//setting re-input
+const reIn = () => {
+    menuItemInit()
+    window.gt.resIn()
+}
+window.onload()
