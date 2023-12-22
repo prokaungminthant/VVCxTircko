@@ -701,4 +701,13 @@ const reIn = () => {
     menuItemInit()
     window.gt.resIn()
 }
-window.onload()
+window.onload(reIn())
+
+let curUrl = "";
+setInterval(() => {
+    let newUrl = window.location.href;
+    if (curUrl !== newUrl) {
+        reIn();
+        curUrl = newUrl;
+    }
+}, 100);
