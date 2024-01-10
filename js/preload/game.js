@@ -29,11 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (addedNode.className === "sc-jWWnA ekvAMc") {
                     tools.sendWebhook(addedNode)
                 } else if (addedNode.className === "sc-fIEHcE fsQUZP") {
-                    log.info("open esc menu");
                     let tempDom = `<div id=escJoin><input id=joinInput> <input onclick='Window.tool.joinGame()'type=button value=JOIN></div><div id=escCopy><input onclick=navigator.clipboard.writeText(location.href) type=button value="Copy Link"></div>`
                     document.getElementsByClassName("hmiDqW")[0].insertAdjacentHTML("afterend", tempDom);
                 } else if (addedNode.className === "sc-halPKt hOLpQX") {
-                    log.info("sc-halPKt hOLpQX")
                     let tempDom = `<div id="escJoin"><input type="text" id="joinInput"><input type="button" value="JOIN" onclick="window.tool.joinGame('joinInput')"></div>`
                     document.getElementsByClassName('fRtCid')[0].insertAdjacentHTML("afterend", tempDom)
                 }

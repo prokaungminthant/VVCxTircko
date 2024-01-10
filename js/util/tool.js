@@ -143,7 +143,6 @@ exports.settingTool = class {
         config.set("settingWindowOpen", !document.getElementById("vvcSetting").classList.contains("hide"))
     };
     setSetting(id, value) {
-
         value != null ? config.set(id, value) : "";
         log.info(id, value)
         switch (id) {
