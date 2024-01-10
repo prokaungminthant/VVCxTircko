@@ -1,11 +1,21 @@
 {
     "name": "vanced-voxiom-client",
-    "version": "1.2.10",
-    "description": "Client for voxiom.io with usefull and helpful utility.",
+    "version": "2.0.0",
+    "description": "Recoded version of VancedVoxiomClient.  ",
     "main": "index.js",
+    "devDependencies": {
+        "electron": "^10.4.7",
+        "electron-builder": "^24.9.1"
+    },
+    "dependencies": {
+        "discord-rpc": "^4.0.1",
+        "electron-localshortcut": "^3.2.1",
+        "electron-log": "^5.0.3",
+        "electron-store": "^8.1.0",
+        "electron-updater": "^6.1.7"
+    },
     "scripts": {
         "test": "electron .",
-        "testbuild": "electron-builder --win --x64",
         "build": "electron-builder --win --x64 --publish never",
         "publish": "electron-builder --win --x64 --publish always"
     },
@@ -16,9 +26,8 @@
     "bugs": {
         "url": "https://github.com/NamekujiLSDs/ElectronUpdaterTest/issues"
     },
-    "author": "Namekuji",
+    "author": "NamekujiLSDs",
     "license": "GPL-3.0-or-later",
-    "homepage": "https://github.com/NamekujiLSDs/VancedVoxiomClient#readme",
     "build": {
         "appId": "vanced.voxiom.client",
         "directories": {
@@ -36,16 +45,5 @@
         "nsis": {
             "oneClick": true
         }
-    },
-    "devDependencies": {
-        "electron": "^8.5.5",
-        "electron-builder": "^24.9.1"
-    },
-    "dependencies": {
-        "discord-rpc": "^4.0.1",
-        "electron-localshortcut": "^3.2.1",
-        "electron-store": "^8.1.0",
-        "electron-updater": "^6.1.7",
-        "stats.js": "^0.17.0"
     }
 }

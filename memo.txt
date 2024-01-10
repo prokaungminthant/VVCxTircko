@@ -10,7 +10,9 @@ br
 ctg
 svv
 
-Ind : https://voxiom.io/package/9223b6316bedee5652fb.png
+Indicator : https://voxiom.io/package/9223b6316bedee5652fb.png
 blue : https://voxiom.io/package/ecca1227c2e0406be225.png
 red: https://voxiom.io/package/aef55bdd0c3c3c3734f8.png
 normal : https://voxiom.io/package/cb1d14c1ff0efb6a282b.png
+
+
