@@ -26,14 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let mutation of mutationsList) {
             mutation.addedNodes.forEach(addedNode => {
                 nodeCheck(addedNode);
-                if (addedNode.className === "sc-jWWnA ekvAMc") {
+                if (addedNode.className === "sc-bhiFeW kqFtze") {
                     tools.sendWebhook(addedNode)
-                } else if (addedNode.className === "sc-fIEHcE fsQUZP") {
+                } else if (addedNode.className === "sc-gIDmLj jQzYsy") {
                     let tempDom = `<div id=escJoin><input id=joinInput> <input onclick='Window.tool.joinGame()'type=button value=JOIN></div><div id=escCopy><input onclick=navigator.clipboard.writeText(location.href) type=button value="Copy Link"></div>`
-                    document.getElementsByClassName("hmiDqW")[0].insertAdjacentHTML("afterend", tempDom);
-                } else if (addedNode.className === "sc-halPKt hOLpQX") {
+                    document.getElementsByClassName("vMoUn")[0].insertAdjacentHTML("afterend", tempDom);
+                } else if (addedNode.className === "sc-cNKbKr XmfOo") {
                     let tempDom = `<div id="escJoin"><input type="text" id="joinInput"><input type="button" value="JOIN" onclick="window.tool.joinGame('joinInput')"></div>`
-                    document.getElementsByClassName('fRtCid')[0].insertAdjacentHTML("afterend", tempDom)
+                    document.getElementsByClassName('kVdPCz')[0].insertAdjacentHTML("afterend", tempDom)
                 }
             });
         }
@@ -95,10 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (node.length != null) {
                 for (i = 0; i <= node.length; i++) {
                     try {
-                        if (node[i].className === "sc-eldieg lfDZCd") {
-                            let dom = document.getElementsByClassName("lfDZCd")[0];
+                        if (node[i].className === "sc-lgarKF QPKxe") {
+                            let dom = document.getElementsByClassName("QPKxe")[0];
                             dom.innerHTML = `<div id=login><a class=discord href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Discord</a> <a class=google href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Google</a> <a class=facebook href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Facebook</a></div><style>#loginBtn{text-align:center;padding:10px;text-decoration:none;color:#fff;margin-bottom:10px;width:200px;display:flex;-webkit-box-align:center;align-items:center;cursor:pointer}.discord{background-color:#7289da}.google{background-color:#ea4435}.facebook{background-color:#4967aa}.discord:hover{background-color:#8da6ff}.google:hover{background-color:#ff6a5c}.facebook:hover{background-color:#658be2}</style>`
-                        } else if (node[i].className === "sc-kdneuM yYlig") {
+                        } else if (node[i].className === "sc-DWqcv dNIqBb") {
                             tools.initTitleText()
                         } else if (node[i].id.includes("voxiom-io")) {
                             node[i].remove()

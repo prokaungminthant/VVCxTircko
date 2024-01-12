@@ -188,12 +188,11 @@ function createMainWindow() {
         mainWindow.send("url", url)
     })
     //リソーススワッパーここから
-    let files = swapper()
-    let json = swapperJson()
-    let rejectRequest = rejectJson()
-    log.info(rejectRequest.reject)
-    let regPattern = rejectRequest.reject.map(pattern => new RegExp(pattern))
     mainWindow.webContents.session.webRequest.onBeforeRequest((details, callback) => {
+        let rejectRequest = rejectJson()
+        let regPattern = rejectRequest.reject.map(pattern => new RegExp(pattern))
+        let files = swapper()
+        let json = swapperJson()
         if (config.get("resourceSwapperEnable") && files.includes(json[details.url])) {
             callback({ redirectURL: "vvc://" + path.join(app.getPath('documents'), '/VVC-Swapper', json[details.url]) });
             log.info(json[details.url])

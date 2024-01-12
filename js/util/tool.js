@@ -91,7 +91,7 @@ exports.clientTools = class {
         }
     };
     initTitleText() {
-        let titleText = document.getElementsByClassName("yYlig")[0]
+        let titleText = document.getElementsByClassName("dNIqBb")[0]
         titleText.innerText = config.get("customGameLogoText") ? config.get("customGameLogoText") : setting.customGameLogoText.default
     };
     urlChanged(url) {
@@ -186,6 +186,7 @@ exports.settingTool = class {
                         document.getElementById("customCSS") ? document.getElementById("customCSS").remove() : "";
                         break;
                     case "text":
+                        console.log(config.get("cssTextarea"))
                         document.body.insertAdjacentHTML("afterbegin", `<style id="customCSS">${config.get("cssTextarea") != null ? config.get("cssTextarea") : ""}</style>`)
                         break
                     case "localfile":
@@ -194,7 +195,8 @@ exports.settingTool = class {
                     case "online":
                         document.body.insertAdjacentHTML("afterbegin", `<style id="customCSS">@import url('${config.get("cssUrl") != null ? config.get("cssUrl") : ""}');</style>`)
                         break;
-                }
+                };
+                break;
             case "cssTextarea":
                 config.get("cssType") === "text" ? document.getElementById("customCSS").innerText = value : "";
                 break;
