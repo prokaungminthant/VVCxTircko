@@ -263,7 +263,7 @@ exports.settingTool = class {
                 value ? document.getElementById("snowStyle").innerText = ".snowflakes{display: none}" : document.getElementById("snowStyle").innerText = ".snowflakes{display: unset}";
                 break;
             case "disableGemPopup":
-                value ? document.getElementById("freeGem").innerText = ".ksWDWD{display:none !important}" : document.getElementById("freeGem").innerText = ".ksWDWD{display: unset}";
+                value ? document.getElementById("freeGem").innerText = ".jMriZg{display:none !important}" : document.getElementById("freeGem").innerText = ".jMriZg{display: unset}";
                 break;
             case "enableCtW":
                 break;
