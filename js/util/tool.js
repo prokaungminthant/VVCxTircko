@@ -5,7 +5,8 @@ const path = require("path")
 const fs = require('fs');
 
 const config = new store()
-const setting = require("./setting")
+const setting = require("./setting");
+const { clearInterval } = require('timers');
 
 log.info("gametools.js has been loaded.")
 
@@ -69,14 +70,20 @@ exports.clientTools = class {
     initDoms() {
         let dom1 = `<style id="customBgCss">.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.hrxbol{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")}")}</style>`;
         document.body.insertAdjacentHTML("afterbegin", dom1);
-        let dom2 = `<style id="snowStyle"> .snowflakes {display: ${config.get("disableSnow") !== true ? "unset" : "none"}}</style>`
-        document.body.insertAdjacentHTML("afterbegin", dom2);
-        let dom3 = `<style id="freeGem">.ksWDWD{display:${config.get("disableGemPopup") !== true ? "unset" : "none !important"}}</style>`
+        // let dom2 = `<style id="snowStyle"> .snowflakes {display: ${config.get("disableSnow") !== true ? "unset" : "none"}}</style>`
+        //         document.body.insertAdjacentHTML("afterbegin", dom2);
+        let dom3 = `<style id="freeGem">.jMriZg{display:${config.get("disableGemPopup") !== true ? "unset" : "none !important"}}</style>`
         document.body.insertAdjacentHTML("afterbegin", dom3);
-        let crosshair = `<img id="crosshair" style="width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default}px;height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default}px;" src="${config.get("customCrosshairImage") != null ? config.get("customCrosshairImage") : setting.customCrosshairImage.default}" class="${config.get("customCrosshairCheckbox") ? "" : "hide"}" ></img>`
-        document.getElementById("app").insertAdjacentHTML("afterbegin", crosshair);
+        try {
+            let crosshair = `<img id="crosshairImg" style="width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default}px;height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default}px;" src="${config.get("customCrosshairImage") != null ? config.get("customCrosshairImage") : setting.customCrosshairImage.default}" class="${config.get("customCrosshairCheckbox") ? "" : "hide"}" ></img>`
+            document.getElementById("app").insertAdjacentHTML("afterbegin", crosshair);
+        } catch (error) {
+        }
         let matchList = `<div id=matchCloser class=hide onclick=window.tool.closeMatchList()></div><div id=matchList class=hide><div id=settingTitleBar>Match Browser <span class="closeBtn material-symbols-outlined"onclick=window.tool.closeMatchList()>close</span></div><div id=setBody><div id=matches><table id=matchTable><tbody id=matchInfo></tbody></table></div></div></div>`
         document.body.insertAdjacentHTML("afterbegin", matchList)
+        let infoDom = `<div id=infoBox class=${config.get("smartInfo") ? "" : "hide"}><div id=compass><img alt=↑ id=needle src=https://voxiom.io/package/0c0a064432d08848541a.png></div><div id=fpsDisplay></div><div id=playerPos><div id=x></div><div id=y></div><div id=z></div></div><div id=ping></div></div><style id="infoStyle">${config.get("smartInfo") ? 'div[style*="width: 550px; position: absolute; top: 0px; left: 0px; padding: 10px; pointer-events: none; background-color: rgba(0, 0, 0, 0.8);"]{opacity:0}' : 'div[style*="width: 550px; position: absolute; top: 0px; left: 0px; padding: 10px; pointer-events: none; background-color: rgba(0, 0, 0, 0.8);"]{opacity:1}'}</style>`
+        document.getElementById("app").insertAdjacentHTML("afterbegin", infoDom);
+
         if (config.get("cssType") === "none") {
             console.log("No custom css gen")
         } else if (config.get("cssType") === "text") {
@@ -132,7 +139,49 @@ exports.clientTools = class {
             } catch (error) { }
         }
     }
-
+    smartInfo() {
+        const getInfo = () => {
+            //左上の黒いやつを取得
+            let info = document.querySelector('div[style*="width: 550px; position: absolute; top: 0px; left: 0px; padding: 10px; pointer-events: none; background-color: rgba(0, 0, 0, 0.8);"]');
+            try {
+                if (info.getAttribute("style").includes("display: none;")) {
+                    document.getElementById("infoBox").setAttribute("class", "hide")
+                } else if (!info.getAttribute("style").includes("display: none;") && config.get("smartInfo")) {
+                    document.getElementById("infoBox").setAttribute("class", "");
+                }
+            } catch (error) {
+            }
+            //中身のテキストを配列にする
+            let infoArray = info.innerText.split("\n");
+            //コンパスの部分
+            const hari = document.getElementById("needle")
+            let yaw = infoArray[9].split(" ")[2]
+            let per = yaw / 3.14159265358979323
+            hari.style = `transform:rotate(${per * -180}deg)`
+            //FPSの部分
+            const fpsDisp = document.getElementById("fpsDisplay");
+            let fps = Math.floor(infoArray[0].split(" ")[1])
+            fpsDisp.innerText = "FPS : " + fps
+            //プレイヤーポジション
+            let xPos = document.getElementById("x")
+            let yPos = document.getElementById("y")
+            let zPos = document.getElementById("z")
+            let pos = infoArray[2].split(" ")
+            xPos.innerText = "X : " + Math.floor(pos[1])
+            yPos.innerText = "Y : " + Math.floor(pos[3])
+            zPos.innerText = "Z : " + Math.floor(pos[5])
+            //ping表示
+            let pingDisp = document.getElementById("ping")
+            pingDisp.innerText = "Ping : " + infoArray[11].split(" ")[1]
+        };
+        let inforval = setInterval(() => {
+            try {
+                getInfo()
+            } catch (error) {
+            }
+        }, 10)
+        inforval
+    }
 }
 exports.settingTool = class {
     closeSetting() {
@@ -221,6 +270,8 @@ exports.settingTool = class {
             case "webhookUrl":
                 break;
             case "resourceSwapperEnable":
+                break;
+            case "smartInfo":
                 break;
         }
 
@@ -339,5 +390,6 @@ exports.settingTool = class {
     joinGame() {
         document.getElementById("joinInput").value != null ? location.href = document.getElementById("joinInput").value : "";
         document.getElementById("joinInput").value != null ? location.reload() : ""
-    }
+    };
+
 };

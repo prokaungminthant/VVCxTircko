@@ -131,7 +131,7 @@
     display: none !important;
 }
 
-#crosshair {
+#crosshairImg {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -176,4 +176,14 @@
     flex-direction: row;
     margin-bottom: 5px;
     justify-content: space-evenly
+}
+
+#infoBox {
+    position: fixed;
+    left: 280px;
+    top: 20px;
+}
+
+#needle {
+    height: 30px;
 }

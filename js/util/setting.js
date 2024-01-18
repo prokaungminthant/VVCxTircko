@@ -151,16 +151,6 @@ module.exports = {
         restart: false,
         default: 'ffa'
     },
-
-    disableSnowflake: {
-        cat: 'Mini Tool',
-        id: 'disableSnow',
-        title: 'Disable Snowflake',
-        type: 'checkbox',
-        val: config.get('disableSnow'),
-        restart: false,
-        default: false,
-    },
     disableGemPopup: {
         cat: 'Mini Tool',
         id: 'disableGemPopup',
@@ -197,4 +187,13 @@ module.exports = {
         restart: true,
         default: false,
     },
+    smartInfo: {
+        cat: 'Mini Tool',
+        id: 'smartInfo',
+        title: "Enable smart info",
+        type: 'checkbox',
+        val: config.get('smartInfo'),
+        restart: false,
+        default: true,
+    }
 }

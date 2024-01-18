@@ -3,21 +3,22 @@ const store = require('electron-store');
 const log = require('electron-log');
 const path = require('path');
 const vvcTool = require('../util/tool');
-const { stringify } = require('querystring');
-
 const tools = new vvcTool.clientTools()
-
-
 const config = new store()
-const tool = new vvcTool.settingTool();
 
 //ページロード時のあれこれを
 document.addEventListener('DOMContentLoaded', () => {
     //url変更を検知
     tools.urlChanged(location.href)
     if (location.origin === "https://voxiom.io") {
-        tools.setupClientSetting();
-        tools.initDoms()
+        try {
+            tools.setupClientSetting();
+        } catch (error) {
+        }
+        try {
+            tools.initDoms()
+        } catch (error) {
+        }
     }
     document.body.insertAdjacentHTML("beforeend", tools.vvcSettingStyleInject());
     window.tool = new vvcTool.settingTool()
@@ -43,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const observerConfig = { childList: true, subtree: true };
     // 対象のノードと設定を渡して監視を開始
     observer.observe(targetNode, observerConfig);
-
     const nodeCheck = (node) => {
         let allChild = (node) => {
             testClass(node)
@@ -111,6 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+    }
+    if (config.get("smartInfo")) {
+        tools.smartInfo()
+    } else if (config.get("smartInfo") === null) {
+        tools.smartInfo()
     }
 })
 
