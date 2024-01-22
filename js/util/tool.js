@@ -68,11 +68,11 @@ exports.clientTools = class {
         return dom
     };
     initDoms() {
-        let dom1 = `<style id="customBgCss">.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.hrxbol{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")}")}</style>`;
+        let dom1 = `<style id="customBgCss">.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.crZZWp{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")}")}</style>`;
         document.body.insertAdjacentHTML("afterbegin", dom1);
         // let dom2 = `<style id="snowStyle"> .snowflakes {display: ${config.get("disableSnow") !== true ? "unset" : "none"}}</style>`
         //         document.body.insertAdjacentHTML("afterbegin", dom2);
-        let dom3 = `<style id="freeGem">.jMriZg{display:${config.get("disableGemPopup") !== true ? "unset" : "none !important"}}</style>`
+        let dom3 = `<style id="freeGem">.etzJfT{display:${config.get("disableGemPopup") !== true ? "unset" : "none !important"}}</style>`
         document.body.insertAdjacentHTML("afterbegin", dom3);
         try {
             let crosshair = `<img id="crosshairImg" style="width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default}px;height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default}px;" src="${config.get("customCrosshairImage") != null ? config.get("customCrosshairImage") : setting.customCrosshairImage.default}" class="${config.get("customCrosshairCheckbox") ? "" : "hide"}" ></img>`
@@ -98,20 +98,22 @@ exports.clientTools = class {
         }
     };
     initTitleText() {
-        let titleText = document.getElementsByClassName("dNIqBb")[0]
+        let titleText = document.getElementsByClassName("ikfQiC")[0]
         titleText.innerText = config.get("customGameLogoText") ? config.get("customGameLogoText") : setting.customGameLogoText.default
     };
     urlChanged(url) {
         switch (url) {
             case "https://voxiom.io/account":
-
                 function accountInject() {
-                    let dom = document.querySelector('.lfDZCd');
+                    let dom = document.querySelector('.fXzVCi');
+                    console.log(dom)
                     if (dom) {
-                        dom.innerHTML = `<div id=login><a class=discord href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Discord</a> <a class=google href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Google</a> <a class=facebook href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Facebook</a></div><style>#loginBtn{text-align:center;padding:10px;text-decoration:none;color:#fff;margin-bottom:10px;width:200px;display:flex;-webkit-box-align:center;align-items:center;cursor:pointer}.discord{background-color:#7289da}.google{background-color:#ea4435}.facebook{background-color:#4967aa}.discord:hover{background-color:#8da6ff}.google:hover{background-color:#ff6a5c}.facebook:hover{background-color:#658be2}</style>`
+                        dom.innerHTML = `<div id=login><a class=discord href=http://voxiom.io/auth/discord2 id=loginBtn target=_self>Sign in with Discord</a> <a class=google href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Google</a> <a class=facebook href=http://voxiom.io/auth/facebook2 id=loginBtn target=_self>Sign in with Facebook</a></div><style>#loginBtn{text-align:center;padding:10px;text-decoration:none;color:#fff;margin-bottom:10px;width:200px;display:flex;-webkit-box-align:center;align-items:center;cursor:pointer}.discord{background-color:#7289da}.google{background-color:#ea4435}.facebook{background-color:#4967aa}.discord:hover{background-color:#8da6ff}.google:hover{background-color:#ff6a5c}.facebook:hover{background-color:#658be2}</style>`
                     }
                 }
                 accountInject();
+                break;
+            case "https://voxiom.io/stats":
                 break;
         }
     }
@@ -179,8 +181,17 @@ exports.clientTools = class {
                 getInfo()
             } catch (error) {
             }
-        }, 10)
+        }, 50)
         inforval
+    }
+    menuBarAddition() {
+        if (document.getElementById("stat") == null) {
+            let menuBar = document.getElementsByClassName("cPFhJE")[0]
+            let dom = `<a class="sc-gulkZw HHuq" id="stat" href="/stats">Stats</a>`
+            let dom2 = `<a class="sc-gulkZw HHuq active" id="stat" href="/stats">Stats</a>`
+            menuBar.insertAdjacentHTML("beforeend", location.href === "https://voxiom.io/stats" ? dom2 : dom)
+            log.info("STAT GEN")
+        }
     }
 }
 exports.settingTool = class {
@@ -196,30 +207,30 @@ exports.settingTool = class {
         log.info(id, value)
         switch (id) {
             case "customBG":
-                document.getElementById("customBgCss").innerText = `.bNczYf{background-image:url("${value == "" ? setting.customBackGround.default : value = null ? setting.customBackGround.default : value}")}.hrxbol{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")} ")}`
+                document.getElementById("customBgCss").innerText = `.bNczYf{background-image:url("${value == "" ? setting.customBackGround.default : value = null ? setting.customBackGround.default : value}")}.crZZWp{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")} ")}`
                 break;
             case "customLogo":
-                document.getElementById("customBgCss").innerText = `.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.hrxbol{content:url("${value == "" || value == null ? setting.customGameLogo.default : value}")}`;;
+                document.getElementById("customBgCss").innerText = `.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.crZZWp{content:url("${value == "" || value == null ? setting.customGameLogo.default : value}")}`;;
                 break;
             case "customGameLogoText":
-                document.querySelector(".yYlig").innerText = value
+                document.querySelector(".ikfQiC").innerText = value
                 break;
             case "customCrosshairCheckbox":
                 value ? document.getElementById('crosshair').classList.remove("hide") : document.getElementById('crosshair').classList.add("hide");
                 break;
             case "customCrosshairImage":
-                document.getElementById("crosshair").setAttribute("src", value)
+                document.getElementById("crosshairImg").setAttribute("src", value)
                 break;
             case "crosshairSizeX":
-                document.getElementById("crosshair").setAttribute("style", `width:${value != null ? value : setting.crosshairSizeX.default}px;height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default}px;`)
+                document.getElementById("crosshairImg").setAttribute("style", `width:${value != null ? value : setting.crosshairSizeX.default}px;height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default}px;`)
                 break;
             case "crosshairSizeY":
-                document.getElementById("crosshair").setAttribute("style", `width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default}px;height:${value != null ? value : setting.crosshairSizeY.default}px;`)
+                document.getElementById("crosshairImg").setAttribute("style", `width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default}px;height:${value != null ? value : setting.crosshairSizeY.default}px;`)
                 break;
             case "detectCrosshairSize":
-                let C = document.getElementById("crosshair")
-                let X = document.getElementById("crosshair").naturalWidth;
-                let Y = document.getElementById("crosshair").naturalHeight;
+                let C = document.getElementById("crosshairImg")
+                let X = document.getElementById("crosshairImg").naturalWidth;
+                let Y = document.getElementById("crosshairImg").naturalHeight;
                 config.set("crosshairSizeX", X)
                 config.set("crosshairSizeY", Y)
                 C.setAttribute("style", `width:${X}px;height:${Y}px`);
@@ -263,7 +274,7 @@ exports.settingTool = class {
                 value ? document.getElementById("snowStyle").innerText = ".snowflakes{display: none}" : document.getElementById("snowStyle").innerText = ".snowflakes{display: unset}";
                 break;
             case "disableGemPopup":
-                value ? document.getElementById("freeGem").innerText = ".jMriZg{display:none !important}" : document.getElementById("freeGem").innerText = ".jMriZg{display: unset}";
+                value ? document.getElementById("freeGem").innerText = ".etzJfT{display:none !important}" : document.getElementById("freeGem").innerText = ".etzJfT{display: unset}";
                 break;
             case "enableCtW":
                 break;
@@ -344,7 +355,8 @@ exports.settingTool = class {
         }).then(data => {
             log.info(data.tag)
             location.href = `https://voxiom.io/#${data.tag}`
-            location.reload()
+        }).then(() => {
+            location.reload
         }).catch(e => { log.error(e) })
     }
     openMatchList() {

@@ -29,12 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 nodeCheck(addedNode);
                 if (addedNode.className === "sc-bhiFeW kqFtze") {
                     tools.sendWebhook(addedNode)
-                } else if (addedNode.className === "sc-gIDmLj jQzYsy") {
+                } else if (addedNode.className === "sc-dwsnSq cOkDlb") {
                     let tempDom = `<div id=escJoin><input id=joinInput> <input onclick='Window.tool.joinGame()'type=button value=JOIN></div><div id=escCopy><input onclick=navigator.clipboard.writeText(location.href) type=button value="Copy Link"></div>`
-                    document.getElementsByClassName("vMoUn")[0].insertAdjacentHTML("afterend", tempDom);
-                } else if (addedNode.className === "sc-cNKbKr XmfOo") {
+                    document.getElementsByClassName("dgbOnQ")[0].insertAdjacentHTML("afterend", tempDom);
+                } else if (addedNode.className === "sc-ojmzf hFsIeT") {
                     let tempDom = `<div id="escJoin"><input type="text" id="joinInput"><input type="button" value="JOIN" onclick="window.tool.joinGame('joinInput')"></div>`
-                    document.getElementsByClassName('kVdPCz')[0].insertAdjacentHTML("afterend", tempDom)
+                    document.getElementsByClassName('fEwAbz')[0].insertAdjacentHTML("afterend", tempDom)
                 }
             });
         }
@@ -95,10 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (node.length != null) {
                 for (i = 0; i <= node.length; i++) {
                     try {
-                        if (node[i].className === "sc-lgarKF QPKxe") {
-                            let dom = document.getElementsByClassName("QPKxe")[0];
-                            dom.innerHTML = `<div id=login><a class=discord href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Discord</a> <a class=google href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Google</a> <a class=facebook href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Facebook</a></div><style>#loginBtn{text-align:center;padding:10px;text-decoration:none;color:#fff;margin-bottom:10px;width:200px;display:flex;-webkit-box-align:center;align-items:center;cursor:pointer}.discord{background-color:#7289da}.google{background-color:#ea4435}.facebook{background-color:#4967aa}.discord:hover{background-color:#8da6ff}.google:hover{background-color:#ff6a5c}.facebook:hover{background-color:#658be2}</style>`
-                        } else if (node[i].className === "sc-DWqcv dNIqBb") {
+                        if (node[i].className === "sc-ezDxBL fXzVCi") {
+                            let dom = document.getElementsByClassName("fXzVCi")[0];
+                            dom.innerHTML = `<div id=login><a class=discord href=http://voxiom.io/auth/discord2 id=loginBtn target=_self>Sign in with Discord</a> <a class=google href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Google</a> <a class=facebook href=http://voxiom.io/auth/facebook2 id=loginBtn target=_self>Sign in with Facebook</a></div><style>#loginBtn{text-align:center;padding:10px;text-decoration:none;color:#fff;margin-bottom:10px;width:200px;display:flex;-webkit-box-align:center;align-items:center;cursor:pointer}.discord{background-color:#7289da}.google{background-color:#ea4435}.facebook{background-color:#4967aa}.discord:hover{background-color:#8da6ff}.google:hover{background-color:#ff6a5c}.facebook:hover{background-color:#658be2}</style>`
+                        } else if (node[i].className === "sc-lcLUZz ikfQiC") {
                             tools.initTitleText()
                         } else if (node[i].id.includes("voxiom-io")) {
                             node[i].remove()
@@ -106,6 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             node[i].remove()
                         } else if (node[i].id.includes("gpt_unit")) {
                             node[i].remove()
+                        } else if (node[i].className === "sc-dlUKyu legYQI") {
+                            tools.menuBarAddition()
                         }
                     } catch (error) { }
                 }
