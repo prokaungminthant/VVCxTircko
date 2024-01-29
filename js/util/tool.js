@@ -190,6 +190,118 @@ exports.clientTools = class {
             }
         })
     }
+    statsGen() {
+        let d;
+        const fetchMe = async () => {
+            const response = await fetch("https://voxiom.io/profile/me", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const result = await response.json().then((data) => {
+                console.log(data.data)
+                d = data.data
+            });
+        }
+        fetchMe().then(() => {
+            document.querySelector(".jCQNJI").innerHTML = `
+            <div id="profileBox">
+            <div id="head">
+                <img id="icon" src="https://namekujilsds.github.io/VVC/icon.ico">
+                <div id="nameHolder">
+                    <div id="name">${d.nickname}</div>
+                    <div id="clan">[${d.clan.tag}]</div>
+                </div>
+                <div id="lv">${d.level}</div>
+                <div id="xp">
+                    <div id="xpVal">${d.xp}/${Math.floor(d.level * 127)}</div>
+                    <div id="xpInner" style="width:${Math.floor(d.xp / (d.level * 127))}%;">
+                    </div>
+                </div>
+                <div id="gem">
+                    <div id="gemTitle">Gems</div>
+                    <div id="gemValue">${d.gems}</div>
+                </div>
+            </div>
+            <div id="bodyBR">
+                <div id="bodyBRTitle">Battle Royale</div>
+                <div id="stat" class="brPlay">
+                    <div id="statTitle">Plays</div>
+                    <div id="statVal">${d.br.total_games_played}</div>
+                </div>
+                <div id="stat" class="brWinR">
+                    <div id="statTitle">WinRate</div>
+                    <div id="statVal">${Math.fround(d.br.total_games_won / d.br.total_games_played).toFixed(2)}%</div>
+                </div>
+                <div id="stat" class="brKills">
+                    <div id="statTitle">Kills</div>
+                    <div id="statVal">${d.br.total_kills}</div>
+                </div>
+                <div id="stat" class="brDeath">
+                    <div id="statTitle">Deaths</div>
+                    <div id="statVal">${d.br.total_deaths}</div>
+                </div>
+                <div id="stat" class="brKdr">
+                    <div id="statTitle">K/D</div>
+                    <div id="statVal">${Math.fround(d.br.total_kills / d.br.total_deaths)}</div>
+                </div>
+                <div id="stat" class="brSpk">
+                    <div id="statTitle">SPK</div>
+                    <div id="statVal">${Math.fround((d.br.total_score - (d.br.total_games_won * 100)) / kills).toFixed(2)}</div>
+                </div>
+                <div id="stat" class="brScore">
+                    <div id="statTitle">Score</div>
+                    <div id="statVal">${d.br.total_score}</div>
+                </div>
+                <div id="stat" class="brTime">
+                    <div id="statTitle">Survival Time</div>
+                    <div id="statVal">${Math.floor(d.br.total_survival_time / 3600) + "H" + Math.floor((d.br.total_survival_time % 3600) / 60) + "M" + d.br.total_survival_time % 60 + "S"}
+                    </div >
+                </div >
+            </div >
+            <div id="bodyCTG">
+                <div id="bodyCTGTitle">Capture the Gem</div>
+                <div id="stat" class="ctgPlay">
+                    <div id="statTitle">Plays</div>
+                    <div id="statVal">${d.ctg.total_games_played}</div>
+                </div>
+                <div id="stat" class="ctgWinR">
+                    <div id="statTitle">Win Rate</div>
+                    <div id="statVal">${Math.fround(d.ctg.total_games_won / d.ctg.total_games_played).toFixed(2)}%</div>
+                </div>
+                <div id="stat" class="ctgKills">
+                    <div id="statTitle">Kills</div>
+                    <div id="statVal">${d.ctg.total_kills}</div>
+                </div>
+                <div id="stat" class="ctgDeath">
+                    <div id="statTitle">Deaths</div>
+                    <div id="statVal">${d.ctg.total_deaths}</div>
+                </div>
+                <div id="stat" class="ctgKdr">
+                    <div id="statTitle">K/D</div>
+                    <div id="statVal">${Math.fround(d.ctg.total_kills / d.ctg.total_deaths).toFixed(2)}</div>
+                </div>
+                <div id="stat" class="ctgSpk">
+                    <div id="statTitle">SPK</div>
+                    <div id="statVal">${Math.fround((d.ctg.total_score - (d.ctg.total_captures * 250) - (d.ctg.total_games_won * 100)) / d.ctg.total_kills)}</div>
+                </div>
+                <div id="stat" class="ctgScore">
+                    <div id="statTitle">Score</div>
+                    <div id="statVal">9999999</div>z
+                </div>
+                <div id="stat" class="ctgCapture">
+                    <div id="statTitle">Captures</div>
+                    <div id="statVal">9999999</div>
+                </div>
+            </div>
+            <div id="foot">
+                <div id="accGen">Account Since : 2024-Jan-22</div>
+                <div id="vvcName">Vanced Voxiom Client</div>
+            </div>
+        </div > `
+        })
+    }
 }
 exports.settingTool = class {
     closeSetting() {
@@ -204,10 +316,10 @@ exports.settingTool = class {
         log.info(id, value)
         switch (id) {
             case "customBG":
-                document.getElementById("customBgCss").innerText = `.bNczYf{background-image:url("${value == "" ? setting.customBackGround.default : value = null ? setting.customBackGround.default : value}")}.crZZWp{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")} ")}`
+                document.getElementById("customBgCss").innerText = `.bNczYf{ background- image: url("${value == "" ? setting.customBackGround.default : value = null ? setting.customBackGround.default : value}")}.crZZWp{ content: url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")} ") } `
                 break;
             case "customLogo":
-                document.getElementById("customBgCss").innerText = `.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.crZZWp{content:url("${value == "" || value == null ? setting.customGameLogo.default : value}")}`;;
+                document.getElementById("customBgCss").innerText = `.bNczYf{ background - image: url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}") }.crZZWp{ content: url("${value == "" || value == null ? setting.customGameLogo.default : value}") } `;;
                 break;
             case "customGameLogoText":
                 document.querySelector(".ikfQiC").innerText = value
@@ -219,10 +331,10 @@ exports.settingTool = class {
                 document.getElementById("crosshairImg").setAttribute("src", value)
                 break;
             case "crosshairSizeX":
-                document.getElementById("crosshairImg").setAttribute("style", `width:${value != null ? value : setting.crosshairSizeX.default}px;height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default}px;`)
+                document.getElementById("crosshairImg").setAttribute("style", `width:${value != null ? value : setting.crosshairSizeX.default} px; height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default} px; `)
                 break;
             case "crosshairSizeY":
-                document.getElementById("crosshairImg").setAttribute("style", `width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default}px;height:${value != null ? value : setting.crosshairSizeY.default}px;`)
+                document.getElementById("crosshairImg").setAttribute("style", `width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default} px; height:${value != null ? value : setting.crosshairSizeY.default} px; `)
                 break;
             case "detectCrosshairSize":
                 let C = document.getElementById("crosshairImg")
@@ -230,7 +342,7 @@ exports.settingTool = class {
                 let Y = document.getElementById("crosshairImg").naturalHeight;
                 config.set("crosshairSizeX", X)
                 config.set("crosshairSizeY", Y)
-                C.setAttribute("style", `width:${X}px;height:${Y}px`);
+                C.setAttribute("style", `width:${X} px; height:${Y} px`);
                 document.getElementById("rangecrosshairSizeX").value = X
                 document.getElementById("rangecrosshairSizeY").value = Y
                 document.getElementById("numcrosshairSizeX").value = X
@@ -244,13 +356,13 @@ exports.settingTool = class {
                         break;
                     case "text":
                         console.log(config.get("cssTextarea"))
-                        document.body.insertAdjacentHTML("afterbegin", `<style id="customCSS">${config.get("cssTextarea") != null ? config.get("cssTextarea") : ""}</style>`)
+                        document.body.insertAdjacentHTML("afterbegin", `< style id = "customCSS" > ${config.get("cssTextarea") != null ? config.get("cssTextarea") : ""}</style > `)
                         break
                     case "localfile":
-                        document.body.insertAdjacentHTML("afterbegin", `<link rel="stylesheet" id="customCSS" href="vvc://${config.get("cssLocal") != null ? config.get("cssLocal") : ""}">`)
+                        document.body.insertAdjacentHTML("afterbegin", `< link rel = "stylesheet" id = "customCSS" href = "vvc://${config.get("cssLocal") != null ? config.get("cssLocal") : ""}" > `)
                         break;
                     case "online":
-                        document.body.insertAdjacentHTML("afterbegin", `<style id="customCSS">@import url('${config.get("cssUrl") != null ? config.get("cssUrl") : ""}');</style>`)
+                        document.body.insertAdjacentHTML("afterbegin", `< style id = "customCSS" > @import url('${config.get("cssUrl") != null ? config.get("cssUrl") : ""}');</style > `)
                         break;
                 };
                 break;
