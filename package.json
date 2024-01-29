@@ -4,7 +4,7 @@
     "description": "Recoded version of VancedVoxiomClient.  ",
     "main": "index.js",
     "devDependencies": {
-        "electron": "^10..7",
+        "electron": "^10.4.7",
         "electron-builder": "^24.9.1"
     },
     "dependencies": {

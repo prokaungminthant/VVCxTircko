@@ -15,7 +15,7 @@ exports.clientTools = class {
         // log.info(val.id, config.get(val.id))
         switch (val.type) {
             case "checkbox":
-                return `<input id="settingCheckbox" type="checkbox" onclick="window.tool.setSetting('${val.id}',this.checked)"${config.get(val.id, val.default) ? 'checked' : ''}>`;
+                return `<input id="settingCheckbox" type="checkbox" onclick="window.tool.setSetting('${val.id}',this.checked)"${config.get(val.id), val.default ? 'checked' : ''}>`;
             case "text":
                 return `<input id="settingTextbox" type="text" onInput="window.tool.setSetting('${val.id}',this.value)" value="${config.get(val.id) != null ? config.get(val.id) : val.default}" > `;
             case "select":
@@ -98,25 +98,8 @@ exports.clientTools = class {
         }
     };
     initTitleText() {
-        let titleText = document.getElementsByClassName("ikfQiC")[0]
-        titleText.innerText = config.get("customGameLogoText") ? config.get("customGameLogoText") : setting.customGameLogoText.default
+        document.querySelector(".ikfQiC").innerText = config.get("customGameLogoText") !== null ? config.get("customGameLogoText") : setting.customGameLogoText.default
     };
-    urlChanged(url) {
-        switch (url) {
-            case "https://voxiom.io/account":
-                function accountInject() {
-                    let dom = document.querySelector('.fXzVCi');
-                    console.log(dom)
-                    if (dom) {
-                        dom.innerHTML = `<div id=login><a class=discord href=http://voxiom.io/auth/discord2 id=loginBtn target=_self>Sign in with Discord</a> <a class=google href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Google</a> <a class=facebook href=http://voxiom.io/auth/facebook2 id=loginBtn target=_self>Sign in with Facebook</a></div><style>#loginBtn{text-align:center;padding:10px;text-decoration:none;color:#fff;margin-bottom:10px;width:200px;display:flex;-webkit-box-align:center;align-items:center;cursor:pointer}.discord{background-color:#7289da}.google{background-color:#ea4435}.facebook{background-color:#4967aa}.discord:hover{background-color:#8da6ff}.google:hover{background-color:#ff6a5c}.facebook:hover{background-color:#658be2}</style>`
-                    }
-                }
-                accountInject();
-                break;
-            case "https://voxiom.io/stats":
-                break;
-        }
-    }
     sendWebhook(node) {
         // console.log(node);
         if (config.get("enableCtW")) {
@@ -192,6 +175,20 @@ exports.clientTools = class {
             menuBar.insertAdjacentHTML("beforeend", location.href === "https://voxiom.io/stats" ? dom2 : dom)
             log.info("STAT GEN")
         }
+    }
+    initSettingData() {
+        Object.values(setting).forEach((val) => {
+            // log.debug("\n val:", val.id, "\n def:", val.default, "\n config:", config.get(val.id))
+            try {
+                if (config.get(val.id) == null) {
+                    if (val.default !== null) {
+                        config.set(val.id, val.default)
+                    }
+                }
+            } catch (error) {
+                log.warn(error, val.id)
+            }
+        })
     }
 }
 exports.settingTool = class {
@@ -345,8 +342,8 @@ exports.settingTool = class {
     importGameSetting() {
 
     }
-    settingCheck() {
-        log.info(val.id, config.get(val.id));
+    settingCheck(id) {
+        log.debug(id, config.get(id));
     }
     quickJoin() {
         let url = `https://voxiom.io/find?region=${config.get("quickJoinRegion") != null ? config.get("quickJoinRegion") : setting.quickJoinRegion.default}&game_mode=${config.get("quickJoinMode") != null ? config.get("quickJoinMode") : setting.quickJoinMode.default}`

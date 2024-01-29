@@ -131,7 +131,7 @@ function createSplashWindow() {
 
 function createMainWindow() {
     mainWindow = new BrowserWindow({
-        fullscreen: config.get("Fullscreen"),
+        fullscreen: config.get("Fullscreen") ? true : config.get("Fullscreen") == null ? true : false,
         show: false,
         webPreferences: {
             preload: path.join(__dirname, "js/preload/game.js"),
@@ -247,4 +247,17 @@ app.commandLine.appendSwitch("enable-pointer-lock-options");
 
 app.whenReady().then(() => {
     createSplashWindow()
+    const today = new Date();
+    const dateString = today.getFullYear() + "-" +
+        (today.getMonth() + 1) + "-" +
+        today.getDate() + "-" +
+        today.getHours() + "-" +
+        today.getMinutes() + "-" +
+        today.getSeconds();
+    const logString = dateString + "_VVC-main.log";
+    log.transports.file.fileName = `${logString}`
+})
+
+process.on("uncaughtException", (e) => {
+    log.warn(e)
 })

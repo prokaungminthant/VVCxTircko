@@ -31,7 +31,7 @@ module.exports = {
         type: 'text',
         val: config.get('customGameLogoText'),
         restart: false,
-        default: 'Victory and Eternal fun'
+        default: 'Vanced Voxiom Client for Noobs.'
     },
     customCrosshairCheck: {
         cat: 'Crosshair',
@@ -101,7 +101,6 @@ module.exports = {
         type: 'textarea',
         val: config.get('cssTextarea'),
         restart: false,
-        default: ''
     },
     cssLocal: {
         cat: 'CSS',
@@ -110,7 +109,6 @@ module.exports = {
         type: 'openFile',
         val: config.get('cssLocal'),
         restart: false,
-        default: '',
     },
     cssUrl: {
         cat: 'CSS',
@@ -119,7 +117,6 @@ module.exports = {
         type: 'text',
         val: config.get('cssUrl'),
         restart: false,
-        default: '',
     },
     quickJoinRegion: {
         cat: 'QuickJoin',
@@ -176,7 +173,6 @@ module.exports = {
         type: 'password',
         val: config.get('webhookUrl'),
         restart: false,
-        default: '',
     },
     resourceSwapperEnable: {
         cat: 'Mini Tool',
