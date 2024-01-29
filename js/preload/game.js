@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //url変更を検知
     tools.initSettingData()
     if (location.origin === "https://voxiom.io") {
-        if (location.href === "https://voxiom.io/auth/refresh/#") {
+        if (location.href === "https://voxiom.io/auth/refresh/#" || location.href === "https://voxiom.io/auth/refresh") {
             location.href === "https://voxiom.io/"
         }
         try {
@@ -28,11 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.insertAdjacentHTML("beforeend", tools.vvcSettingStyleInject());
     window.tool = new vvcTool.settingTool()
     // 条件に一致するノードの中身を書き換える関数
-    //すこしだけさきっぽだけスマートにしてみたよ
+    //少しだけ軽くなってるはず誤差レベル。
     const observerCallback = function (mutationsList, observer) {
         for (let mutation of mutationsList) {
             mutation.addedNodes.forEach(addedNode => {
-                console.log(addedNode.className)
+                // console.log(addedNode.className)
                 if (addedNode.className === "sc-bhiFeW kqFtze") {
                     tools.sendWebhook(addedNode)
                 } else if (addedNode.className === "sc-dwsnSq cOkDlb") {
@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     let dom = document.querySelectorAll(".fXzVCi")[0];
                     dom.innerHTML = `<div id=login><a class=discord href=http://voxiom.io/auth/discord2 id=loginBtn target=_self>Sign in with Discord</a> <a class=google href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Google</a> <a class=facebook href=http://voxiom.io/auth/facebook2 id=loginBtn target=_self>Sign in with Facebook</a></div><style>#loginBtn{text-align:center;padding:10px;text-decoration:none;color:#fff;margin-bottom:10px;width:200px;display:flex;-webkit-box-align:center;align-items:center;cursor:pointer}.discord{background-color:#7289da}.google{background-color:#ea4435}.facebook{background-color:#4967aa}.discord:hover{background-color:#8da6ff}.google:hover{background-color:#ff6a5c}.facebook:hover{background-color:#658be2}</style>`
                 } else if (addedNode.className === "sc-iSLKLn ctoevy") {
-                    console.log("init title text")
                     tools.initTitleText()
                     tools.menuBarAddition()
                     document.querySelectorAll(".fXzVCi")[0] ? document.querySelectorAll(".fXzVCi")[0].innerHTML = `<div id=login><a class=discord href=http://voxiom.io/auth/discord2 id=loginBtn target=_self>Sign in with Discord</a> <a class=google href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Google</a> <a class=facebook href=http://voxiom.io/auth/facebook2 id=loginBtn target=_self>Sign in with Facebook</a></div><style>#loginBtn{text-align:center;padding:10px;text-decoration:none;color:#fff;margin-bottom:10px;width:200px;display:flex;-webkit-box-align:center;align-items:center;cursor:pointer}.discord{background-color:#7289da}.google{background-color:#ea4435}.facebook{background-color:#4967aa}.discord:hover{background-color:#8da6ff}.google:hover{background-color:#ff6a5c}.facebook:hover{background-color:#658be2}</style>` : "";
@@ -62,6 +61,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const observerConfig = { childList: true, subtree: true };
     // 対象のノードと設定を渡して監視を開始
     observer.observe(targetNode, observerConfig);
+
+    //BODYを親にしたときの監視
+    const bods = function (mutationsList, observer) {
+        for (let mutation of mutationsList) {
+            mutation.addedNodes.forEach(addedNode => {
+                log.info(addedNode.nodeName.toLowerCase())
+                if (addedNode.nodeName.toLowerCase() == "ins") {
+                    addedNode.remove()
+                    log.info("ins removed")
+                }
+            })
+        }
+    }
+    let bodyObs = new MutationObserver(bods)
+    bodyObs.observe(document.body, observerConfig)
+
     if (config.get("smartInfo")) {
         tools.smartInfo()
     } else if (config.get("smartInfo") === null) {

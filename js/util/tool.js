@@ -70,14 +70,13 @@ exports.clientTools = class {
     initDoms() {
         let dom1 = `<style id="customBgCss">.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.crZZWp{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")}")}</style>`;
         document.body.insertAdjacentHTML("afterbegin", dom1);
-        // let dom2 = `<style id="snowStyle"> .snowflakes {display: ${config.get("disableSnow") !== true ? "unset" : "none"}}</style>`
-        //         document.body.insertAdjacentHTML("afterbegin", dom2);
         let dom3 = `<style id="freeGem">.etzJfT{display:${config.get("disableGemPopup") !== true ? "unset" : "none !important"}}</style>`
         document.body.insertAdjacentHTML("afterbegin", dom3);
         try {
             let crosshair = `<img id="crosshairImg" style="width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default}px;height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default}px;" src="${config.get("customCrosshairImage") != null ? config.get("customCrosshairImage") : setting.customCrosshairImage.default}" class="${config.get("customCrosshairCheckbox") ? "" : "hide"}" ></img>`
             document.getElementById("app").insertAdjacentHTML("afterbegin", crosshair);
         } catch (error) {
+            log.error(error)
         }
         let matchList = `<div id=matchCloser class=hide onclick=window.tool.closeMatchList()></div><div id=matchList class=hide><div id=settingTitleBar>Match Browser <span class="closeBtn material-symbols-outlined"onclick=window.tool.closeMatchList()>close</span></div><div id=setBody><div id=matches><table id=matchTable><tbody id=matchInfo></tbody></table></div></div></div>`
         document.body.insertAdjacentHTML("afterbegin", matchList)
@@ -121,7 +120,7 @@ exports.clientTools = class {
                     },
                     body: JSON.stringify(req),
                 })
-            } catch (error) { }
+            } catch (error) { log.error(error) }
         }
     }
     smartInfo() {
@@ -135,6 +134,7 @@ exports.clientTools = class {
                     document.getElementById("infoBox").setAttribute("class", "");
                 }
             } catch (error) {
+                log.error(error)
             }
             //中身のテキストを配列にする
             let infoArray = info.innerText.split("\n");
