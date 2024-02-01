@@ -1,8 +1,11 @@
+const html2canvas = require("html2canvas")
 const { ipcRenderer, shell, app, dialog } = require('electron');
 const store = require("electron-store");
 const log = require("electron-log");
 const path = require("path")
 const fs = require('fs');
+let version;
+ipcRenderer.invoke("appVer").then((v) => { version = v })
 
 const config = new store()
 const setting = require("./setting");
@@ -70,6 +73,8 @@ exports.clientTools = class {
     initDoms() {
         let dom1 = `<style id="customBgCss">.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.crZZWp{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")}")}</style>`;
         document.body.insertAdjacentHTML("afterbegin", dom1);
+        let dom2 = `<div style="top:0;left:0;position:fixed;text-shadow:0 0 3px black;z-index:1">VVC v${version}</div>`
+        document.body.insertAdjacentHTML("afterbegin", dom2)
         let dom3 = `<style id="freeGem">.etzJfT{display:${config.get("disableGemPopup") !== true ? "unset" : "none !important"}}</style>`
         document.body.insertAdjacentHTML("afterbegin", dom3);
         try {
@@ -100,7 +105,6 @@ exports.clientTools = class {
         document.querySelector(".ikfQiC").innerText = config.get("customGameLogoText") !== null ? config.get("customGameLogoText") : setting.customGameLogoText.default
     };
     sendWebhook(node) {
-        // console.log(node);
         if (config.get("enableCtW")) {
             let text = node.innerText.replace(/[`]/g, "'")
             try {
@@ -134,7 +138,7 @@ exports.clientTools = class {
                     document.getElementById("infoBox").setAttribute("class", "");
                 }
             } catch (error) {
-                log.error(error)
+                log.error("smartInfo", error)
             }
             //中身のテキストを配列にする
             let infoArray = info.innerText.split("\n");
@@ -170,8 +174,8 @@ exports.clientTools = class {
     menuBarAddition() {
         if (document.getElementById("stat") == null) {
             let menuBar = document.getElementsByClassName("cPFhJE")[0]
-            let dom = `<a class="sc-gulkZw HHuq" id="stat" href="/stats">Stats</a>`
-            let dom2 = `<a class="sc-gulkZw HHuq active" id="stat" href="/stats">Stats</a>`
+            let dom = `<a class="sc-gulkZw HHuq" id="stats" href="/stats">Stats</a>`
+            let dom2 = `<a class="sc-gulkZw HHuq active" id="stats" href="/stats">Stats</a>`
             menuBar.insertAdjacentHTML("beforeend", location.href === "https://voxiom.io/stats" ? dom2 : dom)
             log.info("STAT GEN")
         }
@@ -205,101 +209,247 @@ exports.clientTools = class {
             });
         }
         fetchMe().then(() => {
-            document.querySelector(".jCQNJI").innerHTML = `
-            <div id="profileBox">
-            <div id="head">
-                <img id="icon" src="https://namekujilsds.github.io/VVC/icon.ico">
-                <div id="nameHolder">
-                    <div id="name">${d.nickname}</div>
-                    <div id="clan">[${d.clan.tag}]</div>
+            document.querySelector(".jCQNJI").insertAdjacentHTML("beforebegin", `<input type="button" value="Download" onclick="window.tool.genCanvas()">`)
+            document.querySelector(".jCQNJI").innerHTML = `<style>
+            @import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+            .jCQNJI {
+                background: transparent;
+                display: unset;
+            }
+            div#stat {
+                background: #FFF1;
+                border-radius: 20px;
+            }
+            input[onclick="window.tool.genCanvas()"] {
+                font-size: 20px;
+                padding: 20px;
+                background: white;
+                border: 2px solid purple;
+                box-shadow: 5px 5px 0 pink;
+                cursor: pointer;
+            }
+            div[id*="voxiom-io"] {
+                display: none !important;
+            }
+            #profileBox {
+                font-family: Afacad, sans-serif !important;
+            }
+            #profileBox {
+                background: url(https://cdn.discordapp.com/attachments/1186527845149843516/1198853019819855973/test.png);
+                width: 830px;
+                height: 570px;
+                border-radius: 20px;
+                border: 4px solid #fff;
+                color: #fff;
+                position: relative;
+                text-shadow: 0 0 10px #000
+            }
+            #head {
+                display: grid;
+                grid-template-areas: "icon name name name gems" "icon levl prog prog gems";
+                grid-template-columns: 75pt 40px 340px 180px auto;
+                grid-gap: 5px;
+                width: 750px;
+                padding: 20px 40px;
+                background: #0006;
+                border-top-right-radius: 20px;
+                border-top-left-radius: 20px;
+                border-bottom: 2px solid #0006
+            }
+            #gem {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+                margin-left: 20px
+            }
+            #icon {
+                grid-area: icon;
+                height: 4pc;
+                width: 4pc
+            }
+            #clan {
+                margin-left: 10px
+            }
+            #clan,
+            #name {
+                font-size: 30px
+            }
+            #nameHolder {
+                grid-area: name;
+                display: flex
+            }
+            #lv {
+                grid-area: levl
+            }
+            #xp {
+                grid-area: prog;
+                border: 1px solid #fff4
+            }
+            #gem {
+                grid-area: gems
+            }
+            #bodyBR,
+            #bodyCTG {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-gap: 5px 10px;
+                width: 790px;
+                margin-left: auto;
+                margin-right: auto
+            }
+            #bodyBRTitle {
+                position: absolute;
+                font-size: 30px;
+                margin-top: -40px
+            }
+            #bodyBR {
+                margin-top: 40px
+            }
+            #bodyCTG {
+                margin-top: 70px
+            }
+            #bodyCTGTitle {
+                position: absolute;
+                font-size: 30px;
+                margin-top: -50px
+            }
+            #xp {
+                position: relative
+            }
+            #xpVal {
+                position: absolute;
+                left: 10px
+            }
+            #xpInner {
+                height: 100%;
+                background: linear-gradient(90deg, #6d005e, #ff8eb0)
+            }
+            #stat {
+                display: flex;
+                justify-content: flex-end;
+                flex-direction: column;
+                align-items: center;
+                position: relative;
+                height: 50px
+            }
+            #statTitle {
+                font-size: 15px;
+                color: #ccc;
+                position: absolute;
+                top: 0;
+                left: 0
+            }
+            #statVal {
+                font-size: 24px
+            }
+            #accGen {
+                right: 10px;
+                font-size: 20px
+            }
+            #accGen,
+            #vvcName {
+                position: absolute;
+                bottom: 5px
+            }
+            #vvcName {
+                left: 10px;
+                color: #aaa
+            }
+        </style>
+        <div id=profileBox>
+            <div id=head><img id=icon src=https://namekujilsds.github.io/VVC/icon.ico>
+                <div id=nameHolder>
+                    <div id=name>${d.nickname}</div>
+                    <div id=clan>[${d.clan.tag}]</div>
                 </div>
-                <div id="lv">${d.level}</div>
-                <div id="xp">
-                    <div id="xpVal">${d.xp}/${Math.floor(d.level * 127)}</div>
-                    <div id="xpInner" style="width:${Math.floor(d.xp / (d.level * 127))}%;">
-                    </div>
+                <div id=lv>${d.level}</div>
+                <div id=xp>
+                    <div id=xpVal>${d.xp}/${Math.floor(d.level * 127)}</div>
+                    <div id=xpInner style=width:${Math.fround((d.xp / (d.level * 127)) * 100).toFixed(2)}%;></div>
                 </div>
-                <div id="gem">
-                    <div id="gemTitle">Gems</div>
-                    <div id="gemValue">${d.gems}</div>
+                <div id=gem>
+                    <div id=gemTitle>Gems</div>
+                    <div id=gemValue>${d.gems}</div>
                 </div>
             </div>
-            <div id="bodyBR">
-                <div id="bodyBRTitle">Battle Royale</div>
-                <div id="stat" class="brPlay">
-                    <div id="statTitle">Plays</div>
-                    <div id="statVal">${d.br.total_games_played}</div>
+            <div id=bodyBR>
+                <div id=bodyBRTitle>Battle Royale</div>
+                <div id=stat class=brPlay>
+                    <div id=statTitle>Plays</div>
+                    <div id=statVal>${d.br.total_games_played}</div>
                 </div>
-                <div id="stat" class="brWinR">
-                    <div id="statTitle">WinRate</div>
-                    <div id="statVal">${Math.fround(d.br.total_games_won / d.br.total_games_played).toFixed(2)}%</div>
+                <div id=stat class=brWinR>
+                    <div id=statTitle>WinRate</div>
+                    <div id=statVal>${Math.fround((d.br.total_games_won / d.br.total_games_played) * 100).toFixed(2)}%</div>
                 </div>
-                <div id="stat" class="brKills">
-                    <div id="statTitle">Kills</div>
-                    <div id="statVal">${d.br.total_kills}</div>
+                <div id=stat class=brKills>
+                    <div id=statTitle>Kills</div>
+                    <div id=statVal>${d.br.total_kills}</div>
                 </div>
-                <div id="stat" class="brDeath">
-                    <div id="statTitle">Deaths</div>
-                    <div id="statVal">${d.br.total_deaths}</div>
+                <div id=stat class=brDeath>
+                    <div id=statTitle>Deaths</div>
+                    <div id=statVal>${d.br.total_deaths}</div>
                 </div>
-                <div id="stat" class="brKdr">
-                    <div id="statTitle">K/D</div>
-                    <div id="statVal">${Math.fround(d.br.total_kills / d.br.total_deaths)}</div>
+                <div id=stat class=brKdr>
+                    <div id=statTitle>K/D</div>
+                    <div id=statVal>${Math.fround(d.br.total_kills / d.br.total_deaths).toFixed(2)}</div>
                 </div>
-                <div id="stat" class="brSpk">
-                    <div id="statTitle">SPK</div>
-                    <div id="statVal">${Math.fround((d.br.total_score - (d.br.total_games_won * 100)) / kills).toFixed(2)}</div>
+                <div id=stat class=brSpk>
+                    <div id=statTitle>SPK</div>
+                    <div id=statVal>${Math.fround((d.br.total_score - (d.br.total_games_won * 100)) /
+                d.br.total_kills).toFixed(2)}</div>
                 </div>
-                <div id="stat" class="brScore">
-                    <div id="statTitle">Score</div>
-                    <div id="statVal">${d.br.total_score}</div>
+                <div id=stat class=brScore>
+                    <div id=statTitle>Score</div>
+                    <div id=statVal>${d.br.total_score}</div>
                 </div>
-                <div id="stat" class="brTime">
-                    <div id="statTitle">Survival Time</div>
-                    <div id="statVal">${Math.floor(d.br.total_survival_time / 3600) + "H" + Math.floor((d.br.total_survival_time % 3600) / 60) + "M" + d.br.total_survival_time % 60 + "S"}
-                    </div >
+                <div id=stat class=brTime>
+                    <div id=statTitle>Survival Time</div>
+                    <div id=statVal>${Math.floor(d.br.total_survival_time / 3600) + "h" + Math.floor((d.br.total_survival_time %
+                    3600) / 60) + "m" + d.br.total_survival_time % 60 + "s"}</div>
+                </div>
+            </div>
+            <div id=bodyCTG>
+                <div id=bodyCTGTitle>Capture the Gems</div>
+                <div id=stat class=ctgPlay>
+                    <div id=statTitle>Plays</div>
+                    <div id=statVal>${d.ctg.total_games_played}</div>
+                </div>
+                <div id=stat class=ctgWinR>
+                    <div id=statTitle>Win Rate</div>
+                    <div id=statVal>${Math.fround((d.ctg.total_games_won / d.ctg.total_games_played) * 100).toFixed(2)}%</div >
                 </div >
+                <div id=stat class=ctgKills>
+                    <div id=statTitle>Kills</div>
+                    <div id=statVal>${d.ctg.total_kills}</div>
+                </div>
+                <div id=stat class=ctgDeath>
+                    <div id=statTitle>Deaths</div>
+                    <div id=statVal>${d.ctg.total_deaths}</div>
+                </div>
+                <div id=stat class=ctgKdr>
+                    <div id=statTitle>K/D</div>
+                    <div id=statVal>${Math.fround(d.ctg.total_kills / d.ctg.total_deaths).toFixed(2)}</div>
+                </div>
+                <div id=stat class=ctgSpk>
+                    <div id=statTitle>SPK</div>
+                    <div id=statVal>${Math.fround((d.ctg.total_score - (d.ctg.total_captures * 250) - (d.ctg.total_games_won * 100)) / d.ctg.total_kills).toFixed(2)}</div>
+                </div>
+                <div id=stat class=ctgScore>
+                    <div id=statTitle>Score</div>
+                    <div id=statVal>${d.ctg.total_score}</div>
+                </div>
+                <div id=stat class=ctgCapture>
+                    <div id=statTitle>Captures</div>
+                    <div id=statVal>${d.ctg.total_captures}</div>
+                </div>
             </div >
-            <div id="bodyCTG">
-                <div id="bodyCTGTitle">Capture the Gem</div>
-                <div id="stat" class="ctgPlay">
-                    <div id="statTitle">Plays</div>
-                    <div id="statVal">${d.ctg.total_games_played}</div>
-                </div>
-                <div id="stat" class="ctgWinR">
-                    <div id="statTitle">Win Rate</div>
-                    <div id="statVal">${Math.fround(d.ctg.total_games_won / d.ctg.total_games_played).toFixed(2)}%</div>
-                </div>
-                <div id="stat" class="ctgKills">
-                    <div id="statTitle">Kills</div>
-                    <div id="statVal">${d.ctg.total_kills}</div>
-                </div>
-                <div id="stat" class="ctgDeath">
-                    <div id="statTitle">Deaths</div>
-                    <div id="statVal">${d.ctg.total_deaths}</div>
-                </div>
-                <div id="stat" class="ctgKdr">
-                    <div id="statTitle">K/D</div>
-                    <div id="statVal">${Math.fround(d.ctg.total_kills / d.ctg.total_deaths).toFixed(2)}</div>
-                </div>
-                <div id="stat" class="ctgSpk">
-                    <div id="statTitle">SPK</div>
-                    <div id="statVal">${Math.fround((d.ctg.total_score - (d.ctg.total_captures * 250) - (d.ctg.total_games_won * 100)) / d.ctg.total_kills)}</div>
-                </div>
-                <div id="stat" class="ctgScore">
-                    <div id="statTitle">Score</div>
-                    <div id="statVal">9999999</div>z
-                </div>
-                <div id="stat" class="ctgCapture">
-                    <div id="statTitle">Captures</div>
-                    <div id="statVal">9999999</div>
-                </div>
-            </div>
-            <div id="foot">
-                <div id="accGen">Account Since : 2024-Jan-22</div>
-                <div id="vvcName">Vanced Voxiom Client</div>
-            </div>
-        </div > `
+    <div id=foot>
+        <div id=accGen>Account Since :${new Date(d.creation_time).getFullYear() + "-" + Math.floor(new Date(d.creation_time).getMonth() + 1) + "-" + new Date(d.creation_time).getDate()}</div>
+        <div id=vvcName>Vanced Voxiom Client v${version}</div>
+    </div >
+</div > `
         })
     }
 }
@@ -316,7 +466,7 @@ exports.settingTool = class {
         log.info(id, value)
         switch (id) {
             case "customBG":
-                document.getElementById("customBgCss").innerText = `.bNczYf{ background- image: url("${value == "" ? setting.customBackGround.default : value = null ? setting.customBackGround.default : value}")}.crZZWp{ content: url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")} ") } `
+                document.getElementById("customBgCss").innerText = `.bNczYf{ background - image: url("${value == "" ? setting.customBackGround.default : value = null ? setting.customBackGround.default : value}") }.crZZWp{ content: url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")} ") } `
                 break;
             case "customLogo":
                 document.getElementById("customBgCss").innerText = `.bNczYf{ background - image: url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}") }.crZZWp{ content: url("${value == "" || value == null ? setting.customGameLogo.default : value}") } `;;
@@ -356,13 +506,13 @@ exports.settingTool = class {
                         break;
                     case "text":
                         console.log(config.get("cssTextarea"))
-                        document.body.insertAdjacentHTML("afterbegin", `< style id = "customCSS" > ${config.get("cssTextarea") != null ? config.get("cssTextarea") : ""}</style > `)
+                        document.body.insertAdjacentHTML("afterbegin", `<style id="customCSS"> ${config.get("cssTextarea") != null ? config.get("cssTextarea") : ""}</style> `)
                         break
                     case "localfile":
-                        document.body.insertAdjacentHTML("afterbegin", `< link rel = "stylesheet" id = "customCSS" href = "vvc://${config.get("cssLocal") != null ? config.get("cssLocal") : ""}" > `)
+                        document.body.insertAdjacentHTML("afterbegin", `<link rel="stylesheet" id="customCSS" href= "vvc://${config.get("cssLocal") != null ? config.get("cssLocal") : ""}"> `)
                         break;
                     case "online":
-                        document.body.insertAdjacentHTML("afterbegin", `< style id = "customCSS" > @import url('${config.get("cssUrl") != null ? config.get("cssUrl") : ""}');</style > `)
+                        document.body.insertAdjacentHTML("afterbegin", `<style id="customCSS" > @import url('${config.get("cssUrl") != null ? config.get("cssUrl") : ""}');</style> `)
                         break;
                 };
                 break;
@@ -512,5 +662,34 @@ exports.settingTool = class {
         document.getElementById("joinInput").value != null ? location.href = document.getElementById("joinInput").value : "";
         document.getElementById("joinInput").value != null ? location.reload() : ""
     };
-
+    genCanvas() {
+        const genC = async () => {
+            await html2canvas(document.getElementById("profileBox"), {
+                // height: 570,
+                // width: 830,
+                backgroundColor: null,
+                useCORS: true,
+                x: 0,
+                y: 0
+            }).then((canvas) => {
+                canvas.setAttribute("style", "display:none")
+                canvas.setAttribute("id", "pfpCanvas")
+                document.body.appendChild(canvas)
+            }).then(() => {
+                const now = new Date();
+                const month = ('0' + (now.getMonth() + 1)).slice(-2);
+                const date = ('0' + now.getDate()).slice(-2);
+                const hours = ('0' + now.getHours()).slice(-2);
+                const minutes = ('0' + now.getMinutes()).slice(-2);
+                const seconds = ('0' + now.getSeconds()).slice(-2);
+                const formattedDateTime = `${month}${date}${hours}${minutes}${seconds}`;
+                let canvas = document.getElementById("pfpCanvas")
+                let link = document.createElement("a")
+                link.href = canvas.toDataURL("image/png")
+                link.download = "profile" + formattedDateTime + ".png"
+                link.click()
+            })
+        }
+        genC()
+    }
 };

@@ -24,3 +24,6 @@ svv
 // 10:"Total Chunks Loaded: 408"
 // 11:"Latency: 86ms"
 // 12:"Download: 290.51bps Upload: 472.33bps"
+
+
+new Date(1602683517999).getFullYear() +"-"+ Math.floor(new Date(1602683517999).getMonth()+1) +"-"+new Date(1602683517999).getDate()

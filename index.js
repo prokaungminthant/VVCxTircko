@@ -163,6 +163,9 @@ function createMainWindow() {
     localShortcut.register(mainWindow, "F8", () => {
         mainWindow.send("F8")
     })
+    localShortcut.register(mainWindow, "F10", () => {
+        mainWindow.send("F10")
+    })
     localShortcut.register(mainWindow, "F11", () => {
         const isFullScreen = mainWindow.isFullScreen();
         config.set('Fullscreen', !isFullScreen);
@@ -188,11 +191,11 @@ function createMainWindow() {
         mainWindow.send("url", url)
     })
     //リソーススワッパーここから
+    let rejectRequest = rejectJson()
+    let regPattern = rejectRequest.reject.map(pattern => new RegExp(pattern))
+    let files = swapper()
+    let json = swapperJson()
     mainWindow.webContents.session.webRequest.onBeforeRequest((details, callback) => {
-        let rejectRequest = rejectJson()
-        let regPattern = rejectRequest.reject.map(pattern => new RegExp(pattern))
-        let files = swapper()
-        let json = swapperJson()
         if (config.get("resourceSwapperEnable") && files.includes(json[details.url])) {
             callback({ redirectURL: "vvc://" + path.join(app.getPath('documents'), '/VVC-Swapper', json[details.url]) });
             log.info(json[details.url])

@@ -8,13 +8,16 @@ const config = new store()
 
 //ページロード時のあれこれを
 document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll("div").forEach((node) => {
+        console.log(node)
+    })
     //url変更を検知
     tools.initSettingData()
     if (location.origin === "https://voxiom.io") {
         if (location.href === "https://voxiom.io/auth/refresh/#" || location.href === "https://voxiom.io/auth/refresh") {
-            location.href === "https://voxiom.io/"
-            location.reload()
+            location.href = "https://voxiom.io/"
         } else if (location.href === "https://voxiom.io/stats") {
+            document.body.insertAdjacentHTML("beforeend", `<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>`)
         }
         try {
             tools.setupClientSetting();
@@ -53,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     tools.menuBarAddition()
                     document.querySelectorAll(".fXzVCi")[0] ? document.querySelectorAll(".fXzVCi")[0].innerHTML = `<div id=login><a class=discord href=http://voxiom.io/auth/discord2 id=loginBtn target=_self>Sign in with Discord</a> <a class=google href=http://voxiom.io/auth/google2 id=loginBtn target=_self>Sign in with Google</a> <a class=facebook href=http://voxiom.io/auth/facebook2 id=loginBtn target=_self>Sign in with Facebook</a></div><style>#loginBtn{text-align:center;padding:10px;text-decoration:none;color:#fff;margin-bottom:10px;width:200px;display:flex;-webkit-box-align:center;align-items:center;cursor:pointer}.discord{background-color:#7289da}.google{background-color:#ea4435}.facebook{background-color:#4967aa}.discord:hover{background-color:#8da6ff}.google:hover{background-color:#ff6a5c}.facebook:hover{background-color:#658be2}</style>` : "";
                     if (location.href === "https://voxiom.io/stats") {
-                        console.log("stats!!!")
                         tools.statsGen()
                     }
                 } else if (addedNode.id.includes("voxiom-io")) {
@@ -90,4 +92,6 @@ ipcRenderer.on("F6", () => {
 ipcRenderer.on("F8", () => {
     window.tool.openMatchList()
 })
-ipcRenderer.on("")
+ipcRenderer.on("F10", () => {
+    window.location.href = "https://voxiom.io/"
+})
