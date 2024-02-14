@@ -71,11 +71,11 @@ exports.clientTools = class {
         return dom
     };
     initDoms() {
-        let dom1 = `<style id="customBgCss">.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.crZZWp{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")}")}</style>`;
+        let dom1 = `<style id="customBgCss">.bNczYf{background-image:url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}")}.kdQfwP{content:url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")}")}</style>`;
         document.body.insertAdjacentHTML("afterbegin", dom1);
         let dom2 = `<div style="top:0;left:0;position:fixed;text-shadow:0 0 3px black;z-index:1">VVC v${version}</div>`
         document.body.insertAdjacentHTML("afterbegin", dom2)
-        let dom3 = `<style id="freeGem">.etzJfT{display:${config.get("disableGemPopup") !== true ? "unset" : "none !important"}}</style>`
+        let dom3 = `<style id="freeGem">.isjMgk{display:${config.get("disableGemPopup") !== true ? "unset" : "none !important"}}</style>`
         document.body.insertAdjacentHTML("afterbegin", dom3);
         try {
             let crosshair = `<img id="crosshairImg" style="width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default}px;height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default}px;" src="${config.get("customCrosshairImage") != null ? config.get("customCrosshairImage") : setting.customCrosshairImage.default}" class="${config.get("customCrosshairCheckbox") ? "" : "hide"}" ></img>`
@@ -102,7 +102,7 @@ exports.clientTools = class {
         }
     };
     initTitleText() {
-        document.querySelector(".ikfQiC").innerText = config.get("customGameLogoText") !== null ? config.get("customGameLogoText") : setting.customGameLogoText.default
+        document.querySelector(".JSRtQ").innerText = config.get("customGameLogoText") !== null ? config.get("customGameLogoText") : setting.customGameLogoText.default
     };
     sendWebhook(node) {
         if (config.get("enableCtW")) {
@@ -176,7 +176,14 @@ exports.clientTools = class {
             let menuBar = document.getElementsByClassName("cPFhJE")[0]
             let dom = `<a class="sc-gulkZw HHuq" id="stats" href="/stats">Stats</a>`
             let dom2 = `<a class="sc-gulkZw HHuq active" id="stats" href="/stats">Stats</a>`
-            menuBar.insertAdjacentHTML("beforeend", location.href === "https://voxiom.io/stats" ? dom2 : dom)
+            if (location.href === "https://voxiom.io/stats") {
+                menuBar.insertAdjacentHTML("beforeend", dom2)
+            } else if (document.getElementById("stats")) {
+                log.info("id:stat is exit")
+            } else {
+                menuBar.insertAdjacentHTML("beforeend", dom)
+            }
+
             log.info("STAT GEN")
         }
     }
