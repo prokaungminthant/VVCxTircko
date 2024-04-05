@@ -1,0 +1,40 @@
+@font-face {
+    font-family: "customFont";
+    src: url(./Dhurjati-Regular.ttf);
+}
+
+html,
+body {
+    margin: unset;
+    padding: unset;
+    background: transparent;
+    color: white;
+    overflow: hidden;
+    background: transparent;
+}
+
+*,
+* * {
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    font-family: "customFont";
+}
+
+img {
+    background-color: transparent;
+}
+
+div#updateStat {
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    font-size: 15px;
+}
+
+div#appVer {
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    font-size: 15px;
+}

@@ -13,7 +13,7 @@ module.exports = {
         type: 'text',
         val: config.get('customBG'),
         restart: false,
-        default: 'https://namekujilsds.github.io/VVC/vvc-bg.png'
+        default: 'https://cdn.discordapp.com/attachments/983598732505411595/1181099378149175358/image_13_1.png'
     },
     customGameLogo: {
         cat: 'Menu',
@@ -22,7 +22,7 @@ module.exports = {
         type: 'text',
         val: config.get('customLogo'),
         restart: false,
-        default: 'https://namekujilsds.github.io/VVC/vvc-logo.png'
+        default: 'https://cdn.discordapp.com/attachments/983598732505411595/1181131421830623312/image_3-min.png'
     },
     customGameLogoText: {
         cat: 'Menu',
@@ -49,7 +49,7 @@ module.exports = {
         type: 'text',
         val: config.get('customCrosshairImage'),
         restart: false,
-        default: 'https://namekujilsds.github.io/VVC/vvc-crosshair.png'
+        default: 'https://cdn.discordapp.com/attachments/616206938048561152/996062796892614716/KovaaK-Crosshair_1.png'
     },
     crosshairSizeX: {
         cat: 'Crosshair',
@@ -148,6 +148,15 @@ module.exports = {
         restart: false,
         default: 'ffa'
     },
+    disableGemPopup: {
+        cat: 'Mini Tool',
+        id: 'disableGemPopup',
+        title: 'Disable FreeGem popup',
+        type: 'checkbox',
+        val: config.get('disableGemPopup'),
+        restart: false,
+        default: false,
+    },
     enableChatToWebhook: {
         cat: 'Mini Tool',
         id: 'enableCtW',
@@ -182,52 +191,5 @@ module.exports = {
         val: config.get('smartInfo'),
         restart: false,
         default: true,
-    },
-    angleBackend:{
-        cat:'Advanced Setting',
-        id:'angleType',
-        title :'ANGLE graphics backend',
-        type:'select',
-        val:config.get('angleType'),
-        options:{
-            default:'default',
-            openGl:'OpenGL',
-            D3D9:'D3D9',
-            D3D11:'D3D11',
-            D3D11onD12:'D3D11onD12'
-        },
-        default: 'default'
-    },
-    unlimitedFps:{
-        cat:'Advanced Setting',
-        id:'unlimitedFPS',
-        title:'Unlimited FPS',
-        type: 'checkbox',
-        val:config.get('unlimitedFPS'),
-        default:true
-    },
-    webgl2Context:{
-        cat:'Advanced Setting',
-        id:'webgl2Context',
-        title:'Enable WebGL2 Context',
-        type: 'checkbox',
-        val:config.get('webgl2Context'),
-        default:true
-    },
-    inProcessGpu:{
-        cat:'Advanced Setting',
-        id:'inProcessGpu',
-        title :'In-process-gpu',
-        type:'checkbox',
-        val:config.get('inProcessGpu'),
-        default:true
-    },
-    acceleratedCanvas:{
-        cat:'Advanced Setting',
-        id:'acceleratedCanvas',
-        title:'Enable Accelerated Canvas',
-        type:'checkbox',
-        val:config.get('acceleratedCanvas'),
-        default:true
     }
 }

@@ -18,7 +18,7 @@ exports.clientTools = class {
         // log.info(val.id, config.get(val.id))
         switch (val.type) {
             case "checkbox":
-                return `<input id="settingCheckbox" type="checkbox" onclick="window.tool.setSetting('${val.id}',this.checked)"${config.get(val.id) ? 'checked' : ''}>`;
+                return `<input id="settingCheckbox" type="checkbox" onclick="window.tool.setSetting('${val.id}',this.checked)"${config.get(val.id), val.default ? 'checked' : ''}>`;
             case "text":
                 return `<input id="settingTextbox" type="text" onInput="window.tool.setSetting('${val.id}',this.value)" value="${config.get(val.id) != null ? config.get(val.id) : val.default}" > `;
             case "select":
@@ -102,7 +102,6 @@ exports.clientTools = class {
         }
     };
     initTitleText() {
-        log.iofo("init title text")
         document.querySelector(".JSRtQ").innerText = config.get("customGameLogoText") !== null ? config.get("customGameLogoText") : setting.customGameLogoText.default
     };
     sendWebhook(node) {
@@ -174,9 +173,9 @@ exports.clientTools = class {
     }
     menuBarAddition() {
         if (document.getElementById("stat") == null) {
-            let menuBar = document.getElementsByClassName("oThQi")[0]
-            let dom = `<a class="sc-eZmenu fvxWae" id="stats" href="/stats">Stats</a>`
-            let dom2 = `<a class="sc-eZmenu fvxWae active" id="stats" href="/stats">Stats</a>`
+            let menuBar = document.getElementsByClassName("cPFhJE")[0]
+            let dom = `<a class="sc-gulkZw HHuq" id="stats" href="/stats">Stats</a>`
+            let dom2 = `<a class="sc-gulkZw HHuq active" id="stats" href="/stats">Stats</a>`
             if (location.href === "https://voxiom.io/stats") {
                 menuBar.insertAdjacentHTML("beforeend", dom2)
             } else if (document.getElementById("stats")) {
@@ -184,6 +183,7 @@ exports.clientTools = class {
             } else {
                 menuBar.insertAdjacentHTML("beforeend", dom)
             }
+
             log.info("STAT GEN")
         }
     }
@@ -473,13 +473,13 @@ exports.settingTool = class {
         log.info(id, value)
         switch (id) {
             case "customBG":
-                document.getElementById("customBgCss").innerText = `.bNczYf{ background-image: url("${value == "" ? setting.customBackGround.default : value = null ? setting.customBackGround.default : value}") }.crZZWp{ content: url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")} ") } `
+                document.getElementById("customBgCss").innerText = `.bNczYf{ background - image: url("${value == "" ? setting.customBackGround.default : value = null ? setting.customBackGround.default : value}") }.crZZWp{ content: url("${config.get("customLogo") == "" || config.get("customLogo") == null ? setting.customGameLogo.default : config.get("customLogo")} ") } `
                 break;
             case "customLogo":
-                document.getElementById("customBgCss").innerText = `.bNczYf{ background-image: url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}") }.kdQfwP{ content: url("${value == "" || value == null ? setting.customGameLogo.default : value}") } `;;
+                document.getElementById("customBgCss").innerText = `.bNczYf{ background - image: url("${config.get("customBG") == null || config.get("customBG") == "" ? setting.customBackGround.default : config.get("customBG")}") }.crZZWp{ content: url("${value == "" || value == null ? setting.customGameLogo.default : value}") } `;;
                 break;
             case "customGameLogoText":
-                document.querySelector(".JSRtQ").innerText = value
+                document.querySelector(".ikfQiC").innerText = value
                 break;
             case "customCrosshairCheckbox":
                 value ? document.getElementById('crosshair').classList.remove("hide") : document.getElementById('crosshair').classList.add("hide");
@@ -488,10 +488,10 @@ exports.settingTool = class {
                 document.getElementById("crosshairImg").setAttribute("src", value)
                 break;
             case "crosshairSizeX":
-                document.getElementById("crosshairImg").setAttribute("style", `width:${value != null ? value : setting.crosshairSizeX.default}px; height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default}px; `)
+                document.getElementById("crosshairImg").setAttribute("style", `width:${value != null ? value : setting.crosshairSizeX.default} px; height:${config.get("crosshairSizeY") != null ? config.get("crosshairSizeY") : setting.crosshairSizeY.default} px; `)
                 break;
             case "crosshairSizeY":
-                document.getElementById("crosshairImg").setAttribute("style", `width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default}px; height:${value != null ? value : setting.crosshairSizeY.default}px; `)
+                document.getElementById("crosshairImg").setAttribute("style", `width:${config.get("crosshairSizeX") != null ? config.get("crosshairSizeX") : setting.crosshairSizeX.default} px; height:${value != null ? value : setting.crosshairSizeY.default} px; `)
                 break;
             case "detectCrosshairSize":
                 let C = document.getElementById("crosshairImg")
@@ -499,7 +499,7 @@ exports.settingTool = class {
                 let Y = document.getElementById("crosshairImg").naturalHeight;
                 config.set("crosshairSizeX", X)
                 config.set("crosshairSizeY", Y)
-                C.setAttribute("style", `width:${X}px; height:${Y}px`);
+                C.setAttribute("style", `width:${X} px; height:${Y} px`);
                 document.getElementById("rangecrosshairSizeX").value = X
                 document.getElementById("rangecrosshairSizeY").value = Y
                 document.getElementById("numcrosshairSizeX").value = X
