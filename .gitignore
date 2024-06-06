@@ -1,4 +1,3 @@
 node_modules
 dist
-TOKEN.JSON
-electron-builder.env
+*.env

@@ -1,9 +1,10 @@
 const { ipcRenderer } = require("electron");
 
 document.addEventListener("DOMContentLoaded", () => {
-    ipcRenderer.invoke("appVer").then((version) => {
-        document.getElementById("appVer").innerText = `Vanced Voxiom Client v${version}`;
-    });
+    ipcRenderer.send("appVer")
+    ipcRenderer.on("appVerRe", (e, v) => {
+        document.getElementById("appVer").innerText = `Vanced Voxiom Client v${v}`;
+    })
     ipcRenderer.on('status', (e, v) => {
         document.getElementById("updateStat").innerText = v;
     })

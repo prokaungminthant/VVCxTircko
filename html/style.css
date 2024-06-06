@@ -1,0 +1,76 @@
+body {
+    margin: unset;
+    padding: unset;
+    background: #444;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    align-items: center;
+}
+
+input[type="url"] {
+    appearance: unset;
+    box-shadow: unset;
+    outline: unset;
+    border: unset;
+    background: transparent;
+    border-bottom: 1px #aaa solid;
+    color: white
+}
+
+input[type="checkbox"] {
+    appearance: unset;
+    width: 30px;
+    height: 30px;
+    transition: .2s;
+    transform: rotateX("0deg");
+
+}
+
+input[type="checkbox"]::before {
+    content: "cancel";
+    color: rgb(255, 141, 141);
+    position: relative;
+    font-family: 'Material Symbols Outlined';
+    font-size: 28px;
+    transition: .2s;
+}
+
+input[type="checkbox"]:checked {
+    appearance: unset;
+    width: 30px;
+    height: 30px;
+    transform: rotateX("360deg");
+}
+
+input[type="checkbox"]:checked::before {
+    content: "check_circle";
+    color: lime;
+    position: relative;
+    font-family: 'Material Symbols Outlined';
+    transition: .2s;
+
+}
+
+.sets {
+    width: 580px;
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-top: solid 1px #555;
+}
+
+.sets tr:nth-child(2n + 1) {
+    background: linear-gradient(90deg, transparent, #333, #333, #333, #333, transparent);
+}
+
+.sets tr:nth-child(2n) {
+    background: linear-gradient(90deg, transparent, #555, #555, #555, #555, transparent);
+}
+
+.sets th,
+.sets td {
+    padding: 10px;
+    border-bottom: solid 1px #555;
+}

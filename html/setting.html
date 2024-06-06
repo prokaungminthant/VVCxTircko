@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <h2>Settings</h2>
+    <div id="box">
+        <table class="sets">
+            <thead>
+            <tbody>
+                <!-- <tr>
+                    <th>Crosshair</th>
+                    <td>
+                        <input type="url" name="crosshair" id="crosshair"
+                            onchange="window.vvc.setting(this.id, this.value)">
+                    </td>
+                </tr> -->
+                <tr>
+                    <th>Unlimited FPS</th>
+                    <td>
+                        <input type="checkbox" name="unlimitedFps" id="unlimitedFps"
+                            onchange="window.vvc.setting(this.id, this.checked)">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Resource Swapper</th>
+                    <td>
+                        <input type="checkbox" name="swapper" id="swapper"
+                            onchange="window.vvc.setting(this.id, this.checked)">
+                    </td>
+                </tr>
+                <tr>
+                    <th>AngleBackendType</th>
+                    <td>
+                        <select type="select" name="angleType" id="angleType"
+                            onchange="window.vvc.setting(this.id, this.value)">
+                            <option value="default">Default</option>
+                            <option value="opengl">OpenGL</option>
+                            <option value="Vulkan">Vulkan</option>
+                            <option value="D3D9l">D3D9</option>
+                            <option value="D3D11">D3D11</option>
+                            <option value="D3D11onD12">D3D11onD12</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
