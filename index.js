@@ -69,6 +69,7 @@ function createSplash() {
         show: false,
         transparent: true,
         alwaysOnTop: true,
+        icon: "./icon.ico",
         webPreferences: {
             preload: path.join(__dirname, './js/pre-splash.js')
         }
@@ -137,7 +138,8 @@ const createMain = () => {
         height: 1920,
         width: 1080,
         show: false,
-        fullscreen: true,
+        icon: "./icon.ico",
+        fullscreen: config.get("Fullscreen", true),
         resizable: true,
         webPreferences: {
             preload: path.join(__dirname, "./js/pre-game.js"),
@@ -149,6 +151,14 @@ const createMain = () => {
     })
     shortcut.register(mainWindow, "F1", () => {
         settingDisplay("open")
+    })
+    shortcut.register(mainWindow, "F5", () => {
+        mainWindow.webContents.send("reload")
+    })
+    shortcut.register(mainWindow, 'F11', () => {
+        const isFullScreen = mainWindow.isFullScreen()
+        config.set('Fullscreen', !isFullScreen)
+        mainWindow.setFullScreen(!isFullScreen)
     })
     shortcut.register(mainWindow, "F12", () => {
         mainWindow.webContents.openDevTools()
@@ -162,9 +172,9 @@ const createMain = () => {
         if (!mainWindow.isDestroyed()) {
             mainWindow.destroy()
         } try { settingWindow.close() } catch (e) { }
-        // try { crosshairWindow.close() } catch (e) { }
     });
     Menu.setApplicationMenu(null)
+    //リソーススワップするやつ
     mainWindow.webContents.session.webRequest.onBeforeRequest(
         (details, callback) => {
             if (
@@ -185,6 +195,10 @@ const createMain = () => {
             }
         }
     )
+    mainWindow.webContents.setWindowOpenHandler((e) => {
+        console.log(e.url)
+        mainWindow.loadURL(e.url);
+    });
 }
 
 //設定ウィンドウを開くやつ
@@ -193,17 +207,15 @@ const settingDisplay = (v) => {
         settingWindow.show()
     } else {
         settingWindow = new BrowserWindow({
-            height: 800,
+            height: 400,
             width: 600,
+            icon: "./icon.ico",
             webPreferences: {
                 preload: path.join(__dirname, "./js/pre-setting.js"),
             }
         })
     }
     settingWindow.loadFile(path.join(__dirname, "./html/setting.html"))
-    shortcut.register(mainWindow, "F1", () => {
-        settingDisplay("close")
-    })
     shortcut.register(settingWindow, "F12", () => {
         settingWindow.webContents.openDevTools()
     })
