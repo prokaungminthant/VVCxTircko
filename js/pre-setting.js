@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require("electron");
+const webFrame = require('electron').webFrame;
 //n: name
 //v: value
 

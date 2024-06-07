@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require("electron")
+const webFrame = require("electron").webFrame
 
 ipcRenderer.on("setSetting", (e, n, v) => {
     console.log(e, n, v)
@@ -21,4 +22,4 @@ const processSettedValue = (n, v) => {
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadSettings(settingNames))
+document.addEventListener("DOMContentLoaded", webFrame.executeJavaScript("console.log('a')"))
