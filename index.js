@@ -143,6 +143,7 @@ const createMain = () => {
         resizable: true,
         webPreferences: {
             preload: path.join(__dirname, "./js/pre-game.js"),
+            worldSafeExecuteJavaScript: false,
         }
     })
     mainWindow.loadURL("https://voxiom.io")
@@ -199,7 +200,30 @@ const createMain = () => {
         console.log(e.url)
         mainWindow.loadURL(e.url);
     });
+
 }
+
+const swapperJson = () => {
+    const filePath = swapper().includes('swapperConfig.json')
+        ? path.join(app.getPath('documents'), '/VVC-Swapper', 'swapperConfig.json')
+        : path.join(__dirname, 'js/swapperConfig.json')
+    try {
+        let data = fs.readFileSync(filePath, 'utf8')
+        const jsonContent = JSON.parse(data)
+        return jsonContent
+    } catch (e) { }
+}
+const swapper = () => {
+    const swapperPath = path.join(app.getPath('documents'), '/VVC-Swapper')
+    if (!fs.existsSync(swapperPath)) {
+        fs.mkdirSync(swapperPath, { recursive: true })
+    }
+    const fileNames = fs.readdirSync(swapperPath)
+    return fileNames
+}
+let files = swapper()
+let json = swapperJson()
+
 
 //設定ウィンドウを開くやつ
 const settingDisplay = (v) => {
@@ -207,11 +231,12 @@ const settingDisplay = (v) => {
         settingWindow.show()
     } else {
         settingWindow = new BrowserWindow({
-            height: 400,
-            width: 600,
+            height: 800,
+            width: 620,
             icon: "./icon.ico",
             webPreferences: {
                 preload: path.join(__dirname, "./js/pre-setting.js"),
+
             }
         })
     }
@@ -236,30 +261,35 @@ ipcMain.on("setting", (e, n, v) => {
     //mainWindowに送信している
     mainWindow.webContents.send("setSetting", n, v)
 })
-
 //設定を読み込む
 ipcMain.on("loadSettings", (e, n) => {
     //設定を読み出し
-    let v = config.get(n)
+    let v = config.get(n, true)
     //読みだした設定をsettingWindowに送信
     e.sender.send("loadedSetting", n, v)
 })
-
 //アプリのバージョンを返す
 ipcMain.on("appVer", e => {
     e.sender.send("appVerRe", app.getVersion())
     console.log("sender\n", e.sender)
 })
+//ゲームに参加する
 ipcMain.on("joinGame", (e, v) => {
     console.log(e, v)
     mainWindow.loadURL(v);
     settingWindow.hide()
 })
+//ゲームのリンクを取得する
 ipcMain.handle("invLink", e => {
     console.log(mainWindow.webContents.getURL())
     return mainWindow.webContents.getURL()
 })
-
+ipcMain.handle("getSetting", (e, n) => {
+    console.log(e)
+    console.log(n)
+    console.log(config.get(n, true))
+    return config.get(n, true)
+})
 
 //いつもの
 const initFlags = () => {
@@ -284,31 +314,8 @@ const initFlags = () => {
     app.commandLine.appendSwitch("enable-pointer-lock-options")
     app.commandLine.appendSwitch("enable-heavy-ad-intervention")
 }
+
 initFlags()
-
-//リソーススワッパーここから
-
-const swapperJson = () => {
-    const filePath = swapper().includes('swapperConfig.json')
-        ? path.join(app.getPath('documents'), '/VVC-Swapper', 'swapperConfig.json')
-        : path.join(__dirname, 'js/swapperConfig.json')
-    try {
-        let data = fs.readFileSync(filePath, 'utf8')
-        const jsonContent = JSON.parse(data)
-        return jsonContent
-    } catch (e) { }
-}
-const swapper = () => {
-    const swapperPath = path.join(app.getPath('documents'), '/VVC-Swapper')
-    if (!fs.existsSync(swapperPath)) {
-        fs.mkdirSync(swapperPath, { recursive: true })
-    }
-    const fileNames = fs.readdirSync(swapperPath)
-    return fileNames
-}
-let files = swapper()
-let json = swapperJson()
-
 app.whenReady().then(() => {
     createSplash()
 })
