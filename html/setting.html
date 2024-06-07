@@ -21,7 +21,9 @@
             <thead>
             <tbody>
                 <tr>
-                    <th>Custom CSS</th>
+                    <th>Custom CSS <br>
+                        <!-- <div class="req">*Require reload</div> -->
+                    </th>
                     <td>
                         <textarea type="textarea" name="customCSS" id="customCSS"
                             onchange="window.vvc.setting(this.id, this.value)">
@@ -29,21 +31,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Unlimited FPS</th>
+                    <th>Unlimited FPS<br>
+                        <div class="req">*Require restart</div>
+                    </th>
                     <td>
                         <input type="checkbox" name="unlimitedFps" id="unlimitedFps"
                             onchange="window.vvc.setting(this.id, this.checked)">
                     </td>
                 </tr>
                 <tr>
-                    <th>Resource Swapper</th>
+                    <th>Resource Swapper<br>
+                        <div class="req">*Require restart</div>
+                    </th>
                     <td>
                         <input type="checkbox" name="swapper" id="swapper"
                             onchange="window.vvc.setting(this.id, this.checked)">
                     </td>
                 </tr>
                 <tr>
-                    <th>AngleBackendType</th>
+                    <th>AngleBackendType<br>
+                        <div class="req">*Require restart</div>
+                    </th>
                     <td>
                         <select type="select" name="angleType" id="angleType"
                             onchange="window.vvc.setting(this.id, this.value)">
@@ -70,6 +78,14 @@
                         <input type="text" name="invLink" id="invLink" onfocus="this.select()" disabled>
                     </td>
                 </tr>
+                <tr>
+                    <th>
+                        Reload Page
+                    </th>
+                    <td>
+                        <input type="button" value="reload" id="reload" onclick="window.vvc.reload()">
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -79,9 +95,6 @@
             console.log(url);
             window.vvc.joinGame(url);
         }
-        window.vvc.on("invLink", (e, v) => {
-            console.log(e, v)
-        })
         document.querySelector('#inv').addEventListener('click', async () => {
             const b = await window.vvc.invite()
             const v = b

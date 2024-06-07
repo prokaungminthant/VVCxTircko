@@ -250,8 +250,7 @@ const settingDisplay = (v) => {
             e.preventDefault();
             settingWindow.hide();
         }
-    }
-    )
+    })
 }
 
 //設定を保存したりpre-game.jsに送信するためのスクリプト
@@ -271,24 +270,26 @@ ipcMain.on("loadSettings", (e, n) => {
 //アプリのバージョンを返す
 ipcMain.on("appVer", e => {
     e.sender.send("appVerRe", app.getVersion())
-    console.log("sender\n", e.sender)
+    // console.log("sender\n", e.sender)
 })
 //ゲームに参加する
 ipcMain.on("joinGame", (e, v) => {
-    console.log(e, v)
+    // console.log(e, v)
     mainWindow.loadURL(v);
     settingWindow.hide()
 })
 //ゲームのリンクを取得する
 ipcMain.handle("invLink", e => {
-    console.log(mainWindow.webContents.getURL())
+    // console.log(mainWindow.webContents.getURL())
     return mainWindow.webContents.getURL()
 })
 ipcMain.handle("getSetting", (e, n) => {
-    console.log(e)
-    console.log(n)
-    console.log(config.get(n, true))
+    // console.log(config.get(n, true))
     return config.get(n, true)
+})
+//リロードとリスタート
+ipcMain.on("reload", e => {
+    mainWindow.webContents.send("reload")
 })
 
 //いつもの

@@ -3,7 +3,7 @@ const webFrame = require('electron').webFrame;
 //n: name
 //v: value
 
-const settingNames = ["crosshair", "unlimitedFps", "swapper", "angleType"]
+const settingNames = ["crosshair", "unlimitedFps", "swapper", "angleType", "customCSS"]
 
 //ウェブページにwindow.vvcから始まる関数を登録している
 contextBridge.exposeInMainWorld("vvc", {
@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld("vvc", {
     setting: (n, v) => ipcRenderer.send("setting", n, v),
     joinGame: (v) => ipcRenderer.send("joinGame", v),
     invite: async () => await ipcRenderer.invoke("invLink"),
+    reload: () => ipcRenderer.send("reload"),
 })
 
 ipcRenderer.on("loadedSetting", (e, n, v) => {
@@ -29,6 +30,8 @@ const loads = (n, v) => {
         case ("url"):
             return document.getElementById(n).value = v
         case ("select"):
+            return document.getElementById(n).value = v
+        case ("textarea"):
             return document.getElementById(n).value = v
         case (undefined):
             return (console.log("undefined"))

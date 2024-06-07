@@ -1,13 +1,18 @@
 const { contextBridge, ipcRenderer } = require("electron")
 const webFrame = require("electron").webFrame
-
 contextBridge.exposeInMainWorld("vvc", {
     getSetting: (n) => { console.log(ipcRenderer.invoke("getSetting", n)) }
 })
 
-ipcRenderer.on("setSetting", (e, n, v) => {
-    console.log(e, n, v)
-    processSettedValue(n, v)
+let cssNum = 0;
+ipcRenderer.on("setSetting", async (e, n, v) => {
+    switch (n) {
+        case ("customCSS"):
+            cssDelete()
+            cssNum++
+            webFrame.insertCSS(v)
+            break
+    }
 })
 
 ipcRenderer.on("reload", v => {
@@ -15,8 +20,12 @@ ipcRenderer.on("reload", v => {
 })
 
 const cssLoad = async () => {
-    let v = await ipcRenderer.invoke("getSetting", "css")
-    webFrame.insertCSS(v)
+    let v = await ipcRenderer.invoke("getSetting", "customCSS")
+    webFrame.insertCSS(v, "Namekuji")
+    cssNum++
+}
+const cssDelete = () => {
+    webFrame.removeInsertedCSS(String(cssNum))
 }
 
 document.addEventListener("DOMContentLoaded", cssLoad())
