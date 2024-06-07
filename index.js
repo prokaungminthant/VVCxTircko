@@ -248,7 +248,19 @@ ipcMain.on("loadSettings", (e, n) => {
 //アプリのバージョンを返す
 ipcMain.on("appVer", e => {
     e.sender.send("appVerRe", app.getVersion())
+    console.log("sender\n", e.sender)
 })
+ipcMain.on("joinGame", (e, v) => {
+    console.log(e, v)
+    mainWindow.loadURL(v);
+    settingWindow.hide()
+})
+ipcMain.handle("invLink", e => {
+    console.log(mainWindow.webContents.getURL())
+    return mainWindow.webContents.getURL()
+})
+
+
 //いつもの
 const initFlags = () => {
     const flaglist = [

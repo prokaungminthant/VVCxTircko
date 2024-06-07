@@ -20,13 +20,6 @@
         <table class="sets">
             <thead>
             <tbody>
-                <!-- <tr>
-                    <th>Crosshair</th>
-                    <td>
-                        <input type="url" name="crosshair" id="crosshair"
-                            onchange="window.vvc.setting(this.id, this.value)">
-                    </td>
-                </tr> -->
                 <tr>
                     <th>Unlimited FPS</th>
                     <td>
@@ -55,9 +48,38 @@
                         </select>
                     </td>
                 </tr>
+                <tr>
+                    <th>Join game</th>
+                    <td>
+                        <input type="url" name="joinUrl" id="joinUrl">
+                        <input type="button" id="joinGame" value="join" onclick="joinGame()">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Invite link</th>
+                    <td>
+                        <input type="button" id="inv" value="Get Link">
+                        <input type="text" name="invLink" id="invLink" onfocus="this.select()" disabled>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
+    <script>
+        const joinGame = () => {
+            let url = document.getElementById("joinUrl").value;
+            console.log(url);
+            window.vvc.joinGame(url);
+        }
+        window.vvc.on("invLink", (e, v) => {
+            console.log(e, v)
+        })
+        document.querySelector('#inv').addEventListener('click', async () => {
+            const buff = await window.vvc.invite()
+            const v = buff
+            document.getElementById("invLink").value = v
+        })
+    </script>
 </body>
 
 </html>

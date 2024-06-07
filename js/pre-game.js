@@ -9,6 +9,7 @@ let settingNames = ["crosshair"]
 ipcRenderer.on("reload", v => {
     location.reload()
 })
+
 const processSettedValue = (n, v) => {
     switch (n) {
         case ("crosshair"):

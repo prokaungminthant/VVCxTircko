@@ -1,6 +1,6 @@
 {
   "name": "vanced-voxiom-client",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Recoded version of VancedVoxiomClient.  ",
   "main": "index.js",
   "devDependencies": {
