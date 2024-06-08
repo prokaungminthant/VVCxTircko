@@ -1,7 +1,6 @@
 {
   "name": "vanced-voxiom-client",
-  "productName": "Vanced Voxiom Client - Reloaded",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "Unofficial client to play Voxiom.io more conveniently",
   "main": "index.js",
   "devDependencies": {
