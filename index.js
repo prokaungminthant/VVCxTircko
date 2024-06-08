@@ -142,9 +142,10 @@ const createMain = () => {
         fullscreen: config.get("Fullscreen", true),
         resizable: true,
         webPreferences: {
+            backgroundThrottling: false,
             preload: path.join(__dirname, "./js/pre-game.js"),
             worldSafeExecuteJavaScript: false,
-        }
+        },
     })
     mainWindow.loadURL("https://voxiom.io")
     mainWindow.webContents.on('will-prevent-unload', e => {
@@ -170,7 +171,9 @@ const createMain = () => {
         // createCrosshair()
     })
     mainWindow.on('focus', () => {
-        settingWindow.hide()
+        if (settingWindow) {
+            settingWindow.hide()
+        }
     })
     mainWindow.on('close', () => {
         if (!mainWindow.isDestroyed()) {
@@ -232,7 +235,9 @@ let json = swapperJson()
 const settingDisplay = (v) => {
     if (settingWindow) {
         settingWindow.show()
-    } else {
+        console.log("settingWindow exist")
+    } else if (!settingWindow) {
+        console.log("settingWindow null")
         settingWindow = new BrowserWindow({
             height: 800,
             width: 620,
