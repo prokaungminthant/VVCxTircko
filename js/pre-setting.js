@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld("vvc", {
     joinGame: (v) => ipcRenderer.send("joinGame", v),
     invite: async () => await ipcRenderer.invoke("invLink"),
     reload: () => ipcRenderer.send("reload"),
+    open: (v) => ipcRenderer.send("openLink", v)
 })
 
 ipcRenderer.on("loadedSetting", (e, n, v) => {

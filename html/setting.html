@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VVC - Settings</title>
+    <title>Vanced Voxiom Client - Setting</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <h2>Settings</h2>
+    <h2>Vanced Voxiom Settings</h2>
     <div id="box">
         <table class="sets">
             <thead>
@@ -68,7 +68,7 @@
                     <th>Join game</th>
                     <td>
                         <input type="url" name="joinUrl" id="joinUrl">
-                        <input type="button" id="joinGame" value="join" onclick="joinGame()">
+                        <input type="button" id="joinGame" value="Join" onclick="joinGame()">
                     </td>
                 </tr>
                 <tr>
@@ -78,16 +78,24 @@
                         <input type="text" name="invLink" id="invLink" onfocus="this.select()" disabled>
                     </td>
                 </tr>
-                <tr>
-                    <th>
-                        Reload Page
-                    </th>
-                    <td>
-                        <input type="button" value="reload" id="reload" onclick="window.vvc.reload()">
-                    </td>
+                </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div id="openLinks">
+        <input type="button" value="OPEN Voxiom.io" onclick="window.vvc.openLink('voxiom')">
+        <div id="loginner">
+
+            <input type="button" value="Login with Google" onclick="window.vvc.openLink('logGoogle')">
+            <input type="button" value="Login with Discord" onclick="window.vvc.openLink('logDiscord')">
+            <input type="button" value="Login with Facebook" onclick="window.vvc.openLink('logFacebook')">
+        </div>
+        <div id="adder">
+            <input type="button" value="Add Google Account" onclick="window.vvc.openLink('addGoogle')">
+            <input type="button" value="Open Discord" onclick="window.vvc.openLink('addDiscord')">
+            <input type="button" value="Open Facebook" onclick="window.vvc.openLink('addFacebook')">
+        </div>
     </div>
     <script>
         const joinGame = () => {

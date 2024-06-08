@@ -148,6 +148,7 @@ const createMain = () => {
         },
     })
     mainWindow.loadURL("https://voxiom.io")
+    mainWindow.setTitle("Vanced Voxiom Client v" + app.getVersion())
     mainWindow.webContents.on('will-prevent-unload', e => {
         e.preventDefault()
     })
@@ -169,6 +170,9 @@ const createMain = () => {
         mainWindow.show()
         splashWindow.destroy()
         // createCrosshair()
+    })
+    mainWindow.on('page-title-updated', e => {
+        e.preventDefault()
     })
     mainWindow.on('focus', () => {
         if (settingWindow) {
@@ -244,7 +248,6 @@ const settingDisplay = (v) => {
             icon: "./icon.ico",
             webPreferences: {
                 preload: path.join(__dirname, "./js/pre-setting.js"),
-
             }
         })
     }
@@ -299,7 +302,32 @@ ipcMain.handle("getSetting", (e, n) => {
 ipcMain.on("reload", e => {
     mainWindow.webContents.send("reload")
 })
+ipcMain.on("openLink", (e, v) => {
+    switch (v) {
+        case ("voxiom"):
+            mainWindow.loadURL("https://voxiom.io/")
+            break;
+        case ("addGoogle"):
+            mainWindow.loadURL("https://accounts.google.com/v3/signin/identifier?flowName=GlifWebSignIn")
+            break;
+        case ("logGoogle"):
+            mainWindow.loadURL("https://voxiom.io/auth/google")
+            break;
+        case ("addDiscord"):
+            mainWindow.loadURL("https://discord.com/login")
+            break;
+        case ("logDiscord"):
+            mainWindow.loadURL("https://voxiom.io/auth/discord")
+            break;
+        case ("addFacebook"):
+            mainWindow.loadURL("https://facebook.com")
+            break;
+        case ("logFacebook"):
+            mainWindow.loadURL("https://voxiom.io/auth/facebook")
+            break;
 
+    }
+})
 //いつもの
 const initFlags = () => {
     const flaglist = [
