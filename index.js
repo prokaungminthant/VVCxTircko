@@ -169,6 +169,9 @@ const createMain = () => {
         splashWindow.destroy()
         // createCrosshair()
     })
+    mainWindow.on('focus', () => {
+        settingWindow.hide()
+    })
     mainWindow.on('close', () => {
         if (!mainWindow.isDestroyed()) {
             mainWindow.destroy()
