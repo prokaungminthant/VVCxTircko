@@ -1,10 +1,10 @@
 {
   "name": "vanced-voxiom-client",
-  "version": "3.0.9",
+  "version": "3.1.0",
   "description": "Unofficial client to play Voxiom.io more conveniently",
   "main": "index.js",
   "devDependencies": {
-    "electron": "^13.6.9",
+    "electron": "^16.2.8",
     "electron-builder": "^24.13.3"
   },
   "dependencies": {
