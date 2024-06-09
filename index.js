@@ -22,9 +22,7 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 //               佛祖保佑         永无BUG
-//
-//
-//
+
 
 const { BrowserWindow, protocol, app, Menu, webContents, ipcMain } = require("electron")
 const path = require("path")
@@ -71,6 +69,7 @@ function createSplash() {
         alwaysOnTop: true,
         icon: "./icon.ico",
         webPreferences: {
+            contextIsolation: true,
             preload: path.join(__dirname, './js/pre-splash.js')
         }
     })
@@ -91,7 +90,7 @@ function createSplash() {
             if (updateCheck) clearTimeout(updateCheck)
             splashWindow.webContents.send(
                 'status',
-                `Found new verison v${i.version}!`
+                `Found new version v${i.version}!`
             )
         })
         autoUpdater.on('update-not-available', () => {
@@ -142,12 +141,26 @@ const createMain = () => {
         fullscreen: config.get("Fullscreen", true),
         resizable: true,
         webPreferences: {
-            backgroundThrottling: false,
+            contextIsolation: true,
             preload: path.join(__dirname, "./js/pre-game.js"),
             worldSafeExecuteJavaScript: false,
         },
     })
-    mainWindow.loadURL("https://voxiom.io")
+    let def = config.get("defPage")
+    switch (def) {
+        case ("default"):
+            mainWindow.loadURL("https://voxiom.io/")
+            break
+        case (null):
+            mainWindow.loadURL("https://voxiom.io/")
+            break
+        case (undefined):
+            mainWindow.loadURL("https://voxiom.io/")
+            break
+        case ("experimental"):
+            mainWindow.loadURL("https://voxiom.io/experimental")
+            break
+    }
     mainWindow.setTitle("Vanced Voxiom Client v" + app.getVersion())
     mainWindow.webContents.on('will-prevent-unload', e => {
         e.preventDefault()
@@ -245,8 +258,11 @@ const settingDisplay = (v) => {
         settingWindow = new BrowserWindow({
             height: 800,
             width: 620,
+            x: 0,
+            y: 0,
             icon: "./icon.ico",
             webPreferences: {
+                contextIsolation: true,
                 preload: path.join(__dirname, "./js/pre-setting.js"),
             }
         })
@@ -302,10 +318,24 @@ ipcMain.handle("getSetting", (e, n) => {
 ipcMain.on("reload", e => {
     mainWindow.webContents.send("reload")
 })
+//mainWindowでページがロードされたことを受け取る
+ipcMain.on("pageLoaded", e => {
+    mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair'))
+    mainWindow.webContents.send('cssGen', config.get('customCSS'))
+})
+
+
 ipcMain.on("openLink", (e, v) => {
     switch (v) {
         case ("voxiom"):
-            mainWindow.loadURL("https://voxiom.io/")
+            let def = config.get("defPage")
+            switch (def) {
+                case ("default"):
+                    mainWindow.loadURL("https://voxiom.io/")
+                    break
+                case ("experimental"):
+                    mainWindow.loadURL("https://voxiom.io/experimental")
+            }
             break;
         case ("addGoogle"):
             mainWindow.loadURL("https://accounts.google.com/v3/signin/identifier?flowName=GlifWebSignIn")

@@ -14,15 +14,32 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 
+
 <body>
-    <h2>Vanced Voxiom Settings</h2>
     <div id="box">
         <table class="sets">
             <thead>
             <tbody>
                 <tr>
+                    <th>Custom Crosshair <br>
+                    </th>
+                    <td>
+                        <input type="url" name="crosshair" id="crosshair"
+                            onchange="window.vvc.setting(this.id, this.value)">
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Enable Crosshair <br>
+                    </th>
+                    <td>
+                        <input type="checkbox" name="enableCrosshair" id="enableCrosshair"
+                            onchange="window.vvc.setting(this.id, this.checked)">
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
                     <th>Custom CSS <br>
-                        <!-- <div class="req">*Require reload</div> -->
                     </th>
                     <td>
                         <textarea type="textarea" name="customCSS" id="customCSS"
@@ -75,11 +92,20 @@
                     <th>Invite link</th>
                     <td>
                         <input type="button" id="inv" value="Get Link">
-                        <input type="text" name="invLink" id="invLink" onfocus="this.select()" disabled>
+                        <input type="text" name="invLink" id="invLink" onfocus="this.select()" readonly>
                     </td>
                 </tr>
-                </td>
+                <tr>
+                    <th>Default Page</th>
+                    <td>
+                        <select type="select" name="defPage" id="defPage"
+                            oninput="window.vvc.setting(this.id, this.value)">
+                            <option value="default">Normal</option>
+                            <option value="experimental">Experimental</option>
+                        </select>
+                    </td>
                 </tr>
+
             </tbody>
         </table>
     </div>
