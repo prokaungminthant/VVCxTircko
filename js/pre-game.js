@@ -1,36 +1,7 @@
 const { contextBridge, ipcRenderer } = require("electron");
 const webFrame = require("electron").webFrame;
-contextBridge.exposeInMainWorld("vvc", {
-    getSetting: (n) => {
-        console.log(ipcRenderer.invoke("getSetting", n));
-    },
-});
 
-let cssNum = 0;
-ipcRenderer.on("setSetting", async (e, n, v) => {
-    switch (n) {
-        case "customCSS":
-            cssDelete();
-            cssNum++;
-            webFrame.insertCSS(v);
-            break;
-    }
-});
 
-ipcRenderer.on("reload", (v) => {
-    location.reload();
-});
-
-const cssLoad = async () => {
-    let v = await ipcRenderer.invoke("getSetting", "customCSS");
-    webFrame.insertCSS(v);
-    cssNum++;
-};
-const cssDelete = () => {
-    webFrame.removeInsertedCSS(String(cssNum));
-};
-
-// document.addEventListener("DOMContentLoaded", cssLoad());
 document.addEventListener("DOMContentLoaded", () => {
     ipcRenderer.send("pageLoaded");
     ipcRenderer.on("crosshairGen", (e, crosshairUrl, enableCrosshair) => {
@@ -42,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     ipcRenderer.on("cssGen", (e, css) => {
+        console.log(css)
         if (!document.getElementById('customCSS')) {
             let dom = `<style id="customCSS">${css}</style>`
             document.body.insertAdjacentHTML("beforeend", dom);
@@ -56,6 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 break
             case ("enableCrosshair"):
                 document.getElementById('crosshair').style.display = `${v ? "block" : "none"}`
+                break
+            case ("customCSS"):
+                document.getElementById('customCSS').innerText = v
+                break
         }
     })
 });

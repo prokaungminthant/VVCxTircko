@@ -146,17 +146,10 @@ const createMain = () => {
             worldSafeExecuteJavaScript: false,
         },
     })
-    let def = config.get("defPage")
+    let def = config.get("defPage") ? config.get("defPage") : "default"
     switch (def) {
         case ("default"):
             mainWindow.loadURL("https://voxiom.io/")
-            break
-        case (null):
-            mainWindow.loadURL("https://voxiom.io/")
-            break
-        case (undefined):
-            mainWindow.loadURL("https://voxiom.io/")
-            break
         case ("experimental"):
             mainWindow.loadURL("https://voxiom.io/experimental")
             break
@@ -202,8 +195,7 @@ const createMain = () => {
     mainWindow.webContents.session.webRequest.onBeforeRequest(
         (details, callback) => {
             if (
-                config.get('swapper') &&
-                files.includes(json[details.url])
+                config.get('swapper') && files.includes(json[details.url])
             ) {
                 callback({
                     redirectURL:
@@ -328,7 +320,7 @@ ipcMain.on("pageLoaded", e => {
 ipcMain.on("openLink", (e, v) => {
     switch (v) {
         case ("voxiom"):
-            let def = config.get("defPage")
+            let def = config.get("defPage") ? config.get("defPage") : "default";
             switch (def) {
                 case ("default"):
                     mainWindow.loadURL("https://voxiom.io/")
