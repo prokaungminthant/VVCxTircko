@@ -4,6 +4,7 @@ const webFrame = require("electron").webFrame;
 
 document.addEventListener("DOMContentLoaded", () => {
     ipcRenderer.send("pageLoaded");
+    ipcRenderer.on("reload", () => { location.reload() })
     ipcRenderer.on("crosshairGen", (e, crosshairUrl, enableCrosshair) => {
         if (!document.getElementById("crosshair")) {
             let dom = `<img src="${crosshairUrl}" id="crosshair" style="display:${enableCrosshair ? "block" : "none"}"><style>#crosshair {position: fixed;left: 50%;top: 50%;transform: translate(-50%, -50%);}</style>`;
