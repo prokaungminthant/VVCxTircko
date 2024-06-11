@@ -314,6 +314,9 @@ ipcMain.on("reload", e => {
 ipcMain.on("pageLoaded", e => {
     mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair'))
     mainWindow.webContents.send('cssGen', config.get('customCSS'))
+    if (config.get("fpsDisplay")) {
+        mainWindow.webContents.send('fpsDisplay')
+    }
 })
 
 
