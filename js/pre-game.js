@@ -38,21 +38,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 break
         }
     })
+    ipcRenderer.on("appName", (e, v) => {
+        const dom = `<div id="appVer" style="position:fixed;right:4px;bottom:2px;color:white;font-weight:bolder;font-size:12px">Vanced Voxiom Client v${v}</div>`
+        document.querySelector("#app").insertAdjacentHTML('beforeend', dom)
+    })
 });
 
 const fpsDisplay = () => {
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('webgl');
     let fpsDom = document.createElement("div")
     fpsDom.setAttribute("id", "fps")
-    fpsDom.setAttribute('style', `top:0;left:0;position:fixed;font-size:12px`)
+    fpsDom.setAttribute('style', `bottom:16px;right:0;position:fixed;font-size:15px;color:lime`)
     document.querySelector("#app").appendChild(fpsDom)
     const fpsElem = document.querySelector("#fps");
-    let then = 0;
-    function render(now) {
-        now *= 0.001;                          // convert to seconds
-        const deltaTime = now - then;          // compute time since last frame
-        then = now;                            // remember time for next frame
-        const fps = 1 / deltaTime;             // compute frames per second
-        fpsElem.textContent = fps.toFixed(1);  // update fps display
-        requestAnimationFrame(render);
+    let frameCount = 0;
+    let lastTime = performance.now();
+    function update(time) {
+        frameCount++;
+        const elapsedTime = time - lastTime;
+        if (elapsedTime >= 1000) {
+            const fps = frameCount / (elapsedTime / 1000);
+            fpsElem.innerText = Math.round(fps);
+            frameCount = 0;
+            lastTime = time;
+        }
+        requestAnimationFrame(update);
     }
+    requestAnimationFrame(update);
 }

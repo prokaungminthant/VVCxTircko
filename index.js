@@ -317,6 +317,7 @@ ipcMain.on("pageLoaded", e => {
     if (config.get("fpsDisplay")) {
         mainWindow.webContents.send('fpsDisplay')
     }
+    mainWindow.webContents.send('appName', app.getVersion())
 })
 
 
