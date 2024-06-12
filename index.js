@@ -282,7 +282,7 @@ ipcMain.on("setting", (e, n, v) => {
 //設定を読み込む
 ipcMain.on("loadSettings", (e, n) => {
     //設定を読み出し
-    let v = config.get(n, false)
+    let v = config.get(n, true)
     //読みだした設定をsettingWindowに送信
     e.sender.send("loadedSetting", n, v)
 })
@@ -312,7 +312,7 @@ ipcMain.on("reload", e => {
 })
 //mainWindowでページがロードされたことを受け取る
 ipcMain.on("pageLoaded", e => {
-    mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair', false))
+    mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair', true))
     mainWindow.webContents.send('cssGen', config.get('customCSS', ""))
     mainWindow.webContents.send('fpsDisplay', config.get("fpsDisplay", true))
     mainWindow.webContents.send('appName', app.getVersion())

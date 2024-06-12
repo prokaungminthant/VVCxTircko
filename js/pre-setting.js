@@ -29,11 +29,19 @@ const loads = (n, v) => {
         case ("checkbox"):
             return document.getElementById(n).checked = v
         case ("url"):
-            return document.getElementById(n).value = v
+            if (v === true) {
+                return document.getElementById(n).value = ""
+            } else {
+                return document.getElementById(n).value = v
+            }
         case ("select"):
             return document.getElementById(n).value = v
         case ("textarea"):
-            return document.getElementById(n).value = v
+            if (v === true) {
+                return document.getElementById(n).value = ""
+            } else {
+                return document.getElementById(n).value = v
+            }
         case (undefined):
             return (console.log("undefined"))
     }
