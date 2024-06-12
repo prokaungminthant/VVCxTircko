@@ -282,7 +282,7 @@ ipcMain.on("setting", (e, n, v) => {
 //設定を読み込む
 ipcMain.on("loadSettings", (e, n) => {
     //設定を読み出し
-    let v = config.get(n, true)
+    let v = config.get(n, false)
     //読みだした設定をsettingWindowに送信
     e.sender.send("loadedSetting", n, v)
 })
