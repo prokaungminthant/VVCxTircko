@@ -314,7 +314,7 @@ ipcMain.on("reload", e => {
 ipcMain.on("pageLoaded", e => {
     mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair', true))
     mainWindow.webContents.send('cssGen', config.get('customCSS', ""))
-    mainWindow.webContents.send('fpsDisplay', config.get("fpsDisplay", true))
+    mainWindow.webContents.send('fpsDisplay', config.get("fpsDisplay", true), config.get("fpsPosition"))
     mainWindow.webContents.send('appName', app.getVersion())
 })
 
@@ -377,6 +377,19 @@ const initFlags = () => {
 }
 
 initFlags()
+
+const testConfigs = () => {
+    config.get("crosshair") ? console.log(config.get("crosshair")) : config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), console.log("Set value for crosshair")
+    config.get("fpsDisplay") ? console.log(config.get("fpsDisplay")) : config.set("fpsDisplay", true), console.log("Set value for fpsDisplay")
+    config.get("fpsPosition") ? console.log(config.get("fpsPosition")) : config.set("fpsPosition", "bottomRight"), console.log("Set value for fpsPosition")
+    config.get("enableCrosshair") ? console.log(config.get("enableCrosshair")) : config.set("enableCrosshair", true), console.log("Set value for enableCrosshair")
+    config.get("unlimitedFps") ? console.log(config.get("unlimitedFps")) : config.set("unlimitedFps", true), console.log("Set value for unlimitedFps")
+    config.get("defPage") ? console.log(config.get("defPage")) : config.set("defPage", "default"), console.log("Set value for defPage")
+    config.get("swapper") ? console.log(config.get("swapper")) : config.set("swapper", true), console.log("Set value for swapper")
+    config.get("angleType") ? console.log(config.get("angleType")) : config.set("angleType", "default"), console.log("Set value for angleType")
+    config.get("customCSS") ? console.log(config.get("customCSS")) : config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), console.log("Set value for customCSS")
+}
 app.whenReady().then(() => {
+    testConfigs()
     createSplash()
 })

@@ -74,6 +74,19 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>FPS Display Position<br>
+                    </th>
+                    <td>
+                        <select type="select" name="fpsPosition" id="fpsPosition"
+                            onchange="window.vvc.setting(this.id, this.value)">
+                            <option value="topLeft">Top Left</option>
+                            <option value="topRight">Top Right</option>
+                            <option value="bottomLeft">Bottom Left</option>
+                            <option value="bottomRight">Bottom Right</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <th>AngleBackendType<br>
                         <div class="req">*Require restart</div>
                     </th>
