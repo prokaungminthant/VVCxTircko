@@ -1,6 +1,19 @@
 const { contextBridge, ipcRenderer, ipcMain } = require("electron");
+const path = require("path")
 const webFrame = require("electron").webFrame;
 
+contextBridge.exposeInMainWorld("vvc", {
+    copyName: (dom, value) => {
+        console.log(dom)
+        console.log(value)
+        navigator.clipboard.writeText(value);
+        dom.value = "Copied!"
+        setTimeout(() => {
+            dom.value = 'Copy';
+        }, 2000);
+    }
+
+})
 
 document.addEventListener("DOMContentLoaded", () => {
     ipcRenderer.send("pageLoaded");
@@ -18,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     ipcRenderer.on("cssGen", (e, css) => {
         console.log(css)
+        document.body.insertAdjacentHTML("afterbegin", `<link rel="stylesheet" href="${path.join(__dirname, "../html/game.css")}">`)
         if (!document.getElementById('customCSS')) {
             let dom = `<style id="customCSS">${css}</style>`
             document.body.insertAdjacentHTML("afterbegin", dom);
@@ -72,7 +86,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const dom = `<div id="appVer" style="position:fixed;right:4px;bottom:2px;color:white;font-weight:bolder;font-size:12px">Vanced Voxiom Client v${v}</div>`
         document.querySelector("#app").insertAdjacentHTML('beforeend', dom)
     })
-
+    const targetElement = document.querySelector(".sc-eHyqeh.cEdwke");
+    const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            if (mutation.type === 'childList') {
+                for (const addedNode of mutation.addedNodes) {
+                    // 追加された要素に対して処理を実行
+                    if (addedNode.className === "sc-cSyqtw gwybnl") {
+                        let playerList = document.getElementsByClassName("sc-jounMn OFoDb");
+                        for (player of playerList) {
+                            let val = player.childNodes[0].innerText
+                            let dom = `<input type="button" id="copyTarget" value="Copy" onclick="window.vvc.copyName(this,'${val}')">`
+                            player.childNodes[0].insertAdjacentHTML("afterend", dom)
+                        }
+                    }
+                }
+            }
+        }
+    });
+    observer.observe(targetElement, { childList: true });
 });
 
 const fpsDisplay = (v, n) => {

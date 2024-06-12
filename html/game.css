@@ -1,0 +1,24 @@
+#copyTarget {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: 0px 5px;
+    padding: 7px 10px;
+    margin-left: auto;
+    border: 1px solid white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#copyTarget:hover {
+    background-color: rgba(150, 150, 150, 0.7)
+}
+
+.enyeff {
+    width: 400px;
+    height: 500px;
+}

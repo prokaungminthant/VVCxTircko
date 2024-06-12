@@ -15,7 +15,6 @@ Object.defineProperty(app, 'isPackaged', {
 
 let mainWindow
 let settingWindow
-let crosshairWindow
 let splashWindow
 
 //カスタムプロトコルの登録
@@ -116,6 +115,7 @@ const createMain = () => {
         fullscreen: config.get("Fullscreen", true),
         resizable: true,
         webPreferences: {
+            webSecurity: false,
             contextIsolation: true,
             preload: path.join(__dirname, "./js/pre-game.js"),
             worldSafeExecuteJavaScript: false,
@@ -125,6 +125,7 @@ const createMain = () => {
     switch (def) {
         case ("default"):
             mainWindow.loadURL("https://voxiom.io/")
+            break
         case ("experimental"):
             mainWindow.loadURL("https://voxiom.io/experimental")
             break
@@ -405,15 +406,25 @@ const initFlags = () => {
 initFlags()
 
 const testConfigs = () => {
-    config.get("crosshair") ? log.info(config.get("crosshair")) : config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair")
-    config.get("fpsDisplay") ? log.info(config.get("fpsDisplay")) : config.set("fpsDisplay", true), log.info("Set value for fpsDisplay")
-    config.get("fpsPosition") ? log.info(config.get("fpsPosition")) : config.set("fpsPosition", "bottomRight"), log.info("Set value for fpsPosition")
-    config.get("enableCrosshair") ? log.info(config.get("enableCrosshair")) : config.set("enableCrosshair", true), log.info("Set value for enableCrosshair")
-    config.get("unlimitedFps") ? log.info(config.get("unlimitedFps")) : config.set("unlimitedFps", true), log.info("Set value for unlimitedFps")
-    config.get("defPage") ? log.info(config.get("defPage")) : config.set("defPage", "default"), log.info("Set value for defPage")
-    config.get("swapper") ? log.info(config.get("swapper")) : config.set("swapper", true), log.info("Set value for swapper")
-    config.get("angleType") ? log.info(config.get("angleType")) : config.set("angleType", "default"), log.info("Set value for angleType")
-    config.get("customCSS") ? log.info(config.get("customCSS")) : config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS")
+    console.log(config.get("crosshair"))
+    console.log(config.get("fpsDisplay"))
+    console.log(config.get("fpsPosition"))
+    console.log(config.get("enableCrosshair"))
+    console.log(config.get("unlimitedFps"))
+    console.log(config.get("defPage"))
+    console.log(config.get("swapper"))
+    console.log(config.get("angleType"))
+    console.log(config.get("customCSS"))
+
+    config.get("crosshair") ? log.info(config.get("crosshair")) : (config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair"))
+    config.get("fpsDisplay") ? log.info(config.get("fpsDisplay")) : (config.set("fpsDisplay", true), log.info("Set value for fpsDisplay"))
+    config.get("fpsPosition") ? log.info(config.get("fpsPosition")) : (config.set("fpsPosition", "bottomRight"), log.info("Set value for fpsPosition"))
+    config.get("enableCrosshair") ? log.info(config.get("enableCrosshair")) : (config.set("enableCrosshair", true), log.info("Set value for enableCrosshair"))
+    config.get("unlimitedFps") ? log.info(config.get("unlimitedFps")) : (config.set("unlimitedFps", true), log.info("Set value for unlimitedFps"))
+    config.get("defPage") ? log.info(config.get("defPage")) : (config.set("defPage", "default"), log.info("Set value for defPage"))
+    config.get("swapper") ? log.info(config.get("swapper")) : (config.set("swapper", true), log.info("Set value for swapper"))
+    config.get("angleType") ? log.info(config.get("angleType")) : (config.set("angleType", "default"), log.info("Set value for angleType"))
+    config.get("customCSS") ? log.info(config.get("customCSS")) : (config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS"))
 }
 app.whenReady().then(() => {
     testConfigs()

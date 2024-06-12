@@ -81,7 +81,7 @@ input[type="checkbox"]:checked::before {
 
 .sets th,
 .sets td {
-    padding: 10px;
+    padding: 5px;
     border-bottom: solid 1px #555;
 }
 
@@ -189,4 +189,8 @@ header {
     display: flex;
     justify-content: space-between;
     user-select: none;
+}
+.danger{
+    border-color:rgb(255, 116, 116) !important;
+    background: rgba(255, 0, 0, 0.164) !important;
 }
