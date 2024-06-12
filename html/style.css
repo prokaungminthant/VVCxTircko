@@ -147,9 +147,14 @@ input[type="button"]:hover {
 }
 
 #adder,
-#loginner {
+#loginner,
+#system {
     display: flex;
     justify-content: space-evenly;
+}
+
+#system input[type="button"] {
+    width: calc(540px/2);
 }
 
 #adder input[type="button"],
@@ -157,21 +162,24 @@ input[type="button"]:hover {
     width: calc(540px/3);
     padding: 10px 5px;
 }
-#close{
+
+#close {
     background-color: #333;
-    width:40px;
+    width: 40px;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color:#aaa;
+    color: #aaa;
 }
-#close:hover{
+
+#close:hover {
     background-color: rgb(151, 69, 69);
     cursor: pointer;
-    color:white;
+    color: white;
 }
-header{
+
+header {
     -webkit-app-region: drag;
     position: fixed;
     height: 30px;

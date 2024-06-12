@@ -1,36 +1,11 @@
-//
-//                       _oo0oo_
-//                      o8888888o
-//                      88" . "88
-//                      (| -_- |)
-//                      0\  =  /0
-//                    ___/`---'\___
-//                  .' \\|     |// '.
-//                 / \\|||  :  |||// \
-//                / _||||| -:- |||||- \
-//               |   | \\\  -  /// |   |
-//               | \_|  ''\---/''  |_/ |
-//               \  .-\__  '-'  ___/-. /
-//             ___'. .'  /--.--\  `. .'___
-//          ."" '<  `.___\_<|>_/___.' >' "".
-//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-//         \  \ `_.   \_ __\ /__ _/   .-` /  /
-//     =====`-.____`.___ \_____/___.-`___.-'=====
-//                       `=---='
-//
-//
-//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//
-//               佛祖保佑         永无BUG
-
-
-const { BrowserWindow, protocol, app, Menu, webContents, ipcMain } = require("electron")
+const { BrowserWindow, dialog, protocol, app, Menu, webContents, ipcMain } = require("electron")
 const path = require("path")
 const store = require('electron-store')
 const config = new store()
 const shortcut = require("electron-localshortcut")
 const { autoUpdater } = require('electron-updater')
 const fs = require('fs')
+const log = require('electron-log')
 
 Object.defineProperty(app, 'isPackaged', {
     get() {
@@ -212,7 +187,7 @@ const createMain = () => {
         }
     )
     mainWindow.webContents.setWindowOpenHandler((e) => {
-        console.log(e.url)
+        log.info(e.url)
         mainWindow.loadURL(e.url);
     });
 
@@ -244,9 +219,9 @@ let json = swapperJson()
 const settingDisplay = (v) => {
     if (settingWindow) {
         settingWindow.show()
-        console.log("settingWindow exist")
+        log.info("settingWindow exist")
     } else if (!settingWindow) {
-        console.log("settingWindow null")
+        log.info("settingWindow null")
         settingWindow = new BrowserWindow({
             height: 800,
             width: 620,
@@ -289,27 +264,78 @@ ipcMain.on("loadSettings", (e, n) => {
 //アプリのバージョンを返す
 ipcMain.on("appVer", e => {
     e.sender.send("appVerRe", app.getVersion())
-    // console.log("sender\n", e.sender)
+    // log.info("sender\n", e.sender)
 })
 //ゲームに参加する
 ipcMain.on("joinGame", (e, v) => {
-    // console.log(e, v)
+    // log.info(e, v)
     mainWindow.loadURL(v);
     settingWindow.hide()
 })
 //ゲームのリンクを取得する
 ipcMain.handle("invLink", e => {
-    // console.log(mainWindow.webContents.getURL())
+    // log.info(mainWindow.webContents.getURL())
     return mainWindow.webContents.getURL()
 })
 ipcMain.handle("getSetting", (e, n) => {
-    // console.log(config.get(n, true))
+    // log.info(config.get(n, true))
     return config.get(n, true)
 })
 //リロードとリスタート
 ipcMain.on("reload", e => {
     mainWindow.webContents.send("reload")
 })
+
+//クライアントの設定を初期化する
+ipcMain.on("restore", e => {
+    const { dialog } = require('electron')
+    let options = {
+        type: 'question',
+        buttons: ['Yes', 'No'],
+        defaultId: 0,
+        title: 'Restore client settings',
+        message: 'Do you really want to restore client settings? This cannot be undone.',
+    }
+    dialog.showMessageBox(options).then((response) => {
+        log.info("Restore setting " + response.response)
+        switch (response.response) {
+            case (0):
+                log.info("0")
+                config.clear()
+                app.relaunch();
+                app.exit();
+                break
+            case (1):
+                log.info("Restore client setting is Cancelled")
+                break
+        }
+    })
+})
+
+//cacheを削除する
+ipcMain.on("clearCache", e => {
+    let options = {
+        type: 'question',
+        buttons: ['Yes', 'No'],
+        defaultId: 0,
+        title: 'Clear cache',
+        message: 'After clearing the cache, the client will be restarted.',
+    }
+    dialog.showMessageBox(options).then((response) => {
+        log.info("Clear cache " + response.response)
+        switch (response.response) {
+            case (0):
+                session.defaultSession.clearCache()
+                app.relaunch()
+                app.exit()
+                break
+            case (1):
+                log.info("Clear cache is Cancelled")
+                break
+        }
+    })
+})
+
 //mainWindowでページがロードされたことを受け取る
 ipcMain.on("pageLoaded", e => {
     mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair', true))
@@ -379,15 +405,15 @@ const initFlags = () => {
 initFlags()
 
 const testConfigs = () => {
-    config.get("crosshair") ? console.log(config.get("crosshair")) : config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), console.log("Set value for crosshair")
-    config.get("fpsDisplay") ? console.log(config.get("fpsDisplay")) : config.set("fpsDisplay", true), console.log("Set value for fpsDisplay")
-    config.get("fpsPosition") ? console.log(config.get("fpsPosition")) : config.set("fpsPosition", "bottomRight"), console.log("Set value for fpsPosition")
-    config.get("enableCrosshair") ? console.log(config.get("enableCrosshair")) : config.set("enableCrosshair", true), console.log("Set value for enableCrosshair")
-    config.get("unlimitedFps") ? console.log(config.get("unlimitedFps")) : config.set("unlimitedFps", true), console.log("Set value for unlimitedFps")
-    config.get("defPage") ? console.log(config.get("defPage")) : config.set("defPage", "default"), console.log("Set value for defPage")
-    config.get("swapper") ? console.log(config.get("swapper")) : config.set("swapper", true), console.log("Set value for swapper")
-    config.get("angleType") ? console.log(config.get("angleType")) : config.set("angleType", "default"), console.log("Set value for angleType")
-    config.get("customCSS") ? console.log(config.get("customCSS")) : config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), console.log("Set value for customCSS")
+    config.get("crosshair") ? log.info(config.get("crosshair")) : config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair")
+    config.get("fpsDisplay") ? log.info(config.get("fpsDisplay")) : config.set("fpsDisplay", true), log.info("Set value for fpsDisplay")
+    config.get("fpsPosition") ? log.info(config.get("fpsPosition")) : config.set("fpsPosition", "bottomRight"), log.info("Set value for fpsPosition")
+    config.get("enableCrosshair") ? log.info(config.get("enableCrosshair")) : config.set("enableCrosshair", true), log.info("Set value for enableCrosshair")
+    config.get("unlimitedFps") ? log.info(config.get("unlimitedFps")) : config.set("unlimitedFps", true), log.info("Set value for unlimitedFps")
+    config.get("defPage") ? log.info(config.get("defPage")) : config.set("defPage", "default"), log.info("Set value for defPage")
+    config.get("swapper") ? log.info(config.get("swapper")) : config.set("swapper", true), log.info("Set value for swapper")
+    config.get("angleType") ? log.info(config.get("angleType")) : config.set("angleType", "default"), log.info("Set value for angleType")
+    config.get("customCSS") ? log.info(config.get("customCSS")) : config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS")
 }
 app.whenReady().then(() => {
     testConfigs()

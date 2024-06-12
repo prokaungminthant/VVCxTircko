@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer, ipcMain } = require("electron");
 const webFrame = require("electron").webFrame;
 
 
@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const dom = `<div id="appVer" style="position:fixed;right:4px;bottom:2px;color:white;font-weight:bolder;font-size:12px">Vanced Voxiom Client v${v}</div>`
         document.querySelector("#app").insertAdjacentHTML('beforeend', dom)
     })
+
 });
 
 const fpsDisplay = (v, n) => {

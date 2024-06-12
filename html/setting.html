@@ -132,8 +132,8 @@
     </div>
     <div id="openLinks">
         <input type="button" value="OPEN Voxiom.io" onclick="window.vvc.open('voxiom')">
+        <h3>Account Settings</h3>
         <div id="loginner">
-
             <input type="button" value="Login with Google" onclick="window.vvc.open('logGoogle')">
             <input type="button" value="Login with Discord" onclick="window.vvc.open('logDiscord')">
             <input type="button" value="Login with Facebook" onclick="window.vvc.open('logFacebook')">
@@ -143,7 +143,13 @@
             <input type="button" value="Open Discord" onclick="window.vvc.open('addDiscord')">
             <input type="button" value="Open Facebook" onclick="window.vvc.open('addFacebook')">
         </div>
+        <h3>System Settings</h3>
+        <div id="system">
+            <input type="button" value="Restore client" onclick="window.vvc.restore()">
+            <input type="button" value="Clear cache" onclick="window.vvc.clearCache()">
+        </div>
     </div>
+
     <script>
         const joinGame = () => {
             let url = document.getElementById("joinUrl").value;
