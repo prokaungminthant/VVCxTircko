@@ -4,8 +4,8 @@ const webFrame = require("electron").webFrame;
 
 document.addEventListener("DOMContentLoaded", () => {
     ipcRenderer.send("pageLoaded");
-    ipcRenderer.on("fpsDisplay", () => {
-        fpsDisplay()
+    ipcRenderer.on("fpsDisplay", (e, v) => {
+        fpsDisplay(v)
     })
     ipcRenderer.on("reload", () => { location.reload() })
     ipcRenderer.on("crosshairGen", (e, crosshairUrl, enableCrosshair) => {
@@ -36,6 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
             case ("customCSS"):
                 document.getElementById('customCSS').innerText = v
                 break
+            case ("fpsDisplay"):
+                document.getElementById("fps").style.display = v ? "block" : "none";
+                break
         }
     })
     ipcRenderer.on("appName", (e, v) => {
@@ -44,12 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 });
 
-const fpsDisplay = () => {
+const fpsDisplay = (v) => {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('webgl');
     let fpsDom = document.createElement("div")
     fpsDom.setAttribute("id", "fps")
-    fpsDom.setAttribute('style', `bottom:16px;right:0;position:fixed;font-size:15px;color:lime`)
+    fpsDom.setAttribute('style', `bottom:16px;right:0;position:fixed;font-size:15px;color:lime;display:${v ? "block" : "none"};`)
     document.querySelector("#app").appendChild(fpsDom)
     const fpsElem = document.querySelector("#fps");
     let frameCount = 0;
