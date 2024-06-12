@@ -312,9 +312,9 @@ ipcMain.on("reload", e => {
 })
 //mainWindowでページがロードされたことを受け取る
 ipcMain.on("pageLoaded", e => {
-    mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair'))
-    mainWindow.webContents.send('cssGen', config.get('customCSS'))
-    mainWindow.webContents.send('fpsDisplay', config.get("fpsDisplay"))
+    mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair', false))
+    mainWindow.webContents.send('cssGen', config.get('customCSS', ""))
+    mainWindow.webContents.send('fpsDisplay', config.get("fpsDisplay", true))
     mainWindow.webContents.send('appName', app.getVersion())
 })
 
