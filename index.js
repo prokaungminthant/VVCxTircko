@@ -407,8 +407,8 @@ initFlags()
 
 const testConfigs = () => {
     console.log(config.get("crosshair"))
-    console.log(config.get("fpsDisplay"))
-    console.log(config.get("fpsPosition"))
+    // console.log(config.get("fpsDisplay"))
+    // console.log(config.get("fpsPosition"))
     console.log(config.get("enableCrosshair"))
     console.log(config.get("unlimitedFps"))
     console.log(config.get("defPage"))
@@ -417,8 +417,8 @@ const testConfigs = () => {
     console.log(config.get("customCSS"))
 
     config.get("crosshair") ? log.info(config.get("crosshair")) : (config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair"))
-    config.get("fpsDisplay") ? log.info(config.get("fpsDisplay")) : (config.set("fpsDisplay", true), log.info("Set value for fpsDisplay"))
-    config.get("fpsPosition") ? log.info(config.get("fpsPosition")) : (config.set("fpsPosition", "bottomRight"), log.info("Set value for fpsPosition"))
+    // config.get("fpsDisplay") ? log.info(config.get("fpsDisplay")) : (config.set("fpsDisplay", true), log.info("Set value for fpsDisplay"))
+    // config.get("fpsPosition") ? log.info(config.get("fpsPosition")) : (config.set("fpsPosition", "bottomRight"), log.info("Set value for fpsPosition"))
     config.get("enableCrosshair") ? log.info(config.get("enableCrosshair")) : (config.set("enableCrosshair", true), log.info("Set value for enableCrosshair"))
     config.get("unlimitedFps") ? log.info(config.get("unlimitedFps")) : (config.set("unlimitedFps", true), log.info("Set value for unlimitedFps"))
     config.get("defPage") ? log.info(config.get("defPage")) : (config.set("defPage", "default"), log.info("Set value for defPage"))

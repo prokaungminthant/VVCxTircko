@@ -17,9 +17,6 @@ contextBridge.exposeInMainWorld("vvc", {
 
 document.addEventListener("DOMContentLoaded", () => {
     ipcRenderer.send("pageLoaded");
-    ipcRenderer.on("fpsDisplay", (e, v, n) => {
-        fpsDisplay(v, n)
-    })
     ipcRenderer.on("reload", () => { location.reload() })
     ipcRenderer.on("crosshairGen", (e, crosshairUrl, enableCrosshair) => {
         if (!document.getElementById("crosshair")) {
@@ -50,10 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
             case ("customCSS"):
                 document.getElementById('customCSS').innerText = v
                 break
-            case ("fpsDisplay"):
+                // case ("fpsDisplay"):
                 document.getElementById("fps").style.display = v ? "block" : "none";
                 break
-            case ("fpsPosition"):
+                // case ("fpsPosition"):
                 switch (v) {
                     case ("topRight"):
                         document.getElementById("fps").style.top = "0";
@@ -86,48 +83,4 @@ document.addEventListener("DOMContentLoaded", () => {
         const dom = `<div id="appVer" style="position:fixed;right:4px;bottom:2px;color:white;font-weight:bolder;font-size:12px">Vanced Voxiom Client v${v}</div>`
         document.querySelector("#app").insertAdjacentHTML('beforeend', dom)
     })
-    const targetElement = document.querySelector(".sc-eHyqeh.cEdwke");
-    const observer = new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-            if (mutation.type === 'childList') {
-                for (const addedNode of mutation.addedNodes) {
-                    // 追加された要素に対して処理を実行
-                    if (addedNode.className === "sc-cSyqtw gwybnl") {
-                        let playerList = document.getElementsByClassName("sc-jounMn OFoDb");
-                        for (player of playerList) {
-                            let val = player.childNodes[0].innerText
-                            let dom = `<input type="button" id="copyTarget" value="Copy" onclick="window.vvc.copyName(this,'${val}')">`
-                            player.childNodes[0].insertAdjacentHTML("afterend", dom)
-                        }
-                    }
-                }
-            }
-        }
-    });
-    observer.observe(targetElement, { childList: true });
-});
-
-const fpsDisplay = (v, n) => {
-    console.log(v, n)
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('webgl');
-    let fpsDom = document.createElement("div")
-    fpsDom.setAttribute("id", "fps")
-    fpsDom.setAttribute('style', `${n === "topLeft" ? "top:0;left:0;" : n === "topRight" ? "top:0;right:0;" : n === "bottomLeft" ? "bottom:0;left:0;" : n === "bottomRight" ? "bottom:16px;right:0px;" : ""} position: fixed; font-size: 15px; color: lime; display:${v ? "block" : "none"}; `)
-    document.querySelector("#app").appendChild(fpsDom)
-    const fpsElem = document.querySelector("#fps");
-    let frameCount = 0;
-    let lastTime = performance.now();
-    function update(time) {
-        frameCount++;
-        const elapsedTime = time - lastTime;
-        if (elapsedTime >= 1000) {
-            const fps = frameCount / (elapsedTime / 1000);
-            fpsElem.innerText = Math.round(fps * 1);
-            frameCount = 0;
-            lastTime = time;
-        }
-        requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update);
-}
+})

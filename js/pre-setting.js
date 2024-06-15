@@ -3,7 +3,7 @@ const webFrame = require('electron').webFrame;
 //n: name
 //v: value
 
-const settingNames = ["crosshair", "fpsDisplay", "fpsPosition", "enableCrosshair", "unlimitedFps", "defPage", "swapper", "angleType", "customCSS"]
+const settingNames = ["crosshair", "enableCrosshair", "unlimitedFps", "defPage", "swapper", "angleType", "customCSS"]
 
 //ウェブページにwindow.vvcから始まる関数を登録している
 contextBridge.exposeInMainWorld("vvc", {
