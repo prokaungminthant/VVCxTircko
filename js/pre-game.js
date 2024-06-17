@@ -84,12 +84,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     })
-
     ipcRenderer.on("betterDebugDisplay", (e, v) => {
         debugFunc(v)
     })
 })
-
 let debugFunc = (v) => {
     let debugDisplay = document.getElementById("debugDisplay")
     if (!debugDisplay) {
