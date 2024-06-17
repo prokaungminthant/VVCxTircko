@@ -148,6 +148,10 @@ const createMain = () => {
     shortcut.register(mainWindow, "F12", () => {
         mainWindow.webContents.openDevTools()
     })
+    shortcut.register(mainWindow, "0", () => {
+        let v = config.get("betterDebugDisplay")
+        mainWindow.webContents.send("betterDebugDisplay", v)
+    })
     mainWindow.once("ready-to-show", () => {
         mainWindow.show()
         splashWindow.destroy()
@@ -193,7 +197,7 @@ const createMain = () => {
     });
 
 }
-
+//リソーススワッパーの部分
 const swapperJson = () => {
     const filePath = swapper().includes('swapperConfig.json')
         ? path.join(app.getPath('documents'), '/VVC-Swapper', 'swapperConfig.json')
@@ -286,7 +290,6 @@ ipcMain.handle("getSetting", (e, n) => {
 ipcMain.on("reload", e => {
     mainWindow.webContents.send("reload")
 })
-
 //クライアントの設定を初期化する
 ipcMain.on("restore", e => {
     const { dialog } = require('electron')
@@ -312,7 +315,6 @@ ipcMain.on("restore", e => {
         }
     })
 })
-
 //cacheを削除する
 ipcMain.on("clearCache", e => {
     let options = {
@@ -336,7 +338,6 @@ ipcMain.on("clearCache", e => {
         }
     })
 })
-
 //mainWindowでページがロードされたことを受け取る
 ipcMain.on("pageLoaded", e => {
     mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair', true))
@@ -344,8 +345,6 @@ ipcMain.on("pageLoaded", e => {
     mainWindow.webContents.send('fpsDisplay', config.get("fpsDisplay", true), config.get("fpsPosition"))
     mainWindow.webContents.send('appName', app.getVersion())
 })
-
-
 ipcMain.on("openLink", (e, v) => {
     switch (v) {
         case ("voxiom"):
@@ -402,9 +401,8 @@ const initFlags = () => {
     app.commandLine.appendSwitch("enable-pointer-lock-options")
     app.commandLine.appendSwitch("enable-heavy-ad-intervention")
 }
-
 initFlags()
-
+//起動時にコンフィグを確認する
 const testConfigs = () => {
     console.log(config.get("crosshair"))
     // console.log(config.get("fpsDisplay"))
@@ -415,6 +413,7 @@ const testConfigs = () => {
     console.log(config.get("swapper"))
     console.log(config.get("angleType"))
     console.log(config.get("customCSS"))
+    console.log(config.get("betterDebugDisplay"))
 
     config.get("crosshair") ? log.info(config.get("crosshair")) : (config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair"))
     // config.get("fpsDisplay") ? log.info(config.get("fpsDisplay")) : (config.set("fpsDisplay", true), log.info("Set value for fpsDisplay"))
@@ -425,7 +424,9 @@ const testConfigs = () => {
     config.get("swapper") ? log.info(config.get("swapper")) : (config.set("swapper", true), log.info("Set value for swapper"))
     config.get("angleType") ? log.info(config.get("angleType")) : (config.set("angleType", "default"), log.info("Set value for angleType"))
     config.get("customCSS") ? log.info(config.get("customCSS")) : (config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS"))
+    config.get("betterDebugDisplay") ? log.info(config.get("betterDebugDisplay")) : (config.set("betterDebugDisplay", false), log.info("Set value for betterDebugDisplay"))
 }
+//アプリの準備ができたら保存されている設定を確認し、その後スプラッシュウィンドウを作成する
 app.whenReady().then(() => {
     testConfigs()
     createSplash()

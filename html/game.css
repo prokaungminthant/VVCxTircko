@@ -22,3 +22,13 @@
     width: 400px;
     height: 500px;
 }
+
+#debugDisplay {
+    position: fixed;
+    left: 18rem;
+    top: 25px;
+}
+
+.hide {
+    display: none !important;
+}

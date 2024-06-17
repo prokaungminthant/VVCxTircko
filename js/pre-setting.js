@@ -3,7 +3,7 @@ const webFrame = require('electron').webFrame;
 //n: name
 //v: value
 
-const settingNames = ["crosshair", "enableCrosshair", "unlimitedFps", "defPage", "swapper", "angleType", "customCSS"]
+const settingNames = ["crosshair", "betterDebugDisplay", "enableCrosshair", "unlimitedFps", "defPage", "swapper", "angleType", "customCSS"]
 
 //ウェブページにwindow.vvcから始まる関数を登録している
 contextBridge.exposeInMainWorld("vvc", {
@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld("vvc", {
     open: (v) => ipcRenderer.send("openLink", v),
     restore: (v) => ipcRenderer.send("restore"),
     clearCache: (v) => ipcRenderer.send("clearCache"),
+
 })
 
 ipcRenderer.on("loadedSetting", (e, n, v) => {
