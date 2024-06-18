@@ -1,5 +1,4 @@
 const { contextBridge, ipcRenderer } = require("electron");
-const webFrame = require('electron').webFrame;
 //n: name
 //v: value
 
@@ -16,8 +15,8 @@ contextBridge.exposeInMainWorld("vvc", {
     open: (v) => ipcRenderer.send("openLink", v),
     restore: (v) => ipcRenderer.send("restore"),
     clearCache: (v) => ipcRenderer.send("clearCache"),
-
 })
+
 
 ipcRenderer.on("loadedSetting", (e, n, v) => {
     loads(n, v)

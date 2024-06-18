@@ -134,6 +134,7 @@ const createMain = () => {
     mainWindow.webContents.on('will-prevent-unload', e => {
         e.preventDefault()
     })
+    //ショートカットキーを設定する
     shortcut.register(mainWindow, "F1", () => {
         settingDisplay("open")
     })
@@ -152,24 +153,31 @@ const createMain = () => {
         let v = config.get("betterDebugDisplay")
         mainWindow.webContents.send("betterDebugDisplay", v)
     })
+    //表示の準備ができたらメインウィンドウを表示してスプラッシュウィンドウを破壊する
     mainWindow.once("ready-to-show", () => {
         mainWindow.show()
         splashWindow.destroy()
         // createCrosshair()
     })
+    //ページのタイトルを固定する
     mainWindow.on('page-title-updated', e => {
         e.preventDefault()
     })
+    //メインウィンドウが前面に来た時に設定を隠す
     mainWindow.on('focus', () => {
         if (settingWindow) {
             settingWindow.hide()
         }
     })
+    //閉じるときの処理
     mainWindow.on('close', () => {
         if (!mainWindow.isDestroyed()) {
             mainWindow.destroy()
         } try { settingWindow.close() } catch (e) { }
     });
+    mainWindow.on('move', e => {
+        log.info(e.)
+    })
     Menu.setApplicationMenu(null)
     //リソーススワップするやつ
     mainWindow.webContents.session.webRequest.onBeforeRequest(
@@ -218,6 +226,7 @@ const swapper = () => {
 }
 let files = swapper()
 let json = swapperJson()
+
 
 
 //設定ウィンドウを開くやつ

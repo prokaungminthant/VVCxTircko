@@ -5,8 +5,12 @@ body {
     color: white;
     display: flex;
     flex-direction: column;
-    font-family: "M PLUS Rounded 1c", sans-serif;
     align-items: center;
+}
+
+*,
+* * {
+    font-family: "M PLUS Code Latin", monospace;
 }
 
 body::-webkit-scrollbar {
@@ -26,7 +30,8 @@ input[type="url"] {
     border: unset;
     background: transparent;
     border-bottom: 1px #aaa solid;
-    color: white
+    color: white;
+    width: 90%;
 }
 
 input[type="checkbox"] {
@@ -190,7 +195,8 @@ header {
     justify-content: space-between;
     user-select: none;
 }
-.danger{
-    border-color:rgb(255, 116, 116) !important;
+
+.danger {
+    border-color: rgb(255, 116, 116) !important;
     background: rgba(255, 0, 0, 0.164) !important;
 }
