@@ -1,4 +1,4 @@
-const { BrowserWindow, dialog, protocol, app, Menu, webContents, ipcMain } = require("electron")
+const { BrowserWindow, dialog, protocol, app, Menu, webContents, shell, ipcMain } = require("electron")
 const path = require("path")
 const store = require('electron-store')
 const config = new store()
@@ -176,7 +176,7 @@ const createMain = () => {
         } try { settingWindow.close() } catch (e) { }
     });
     mainWindow.on('move', e => {
-        log.info(e.)
+        // log.info(e.)
     })
     Menu.setApplicationMenu(null)
     //リソーススワップするやつ
@@ -200,8 +200,14 @@ const createMain = () => {
         }
     )
     mainWindow.webContents.setWindowOpenHandler((e) => {
-        log.info(e.url)
-        mainWindow.loadURL(e.url);
+        let linkUrl = e.url
+        if (linkUrl.startsWith("https://voxiom.io/assets/pages/")) {
+            shell.openExternal(linkUrl)
+        } else if (linkUrl.startsWith("https://voxiom.io")) {
+            mainWindow.loadURL(e.url);
+        } else {
+            shell.openExternal(linkUrl)
+        }
     });
 
 }
