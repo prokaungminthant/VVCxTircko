@@ -112,7 +112,7 @@ const createMain = () => {
         width: 1080,
         show: false,
         icon: "./icon.ico",
-        fullscreen: config.get("Fullscreen", true),
+        fullscreen: config.get("fullscreen", true),
         resizable: true,
         webPreferences: {
             webSecurity: false,
@@ -156,6 +156,7 @@ const createMain = () => {
     //表示の準備ができたらメインウィンドウを表示してスプラッシュウィンドウを破壊する
     mainWindow.once("ready-to-show", () => {
         mainWindow.show()
+        config.get("maximize") ? mainWindow.maximize() : "";
         splashWindow.destroy()
         // createCrosshair()
     })
@@ -172,12 +173,14 @@ const createMain = () => {
     //閉じるときの処理
     mainWindow.on('close', () => {
         if (!mainWindow.isDestroyed()) {
+            //座標などを保存する
+            const { x, y, width, height } = mainWindow.getBounds()
+            config.set({ x, y, width, height })
+            config.set("fullscreen", mainWindow.isFullScreen())
+            config.set("maximize", mainWindow.isMaximized())
             mainWindow.destroy()
         } try { settingWindow.close() } catch (e) { }
     });
-    mainWindow.on('move', e => {
-        // log.info(e.)
-    })
     Menu.setApplicationMenu(null)
     //リソーススワップするやつ
     mainWindow.webContents.session.webRequest.onBeforeRequest(
@@ -199,17 +202,37 @@ const createMain = () => {
             }
         }
     )
-    mainWindow.webContents.setWindowOpenHandler((e) => {
-        let linkUrl = e.url
-        if (linkUrl.startsWith("https://voxiom.io/assets/pages/")) {
-            shell.openExternal(linkUrl)
-        } else if (linkUrl.startsWith("https://voxiom.io")) {
-            mainWindow.loadURL(e.url);
+    //新しいウィンドウの挙動を変更する
+    mainWindow.webContents.on("new-window", (e, v) => {
+        e.preventDefault()
+        if (v.startsWith("https://voxiom.io/assets/pages")) {
+            shell.openExternal(v)
+        } else if (v.startsWith("https://voxiom.io/package")) {
+            shell.openExternal(v)
+        } else if (v.startsWith("https://voxiom.io")) {
+            mainWindow.loadURL(v);
         } else {
-            shell.openExternal(linkUrl)
+            shell.openExternal(v)
         }
     });
+    mainWindow.webContents.on('did-start-loading', e => {
+        mainWindow.webContents.send("injectScript", config.get("customJs"))
+    })
+    mainWindow.webContents.on("will-navigate", (e, v) => {
+        console.log(e)
+        console.log(v)
+        e.preventDefault()
+        if (v.startsWith("https://voxiom.io/assets/pages")) {
+            shell.openExternal(v)
+        } else if (v.startsWith("https://voxiom.io/package")) {
+            shell.openExternal(v)
+        } else if (v.startsWith("https://voxiom.io")) {
+            mainWindow.loadURL(v);
+        } else {
+            shell.openExternal(v)
+        }
 
+    })
 }
 //リソーススワッパーの部分
 const swapperJson = () => {
