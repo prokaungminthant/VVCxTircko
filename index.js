@@ -108,8 +108,10 @@ function createSplash() {
 //メインウィンドウを作るやつ
 const createMain = () => {
     mainWindow = new BrowserWindow({
-        height: 1920,
-        width: 1080,
+        x: config.get("x"),
+        y: config.get("y"),
+        height: config.get("height"),
+        width: config.get("width"),
         show: false,
         icon: "./icon.ico",
         fullscreen: config.get("fullscreen", true),
@@ -155,8 +157,9 @@ const createMain = () => {
     })
     //表示の準備ができたらメインウィンドウを表示してスプラッシュウィンドウを破壊する
     mainWindow.once("ready-to-show", () => {
-        mainWindow.show()
         config.get("maximize") ? mainWindow.maximize() : "";
+        config.get("fullscreen") ? mainWindow.fullscreen() : "";
+        mainWindow.show()
         splashWindow.destroy()
         // createCrosshair()
     })
