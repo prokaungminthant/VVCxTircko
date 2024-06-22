@@ -158,7 +158,6 @@ const createMain = () => {
     //表示の準備ができたらメインウィンドウを表示してスプラッシュウィンドウを破壊する
     mainWindow.once("ready-to-show", () => {
         config.get("maximize") ? mainWindow.maximize() : "";
-        config.get("fullscreen") ? mainWindow.fullscreen() : "";
         mainWindow.show()
         splashWindow.destroy()
         // createCrosshair()
