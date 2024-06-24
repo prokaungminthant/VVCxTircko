@@ -1,202 +1,167 @@
 body {
+    background-color: #222;
+    width: 680px;
+    color: #ccc;
+    /* overflow-x: hidden; */
+}
+
+h3 {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 5px;
+    border: 2px solid #555;
+}
+
+th {
+    background-color: #333;
+    text-align: left;
+    width: 200px;
+    padding-left: 10px;
     margin: unset;
-    padding: unset;
-    background: #444;
+}
+
+td {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+textarea {
+    background: transparent;
+    width: calc(100% - 10px);
+    justify-content: space-around;
+    height: 100px;
     color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    outline: unset;
 }
 
-*,
-* * {
-    font-family: "M PLUS Code Latin", monospace;
+input[type="url"],
+input[type="text"] {
+    background: transparent;
+    border: unset;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.438);
+    width: calc(100% - 10px);
+    outline: unset;
+    color: white;
 }
 
-body::-webkit-scrollbar {
+input[type="button"] {
+    background: transparent;
+    border: unset;
+    background: #fff1;
+    border: 1px solid #fff5;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    -webkit-appearance: unset;
     appearance: unset;
-    width: 5px;
+    background: lime;
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    transition: .2s;
 }
 
-body::-webkit-scrollbar-thumb {
+input[type="checkbox"] {
+    -webkit-appearance: unset;
+    appearance: none;
+    background: gray;
+    border: 2px rgba(0, 0, 0, 0.397) solid;
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    transition: .2s;
+}
+
+.req {
+    font-size: 10px;
+    color: #aaa
+}
+
+.CodeMirror {
+    height: 150px;
+    width: 100%;
+}
+
+element.style {
+    margin-left: 0px;
+    margin-bottom: -5px;
+    border-right-width: 45px;
+    min-height: 34px;
+    min-width: unset;
+    padding-right: 0px;
+    padding-bottom: 5px;
+}
+
+#adder,
+#loginner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+#adder input,
+#loginner input {
+    padding: 10px;
+    margin: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
     background: #0008;
     border-radius: 5px;
 }
 
-input[type="url"] {
-    appearance: unset;
-    box-shadow: unset;
+::-webkit-scrollbar-track {
+    background: #0004;
+}
+
+select {
     outline: unset;
-    border: unset;
-    background: transparent;
-    border-bottom: 1px #aaa solid;
-    color: white;
-    width: 90%;
-}
-
-input[type="checkbox"] {
-    appearance: unset;
-    width: 30px;
-    height: 30px;
-    transition: .2s;
-    transform: rotateX("0deg");
-
-}
-
-input[type="checkbox"]::before {
-    content: "cancel";
-    color: rgb(255, 141, 141);
-    position: relative;
-    font-family: 'Material Symbols Outlined';
-    font-size: 28px;
-    transition: .2s;
-}
-
-input[type="checkbox"]:checked {
-    appearance: unset;
-    width: 30px;
-    height: 30px;
-    transform: rotateX("360deg");
-}
-
-input[type="checkbox"]:checked::before {
-    content: "check_circle";
-    color: lime;
-    position: relative;
-    font-family: 'Material Symbols Outlined';
-    transition: .2s;
-
-}
-
-.sets {
-    width: 580px;
-    text-align: center;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border-top: solid 1px #555;
-}
-
-.sets tr:nth-child(2n + 1) {
-    background: linear-gradient(90deg, transparent, #333, #333, #333, #333, transparent);
-}
-
-.sets tr:nth-child(2n) {
-    background: linear-gradient(90deg, transparent, #555, #555, #555, #555, transparent);
-}
-
-.sets th,
-.sets td {
-    padding: 5px;
-    border-bottom: solid 1px #555;
-}
-
-*:focus {
-    border: unset;
-    outline: unset;
-}
-
-textarea {
-    width: 100%;
-    height: 100px;
-    appearance: unset;
-    background: transparent;
-    color: white;
-    border: #fff5 1px solid;
-    resize: vertical;
-    min-height: 100px;
-}
-
-textarea::-webkit-scrollbar {
-    appearance: unset;
-}
-
-textarea::-webkit-scrollbar-corner {
-    appearance: unset;
-    background-color: transparent;
-    border-color: red !important;
-    box-shadow: unset !important;
-}
-
-textarea::-webkit-resizer {
-    background: linear-gradient(135deg, transparent 0 50%, gray 50% 55%, transparent 55% 70%, gray 70% 75%, transparent 75% 90%, gray 90% 100%);
-}
-
-.req {
-    font-size: 12px;
-    color: red;
-    font-weight: lighter;
-}
-
-input[type="button"] {
-    appearance: unset;
-    background: #444;
-    color: white;
-    font-family: "M PLUS Rounded 1c", sans-serif;
-    border: 2px solid #fff5;
-    background-color: #e8bbff00;
-    color: white;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
-    cursor: pointer;
-    font-weight: bolder;
-}
-
-input[type="button"]:hover {
-    background-color: #fff3
-}
-
-#openLinks {
-    display: flex;
-    flex-direction: column;
-}
-
-#adder,
-#loginner,
-#system {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-#system input[type="button"] {
-    width: calc(540px/2);
-}
-
-#adder input[type="button"],
-#loginner input[type="button"] {
-    width: calc(540px/3);
-    padding: 10px 5px;
-}
-
-#close {
+    color: #fff;
     background-color: #333;
-    width: 40px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+select option {
     color: #aaa;
-}
-
-#close:hover {
-    background-color: rgb(151, 69, 69);
-    cursor: pointer;
-    color: white;
-}
-
-header {
-    -webkit-app-region: drag;
-    position: fixed;
-    height: 30px;
     background-color: #333;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    user-select: none;
 }
 
-.danger {
-    border-color: rgb(255, 116, 116) !important;
-    background: rgba(255, 0, 0, 0.164) !important;
+.invJoin {
+    display: flex;
+}
+
+#system {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#system input {
+    padding: 10px;
+    margin: 10px;
+    background: rgb(58, 22, 22)
+}
+
+#system input:hover {
+    background: rgb(122, 48, 48)
+}
+
+.CodeMirror-sizer,
+.CodeMirror-scroll {
+    max-width: 460px !important;
+    min-width: unset !important;
 }

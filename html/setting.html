@@ -5,13 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vanced Voxiom Client - Setting</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Code+Latin:wght@100..700&display=swap" rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/material.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/show-hint.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+    <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -24,8 +29,7 @@
                     </th>
                     <td>
                         <input type="url" name="crosshair" id="crosshair"
-                            onchange="window.vvc.setting(this.id, this.value)">
-                        </textarea>
+                            onchange="window.vvc.setting(this.id, this.value)"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -34,7 +38,6 @@
                     <td>
                         <input type="checkbox" name="enableCrosshair" id="enableCrosshair"
                             onchange="window.vvc.setting(this.id, this.checked)">
-                        </textarea>
                     </td>
                 </tr>
                 <tr>
@@ -42,8 +45,7 @@
                     </th>
                     <td>
                         <textarea type="textarea" name="customCSS" id="customCSS"
-                            onchange="window.vvc.setting(this.id, this.value)">
-                        </textarea>
+                            onchange="window.vvc.setting(this.id, this.value)"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -64,17 +66,16 @@
                             onchange="window.vvc.setting(this.id, this.checked)">
                     </td>
                 </tr>
-                <!-- <tr>
-                    <th>Custom JavaScript(WIP)
+                <tr>
+                    <th>Custom JS(WIP)
                         <br>
                         <div class="req">*Require reload pages</div>
                     </th>
                     <td>
                         <textarea type="textarea" name="customJs" id="customJs"
-                            onchange="window.vvc.setting(this.id, this.value)">
-                        </textarea>
+                            onchange="window.vvc.setting(this.id, this.value)"></textarea>
                     </td>
-                </tr> -->
+                </tr>
                 <tr>
                     <th>Resource Swapper
                         <br>
@@ -105,33 +106,37 @@
                 <tr>
                     <th>Join game</th>
                     <td>
-                        <input type="url" name="joinUrl" id="joinUrl">
-                        <input type="button" id="joinGame" value="Join" onclick="joinGame()">
+                        <div class="invJoin">
+                            <input type="url" name="joinUrl" id="joinUrl">
+                            <input type="button" id="joinGame" value="Join" onclick="joinGame()">
+                        </div>
                     </td>
-                </tr>
-                <tr>
-                    <th>Invite link</th>
-                    <td>
-                        <input type="button" id="inv" value="Get Link">
-                        <input type="text" name="invLink" id="invLink" onfocus="this.select()" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Default Page</th>
-                    <td>
-                        <select type="select" name="defPage" id="defPage"
-                            oninput="window.vvc.setting(this.id, this.value)">
-                            <option value="default">Normal</option>
-                            <option value="experimental">Experimental</option>
-                        </select>
-                    </td>
-                </tr>
+    </div>
+    </tr>
+    <tr>
+        <th>Invite link</th>
+        <td>
+            <div class="invJoin">
+                <input type="button" id="inv" value="Get Link">
+                <input type="text" name="invLink" id="invLink" onfocus="this.select()" readonly>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th>Default Page</th>
+        <td>
+            <select type="select" name="defPage" id="defPage" oninput="window.vvc.setting(this.id, this.value)">
+                <option value="default">Normal</option>
+                <option value="experimental">Experimental</option>
+            </select>
+        </td>
+    </tr>
 
-            </tbody>
-        </table>
+    </tbody>
+    </table>
     </div>
     <div id="openLinks">
-        <input type="button" value="OPEN Voxiom.io" onclick="window.vvc.open('voxiom')">
+        <!-- <input type="button" value="OPEN Voxiom.io" onclick="window.vvc.open('voxiom')"> -->
         <h3>Account Settings</h3>
         <div id="loginner">
             <input type="button" value="Login with Google" onclick="window.vvc.open('logGoogle')">
@@ -161,6 +166,88 @@
             const v = b
             document.getElementById("invLink").value = v
         })
+    </script>
+
+    <!-- CodeMirrorのJavaScriptを読み込む -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <!-- JavaScriptモードを読み込む -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+    <!-- CSSモードを読み込む -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/css/css.min.js"></script>
+    <!-- Hint (補完機能)のJavaScriptを読み込む -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/css-hint.min.js"></script>
+
+    <script>
+        // エディタの初期化
+        var jsEdit = CodeMirror.fromTextArea(document.getElementById('customJs'), {
+            mode: "javascript",
+            theme: "material",
+            lineNumbers: false,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete",
+                "Tab": function (cm) {
+                    var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                    cm.replaceSelection(spaces);
+                }
+            }
+        });
+        var cssEdit = CodeMirror.fromTextArea(document.getElementById('customCSS'), {
+            mode: "css",
+            theme: "dracula",
+            lineNumbers: false,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete",
+                "Tab": function (cm) {
+                    var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                    cm.replaceSelection(spaces);
+                }
+            }
+        });
+
+        // 自動インデントを有効にする
+        jsEdit.on('change', function (cm, change) {
+            if (change.origin !== 'setValue' && change.origin !== 'paste') {
+                var pos = cm.getCursor();
+                var token = cm.getTokenAt(pos);
+                if (token.type === 'comment') return;
+                cm.execCommand('indentAuto');
+                console.log(cm)
+                console.log(change)
+                console.log("customJs", cm.getValue())
+                window.vvc.setting("customJs", cm.getValue())
+            }
+        });
+        cssEdit.on('change', function (cm, change) {
+            if (change.origin !== 'setValue' && change.origin !== 'paste') {
+                var pos = cm.getCursor();
+                var token = cm.getTokenAt(pos);
+                if (token.type === 'comment') return;
+                cm.execCommand('indentAuto');
+                console.log("customCSS", cm.getValue())
+                window.vvc.setting("customCSS", cm.getValue())
+            }
+        });
+        //中身をロードする
+        document.addEventListener("DOMContentLoaded", () => {
+            loadJsAndCSS()
+        })
+        const loadJsAndCSS = async () => {
+            let js
+            let css
+            await console.log(window.vvc.getVal("customJs"))
+            js = await window.vvc.getVal("customJs")
+            jsEdit.setValue(js)
+            await console.log(window.vvc.getVal("customCSS"))
+            css = await window.vvc.getVal("customCSS")
+            cssEdit.setValue(css)
+
+
+        }
     </script>
 </body>
 

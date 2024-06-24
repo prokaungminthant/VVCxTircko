@@ -87,7 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ipcRenderer.on("betterDebugDisplay", (e, v) => {
         debugFunc(v)
     })
-
+    ipcRenderer.on("loadJs", (e, v) => {
+        eval(v)
+    })
 })
 let debugFunc = (v) => {
     let debugDisplay = document.getElementById("debugDisplay")

@@ -269,7 +269,7 @@ const settingDisplay = (v) => {
         log.info("settingWindow null")
         settingWindow = new BrowserWindow({
             height: 800,
-            width: 620,
+            width: 750,
             x: 0,
             y: 0,
             icon: "./icon.ico",
@@ -330,6 +330,9 @@ ipcMain.handle("getSetting", (e, n) => {
 ipcMain.on("reload", e => {
     mainWindow.webContents.send("reload")
 })
+ipcMain.handle("getVal", (e, n) => {
+    return config.get(n, "")
+})
 //クライアントの設定を初期化する
 ipcMain.on("restore", e => {
     const { dialog } = require('electron')
@@ -384,6 +387,7 @@ ipcMain.on("pageLoaded", e => {
     mainWindow.webContents.send('cssGen', config.get('customCSS', ""))
     mainWindow.webContents.send('fpsDisplay', config.get("fpsDisplay", true), config.get("fpsPosition"))
     mainWindow.webContents.send('appName', app.getVersion())
+    mainWindow.webContents.send('loadJs', config.get("customJs", `console.log("Nothing Loaded")`))
 })
 ipcMain.on("openLink", (e, v) => {
     switch (v) {

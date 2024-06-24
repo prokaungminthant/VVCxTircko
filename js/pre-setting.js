@@ -15,6 +15,7 @@ contextBridge.exposeInMainWorld("vvc", {
     open: (v) => ipcRenderer.send("openLink", v),
     restore: (v) => ipcRenderer.send("restore"),
     clearCache: (v) => ipcRenderer.send("clearCache"),
+    getVal: async (v) => await ipcRenderer.invoke("getVal", v)
 })
 
 
