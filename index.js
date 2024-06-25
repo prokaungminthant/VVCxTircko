@@ -206,15 +206,15 @@ const createMain = () => {
     )
     //新しいウィンドウの挙動を変更する
     mainWindow.webContents.on("new-window", (e, v) => {
+        console.log(e)
+        console.log(v)
         e.preventDefault()
-        if (v.startsWith("https://voxiom.io/assets/pages")) {
-            shell.openExternal(v)
-        } else if (v.startsWith("https://voxiom.io/package")) {
+        if (v.startsWith("https://voxiom.io/assets/pages") || v.startsWith("https://voxiom.io/package")) {
             shell.openExternal(v)
         } else if (v.startsWith("https://voxiom.io") || v.startsWith("https://accounts.google.com/") || v.startsWith("https://discord.com/") || v.startsWith("https://www.facebook.com/")) {
-            mainWindow.loadURL(v);
+            mainWindow.loadURL(v)
         } else {
-            shell.openExternal(v)
+            shell.openExternal()
         }
     });
     mainWindow.webContents.on('did-start-loading', e => {
@@ -223,14 +223,16 @@ const createMain = () => {
     mainWindow.webContents.on("will-navigate", (e, v) => {
         console.log(e)
         console.log(v)
-        e.preventDefault()
         if (v.startsWith("https://voxiom.io/assets/pages")) {
+            e.preventDefault()
             shell.openExternal(v)
         } else if (v.startsWith("https://voxiom.io/package")) {
+            e.preventDefault()
             shell.openExternal(v)
         } else if (v.startsWith("https://voxiom.io") || v.startsWith("https://accounts.google.com/") || v.startsWith("https://discord.com/") || v.startsWith("https://www.facebook.com/")) {
-            mainWindow.loadURL(v);
+            return
         } else {
+            e.preventDefault()
             shell.openExternal(v)
         }
     })
