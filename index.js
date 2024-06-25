@@ -211,7 +211,7 @@ const createMain = () => {
             shell.openExternal(v)
         } else if (v.startsWith("https://voxiom.io/package")) {
             shell.openExternal(v)
-        } else if (v.startsWith("https://voxiom.io")) {
+        } else if (v.startsWith("https://voxiom.io") || v.startsWith("https://accounts.google.com/") || v.startsWith("https://discord.com/") || v.startsWith("https://www.facebook.com/")) {
             mainWindow.loadURL(v);
         } else {
             shell.openExternal(v)
@@ -228,12 +228,11 @@ const createMain = () => {
             shell.openExternal(v)
         } else if (v.startsWith("https://voxiom.io/package")) {
             shell.openExternal(v)
-        } else if (v.startsWith("https://voxiom.io")) {
+        } else if (v.startsWith("https://voxiom.io") || v.startsWith("https://accounts.google.com/") || v.startsWith("https://discord.com/") || v.startsWith("https://www.facebook.com/")) {
             mainWindow.loadURL(v);
         } else {
             shell.openExternal(v)
         }
-
     })
 }
 //リソーススワッパーの部分
