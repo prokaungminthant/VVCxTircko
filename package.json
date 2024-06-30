@@ -1,6 +1,6 @@
 {
   "name": "vanced-voxiom-client",
-  "version": "3.3.3",
+  "version": "3.3.4",
   "description": "Unofficial client to play Voxiom.io more conveniently",
   "main": "index.js",
   "devDependencies": {

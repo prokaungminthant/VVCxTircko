@@ -519,16 +519,16 @@ const testConfigs = () => {
     console.log(config.get("customCSS"))
     console.log(config.get("betterDebugDisplay"))
 
-    config.get("crosshair") === null ? log.info(config.get("crosshair")) : (config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair"))
+    config.get("crosshair") === !null ? log.info(config.get("crosshair")) : (config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair"))
     // config.get("fpsDisplay") ? log.info(config.get("fpsDisplay")) : (config.set("fpsDisplay", true), log.info("Set value for fpsDisplay"))
     // config.get("fpsPosition") ? log.info(config.get("fpsPosition")) : (config.set("fpsPosition", "bottomRight"), log.info("Set value for fpsPosition"))
-    config.get("enableCrosshair") === null ? log.info(config.get("enableCrosshair")) : (config.set("enableCrosshair", true), log.info("Set value for enableCrosshair"))
-    config.get("unlimitedFps") === null ? log.info(config.get("unlimitedFps")) : (config.set("unlimitedFps", true), log.info("Set value for unlimitedFps"))
-    config.get("defPage") === null ? log.info(config.get("defPage")) : (config.set("defPage", "default"), log.info("Set value for defPage"))
-    config.get("swapper") === null ? log.info(config.get("swapper")) : (config.set("swapper", true), log.info("Set value for swapper"))
-    config.get("angleType") === null ? log.info(config.get("angleType")) : (config.set("angleType", "default"), log.info("Set value for angleType"))
-    config.get("customCSS") === null ? log.info(config.get("customCSS")) : (config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS"))
-    config.get("betterDebugDisplay") === null ? log.info(config.get("betterDebugDisplay")) : (config.set("betterDebugDisplay", false), log.info("Set value for betterDebugDisplay"))
+    config.get("enableCrosshair") === !null ? log.info(config.get("enableCrosshair")) : (config.set("enableCrosshair", true), log.info("Set value for enableCrosshair"))
+    config.get("unlimitedFps") === !null ? log.info(config.get("unlimitedFps")) : (config.set("unlimitedFps", true), log.info("Set value for unlimitedFps"))
+    config.get("defPage") === !null ? log.info(config.get("defPage")) : (config.set("defPage", "default"), log.info("Set value for defPage"))
+    config.get("swapper") === !null ? log.info(config.get("swapper")) : (config.set("swapper", true), log.info("Set value for swapper"))
+    config.get("angleType") === !null ? log.info(config.get("angleType")) : (config.set("angleType", "default"), log.info("Set value for angleType"))
+    config.get("customCSS") === !null ? log.info(config.get("customCSS")) : (config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS"))
+    config.get("betterDebugDisplay") === !null ? log.info(config.get("betterDebugDisplay")) : (config.set("betterDebugDisplay", false), log.info("Set value for betterDebugDisplay"))
 }
 //アプリの準備ができたら保存されている設定を確認し、その後スプラッシュウィンドウを作成する
 app.whenReady().then(() => {
