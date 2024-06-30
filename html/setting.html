@@ -111,29 +111,28 @@
                             <input type="button" id="joinGame" value="Join" onclick="joinGame()">
                         </div>
                     </td>
-    </div>
-    </tr>
-    <tr>
-        <th>Invite link</th>
-        <td>
-            <div class="invJoin">
-                <input type="button" id="inv" value="Get Link">
-                <input type="text" name="invLink" id="invLink" onfocus="this.select()" readonly>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <th>Default Page</th>
-        <td>
-            <select type="select" name="defPage" id="defPage" oninput="window.vvc.setting(this.id, this.value)">
-                <option value="default">Normal</option>
-                <option value="experimental">Experimental</option>
-            </select>
-        </td>
-    </tr>
-
-    </tbody>
-    </table>
+                </tr>
+                <tr>
+                    <th>Invite link</th>
+                    <td>
+                        <div class="invJoin">
+                            <input type="button" id="inv" value="Get Link">
+                            <input type="text" name="invLink" id="invLink" onfocus="this.select()" readonly>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Default Page</th>
+                    <td>
+                        <select type="select" name="defPage" id="defPage"
+                            oninput="window.vvc.setting(this.id, this.value)">
+                            <option value="default">Normal</option>
+                            <option value="experimental">Experimental</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <div id="openLinks">
         <!-- <input type="button" value="OPEN Voxiom.io" onclick="window.vvc.open('voxiom')"> -->
@@ -149,6 +148,10 @@
             <input type="button" value="Open Facebook" onclick="window.vvc.open('addFacebook')">
         </div>
         <h3>System Settings</h3>
+        <div id="exports">
+            <input type="button" value="Import Game Settings" onclick="window.vvc.importSetting()">
+            <input type="button" value="Export Game Settings" onclick="window.vvc.exportSetting()">
+        </div>
         <div id="system">
             <input type="button" class="danger" value="Restore client" onclick="window.vvc.restore()">
             <input type="button" class="danger" value="Clear cache" onclick="window.vvc.clearCache()">
@@ -245,8 +248,6 @@
             await console.log(window.vvc.getVal("customCSS"))
             css = await window.vvc.getVal("customCSS")
             cssEdit.setValue(css)
-
-
         }
     </script>
 </body>

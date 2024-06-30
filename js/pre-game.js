@@ -3,13 +3,14 @@ const path = require("path")
 const webFrame = require("electron").webFrame;
 
 contextBridge.exposeInMainWorld("vvc", {
+    returnPersist: (v) => ipcRenderer.send("returnPersist", v),
     copyName: (dom, value) => {
         navigator.clipboard.writeText(value);
         dom.value = "Copied!"
         setTimeout(() => {
             dom.value = 'Copy';
         }, 2000);
-    }
+    },
 })
 let debugInterval
 
@@ -90,6 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
     ipcRenderer.on("loadJs", (e, v) => {
         eval(v)
     })
+    ipcRenderer.on("importGameSetting", (e, v) => {
+        console.log(v)
+        let setting = JSON.parse(v)
+        console.log(setting)
+        setting = JSON.stringify(setting)
+        console.log(setting)
+        localStorage.setItem("persist:root", setting)
+    })
 })
 let debugFunc = (v) => {
     let debugDisplay = document.getElementById("debugDisplay")
@@ -133,4 +142,13 @@ let debugFunc = (v) => {
             debugInterval = null;
         }
     }
-}   
+}
+ipcRenderer.on("givePersist", e => {
+    sendPersist()
+})
+
+let sendPersist = () => {
+    let v = localStorage.getItem("persist:root")
+    console.log(v)
+    ipcRenderer.send('returnPersist', v)
+}

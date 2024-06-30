@@ -145,9 +145,15 @@ select option {
     display: flex;
 }
 
-#system {
+#system,
+#exports {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+}
+
+#exports input {
+    padding: 10px;
+    margin: 10px;
 }
 
 #system input {

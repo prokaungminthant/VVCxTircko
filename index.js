@@ -6,6 +6,9 @@ const shortcut = require("electron-localshortcut")
 const { autoUpdater } = require('electron-updater')
 const fs = require('fs')
 const log = require('electron-log')
+const iconv = require('iconv-lite');
+const chardet = require('chardet')
+
 
 Object.defineProperty(app, 'isPackaged', {
     get() {
@@ -382,6 +385,62 @@ ipcMain.on("clearCache", e => {
         }
     })
 })
+//クライアントの設定のインポート
+ipcMain.on("import", e => {
+    dialog.showOpenDialog(settingWindow, {
+        title: "Open exported setting file.",
+        properties: ['openFile'],
+        filters: [
+            { name: 'text', extensions: ['txt'] }
+        ]
+    }).then(result => {
+        if (!result.canceled) {
+            return result.filePaths[0]
+        }
+    }).then(data => {
+        console.log(data)
+        const encoding = chardet.detectFileSync(data);
+        console.log(encoding)
+        return iconv.decode(fs.readFileSync(data), encoding);
+    }).then(data => {
+        console.log(data)
+        mainWindow.webContents.send("importGameSetting", data)
+    })
+})
+//クライアントの設定のエクスポート
+ipcMain.on("export", e => {
+    mainWindow.webContents.send("givePersist")
+})
+ipcMain.on("returnPersist", (e, v) => {
+    console.log(v)
+    function getFormattedDate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため+1する
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        return `${year}${month}${day}${hours}${minutes}${seconds}`;
+    }
+    console.log(getFormattedDate());
+    let nowDate = getFormattedDate()
+    dialog.showSaveDialog({
+        title: '名前を付けて保存',
+        properties: ['saveFiles'],
+        defaultPath: path.join(app.getPath('documents'), 'VoxiomSetting' + nowDate + '.txt'),
+        filters: [
+            { name: 'Text Files', extensions: ['txt'] },
+            { name: 'All Files', extensions: ['*'] },
+        ],
+    }).then(data => {
+        console.log(data);
+        if (!data.canceled && data.filePath) {
+            fs.writeFileSync(data.filePath, v, 'utf8');
+        } else {
+        }
+    });
+})
 //mainWindowでページがロードされたことを受け取る
 ipcMain.on("pageLoaded", e => {
     mainWindow.webContents.send('crosshairGen', config.get('crosshair'), config.get('enableCrosshair', true))
@@ -460,16 +519,16 @@ const testConfigs = () => {
     console.log(config.get("customCSS"))
     console.log(config.get("betterDebugDisplay"))
 
-    config.get("crosshair") ? log.info(config.get("crosshair")) : (config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair"))
+    config.get("crosshair") === null ? log.info(config.get("crosshair")) : (config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair"))
     // config.get("fpsDisplay") ? log.info(config.get("fpsDisplay")) : (config.set("fpsDisplay", true), log.info("Set value for fpsDisplay"))
     // config.get("fpsPosition") ? log.info(config.get("fpsPosition")) : (config.set("fpsPosition", "bottomRight"), log.info("Set value for fpsPosition"))
-    config.get("enableCrosshair") ? log.info(config.get("enableCrosshair")) : (config.set("enableCrosshair", true), log.info("Set value for enableCrosshair"))
-    config.get("unlimitedFps") ? log.info(config.get("unlimitedFps")) : (config.set("unlimitedFps", true), log.info("Set value for unlimitedFps"))
-    config.get("defPage") ? log.info(config.get("defPage")) : (config.set("defPage", "default"), log.info("Set value for defPage"))
-    config.get("swapper") ? log.info(config.get("swapper")) : (config.set("swapper", true), log.info("Set value for swapper"))
-    config.get("angleType") ? log.info(config.get("angleType")) : (config.set("angleType", "default"), log.info("Set value for angleType"))
-    config.get("customCSS") ? log.info(config.get("customCSS")) : (config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS"))
-    config.get("betterDebugDisplay") ? log.info(config.get("betterDebugDisplay")) : (config.set("betterDebugDisplay", false), log.info("Set value for betterDebugDisplay"))
+    config.get("enableCrosshair") === null ? log.info(config.get("enableCrosshair")) : (config.set("enableCrosshair", true), log.info("Set value for enableCrosshair"))
+    config.get("unlimitedFps") === null ? log.info(config.get("unlimitedFps")) : (config.set("unlimitedFps", true), log.info("Set value for unlimitedFps"))
+    config.get("defPage") === null ? log.info(config.get("defPage")) : (config.set("defPage", "default"), log.info("Set value for defPage"))
+    config.get("swapper") === null ? log.info(config.get("swapper")) : (config.set("swapper", true), log.info("Set value for swapper"))
+    config.get("angleType") === null ? log.info(config.get("angleType")) : (config.set("angleType", "default"), log.info("Set value for angleType"))
+    config.get("customCSS") === null ? log.info(config.get("customCSS")) : (config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS"))
+    config.get("betterDebugDisplay") === null ? log.info(config.get("betterDebugDisplay")) : (config.set("betterDebugDisplay", false), log.info("Set value for betterDebugDisplay"))
 }
 //アプリの準備ができたら保存されている設定を確認し、その後スプラッシュウィンドウを作成する
 app.whenReady().then(() => {
