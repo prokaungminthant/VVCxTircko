@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer } = require("electron");
 //n: name
 //v: value
 
-const settingNames = ["crosshair", "betterDebugDisplay", "enableCrosshair", "unlimitedFps", "defPage", "swapper", "angleType", "customCSS"]
+const settingNames = ["crosshair", "betterDebugDisplay", "adBlocker", "enableCrosshair", "unlimitedFps", "defPage", "swapper", "angleType", "customCSS"]
 
 //ウェブページにwindow.vvcから始まる関数を登録している
 contextBridge.exposeInMainWorld("vvc", {

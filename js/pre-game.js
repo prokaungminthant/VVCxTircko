@@ -100,12 +100,21 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("persist:root", setting)
     })
 })
+window.addEventListener('resize', () => {
+    windowResize()
+});
 let debugFunc = (v) => {
+    //まずマップのエレメントを取得して、場所を割り出す
+    let posY = document.querySelector(".sc-jcEtbA.hjohWN").getBoundingClientRect().y
+    let posX = Math.floor(document.querySelector(".sc-jcEtbA.hjohWN").getBoundingClientRect().x + document.querySelector(".sc-jcEtbA.hjohWN").getBoundingClientRect().width + 5)
     let debugDisplay = document.getElementById("debugDisplay")
     if (!debugDisplay) {
-        let displayDom = `<div id="debugDisplay" class="hide"></div>`
+        let displayDom = `<div id="debugDisplay" style="left:${posX}px;top:${posY}px;" class="hide"></div>`
         document.getElementById("app").insertAdjacentHTML("afterbegin", displayDom)
         debugDisplay = document.getElementById("debugDisplay")
+    } else if (debugDisplay) {
+        debugDisplay.style.left = posX + "px"
+        debugDisplay.style.top = posY + "px"
     }
     let debugDom = document.querySelector('div[style="width: 550px; position: absolute; top: 0px; left: 0px; padding: 10px; pointer-events: none; background-color: rgba(0, 0, 0, 0.8); display: block;"]') ? document.querySelector('div[style="width: 550px; position: absolute; top: 0px; left: 0px; padding: 10px; pointer-events: none; background-color: rgba(0, 0, 0, 0.8); display: block;"]') : document.querySelector('div[style="width: 550px; position: absolute; top: 0px; left: 0px; padding: 10px; pointer-events: none; background-color: rgba(0, 0, 0, 0.8); display: none;"]')
     if (debugDom) {
@@ -141,6 +150,16 @@ let debugFunc = (v) => {
             clearInterval(debugInterval);
             debugInterval = null;
         }
+    }
+}
+
+const windowResize = (v) => {
+    let posY = document.querySelector(".sc-jcEtbA.hjohWN").getBoundingClientRect().y
+    let posX = Math.floor(document.querySelector(".sc-jcEtbA.hjohWN").getBoundingClientRect().x + document.querySelector(".sc-jcEtbA.hjohWN").getBoundingClientRect().width + 5)
+    let debugDisplay = document.getElementById("debugDisplay")
+    if (debugDisplay) {
+        debugDisplay.style.left = posX + "px"
+        debugDisplay.style.top = posY + "px"
     }
 }
 ipcRenderer.on("givePersist", e => {

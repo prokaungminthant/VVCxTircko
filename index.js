@@ -7,8 +7,9 @@ const { autoUpdater } = require('electron-updater')
 const fs = require('fs')
 const log = require('electron-log')
 const iconv = require('iconv-lite');
-const chardet = require('chardet')
-
+const chardet = require('chardet');
+const { ElectronBlocker } = require("@cliqz/adblocker-electron")
+const fetch = require('cross-fetch')
 
 Object.defineProperty(app, 'isPackaged', {
     get() {
@@ -126,6 +127,12 @@ const createMain = () => {
             worldSafeExecuteJavaScript: false,
         },
     })
+    if (config.get("adBlocker")) {
+        console.log("adBlocker is true")
+        ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
+            blocker.enableBlockingInSession(mainWindow.webContents.session);
+        });
+    }
     let def = config.get("defPage") ? config.get("defPage") : "default"
     switch (def) {
         case ("default"):
@@ -217,7 +224,7 @@ const createMain = () => {
         } else if (v.startsWith("https://voxiom.io") || v.startsWith("https://accounts.google.com/") || v.startsWith("https://discord.com/") || v.startsWith("https://www.facebook.com/")) {
             mainWindow.loadURL(v)
         } else {
-            shell.openExternal()
+            shell.openExternal(v)
         }
     });
     mainWindow.webContents.on('did-start-loading', e => {
@@ -519,19 +526,36 @@ const testConfigs = () => {
     console.log(config.get("customCSS"))
     console.log(config.get("betterDebugDisplay"))
 
-    config.get("crosshair") === !null ? log.info(config.get("crosshair")) : (config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair"))
+    config.get("crosshair") === !null ? log.info("crosshair : " + config.get("crosshair")) : (config.set("crosshair", "https://namekujilsds.github.io/CROSSHAIR/img/Cross-lime.png"), log.info("Set value for crosshair"))
     // config.get("fpsDisplay") ? log.info(config.get("fpsDisplay")) : (config.set("fpsDisplay", true), log.info("Set value for fpsDisplay"))
     // config.get("fpsPosition") ? log.info(config.get("fpsPosition")) : (config.set("fpsPosition", "bottomRight"), log.info("Set value for fpsPosition"))
-    config.get("enableCrosshair") === !null ? log.info(config.get("enableCrosshair")) : (config.set("enableCrosshair", true), log.info("Set value for enableCrosshair"))
-    config.get("unlimitedFps") === !null ? log.info(config.get("unlimitedFps")) : (config.set("unlimitedFps", true), log.info("Set value for unlimitedFps"))
-    config.get("defPage") === !null ? log.info(config.get("defPage")) : (config.set("defPage", "default"), log.info("Set value for defPage"))
-    config.get("swapper") === !null ? log.info(config.get("swapper")) : (config.set("swapper", true), log.info("Set value for swapper"))
-    config.get("angleType") === !null ? log.info(config.get("angleType")) : (config.set("angleType", "default"), log.info("Set value for angleType"))
-    config.get("customCSS") === !null ? log.info(config.get("customCSS")) : (config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS"))
-    config.get("betterDebugDisplay") === !null ? log.info(config.get("betterDebugDisplay")) : (config.set("betterDebugDisplay", false), log.info("Set value for betterDebugDisplay"))
+    config.get("enableCrosshair") === !null ? log.info("enableCrosshair : " + config.get("enableCrosshair")) : (config.set("enableCrosshair", true), log.info("Set value for enableCrosshair"))
+    config.get("unlimitedFps") === !null ? log.info("unlimitedFps : " + config.get("unlimitedFps")) : (config.set("unlimitedFps", true), log.info("Set value for unlimitedFps"))
+    config.get("defPage") === !null ? log.info("defPage : " + config.get("defPage")) : (config.set("defPage", "default"), log.info("Set value for defPage"))
+    config.get("swapper") === !null ? log.info("swapper : " + config.get("swapper")) : (config.set("swapper", true), log.info("Set value for swapper"))
+    config.get("angleType") === !null ? log.info("angleType : " + config.get("angleType")) : (config.set("angleType", "default"), log.info("Set value for angleType"))
+    config.get("customCSS") === !null ? log.info("customCSS : " + config.get("customCSS")) : (config.set("customCSS", "@import url('https://namekujilsds.github.io/VVC/default.css');"), log.info("Set value for customCSS"))
+    config.get("betterDebugDisplay") === !null ? log.info("betterDebugDisplay : " + config.get("betterDebugDisplay")) : (config.set("betterDebugDisplay", false), log.info("Set value for betterDebugDisplay"))
+    config.get("adBlocker") === !null ? log.info("adBlocker : " + config.get("adBlocker")) : (config.set("adBlocker", false), log.info("Set value for adBlocker"));
 }
 //アプリの準備ができたら保存されている設定を確認し、その後スプラッシュウィンドウを作成する
 app.whenReady().then(() => {
     testConfigs()
     createSplash()
 })
+
+// 日時フォーマット関数
+function getFormattedDate() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+    return `${year}${month}${day}${hours}${minutes}${seconds}`;
+}
+
+// ログファイル名の設定
+const logFileName = `${getFormattedDate()}.log`;
+log.transports.file.file = path.join(log.transports.file.getFile().path, '..', logFileName);

@@ -1,8 +1,13 @@
+*,
+* * {
+    font-family: 'Roboto Mono';
+    font-weight: 400;
+}
+
 body {
     background-color: #222;
     width: 680px;
     color: #ccc;
-    /* overflow-x: hidden; */
 }
 
 h3 {
@@ -76,7 +81,7 @@ input[type="checkbox"]:checked {
 input[type="checkbox"] {
     -webkit-appearance: unset;
     appearance: none;
-    background: gray;
+    background: red;
     border: 2px rgba(0, 0, 0, 0.397) solid;
     width: 20px;
     height: 20px;
@@ -85,8 +90,9 @@ input[type="checkbox"] {
 }
 
 .req {
-    font-size: 10px;
-    color: #aaa
+    font-size: 12px;
+    color: rgb(255, 79, 79);
+    margin-left: 5px;
 }
 
 .CodeMirror {
@@ -170,4 +176,9 @@ select option {
 .CodeMirror-scroll {
     max-width: 460px !important;
     min-width: unset !important;
+}
+
+.CodeMirror-code,
+.CodeMirror-code * {
+    font-size: 12px;
 }

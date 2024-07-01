@@ -7,7 +7,10 @@
     <title>Vanced Voxiom Client - Setting</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Code+Latin:wght@100..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -129,6 +132,16 @@
                             <option value="default">Normal</option>
                             <option value="experimental">Experimental</option>
                         </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Enable Ad-Blocker
+                        <br>
+                        <div class="req">*Require restart</div>
+                    </th>
+                    <td>
+                        <input type="checkbox" name="adBlocker" id="adBlocker"
+                            onchange="window.vvc.setting(this.id, this.checked)">
                     </td>
                 </tr>
             </tbody>
