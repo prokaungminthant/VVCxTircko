@@ -103,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
 window.addEventListener('resize', () => {
     windowResize()
 });
+
 let debugFunc = (v) => {
     //まずマップのエレメントを取得して、場所を割り出す
     let posY = document.querySelector(".sc-jcEtbA.hjohWN").getBoundingClientRect().y
