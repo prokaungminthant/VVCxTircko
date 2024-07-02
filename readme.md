@@ -1,4 +1,8 @@
+Forked Note:
+F2 for tricko
 
+
+Offical note:
 ## 開発時の備忘録
 ### Memorandum during development
 以下の2つをウェブプリファレンスとして登録すると、CPA-Checkに失敗します。
