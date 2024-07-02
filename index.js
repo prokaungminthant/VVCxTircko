@@ -19,9 +19,9 @@ Object.defineProperty(app, 'isPackaged', {
 
 let mainWindow
 let settingWindow
+let trickoWindow
 let splashWindow
 
-//カスタムプロトコルの登録
 app.on('ready', () => {
     protocol.registerFileProtocol('vvc', (request, callback) =>
         callback(decodeURI(request.url.replace(/^vvc:\//, '')))
@@ -150,6 +150,9 @@ const createMain = () => {
     shortcut.register(mainWindow, "F1", () => {
         settingDisplay("open")
     })
+    shortcut.register(mainWindow, "F2", () => {
+        trickoDisplay("open")
+    })
     shortcut.register(mainWindow, "F5", () => {
         mainWindow.webContents.send("reload")
     })
@@ -179,9 +182,11 @@ const createMain = () => {
     //メインウィンドウが前面に来た時に設定を隠す
     mainWindow.on('focus', () => {
         if (settingWindow) {
-            settingWindow.hide()
+            settingWindow.hide()    
+        if (trickoWindow) {
+            trickoWindow.hide()
         }
-    })
+    }})
     //閉じるときの処理
     mainWindow.on('close', () => {
         if (!mainWindow.isDestroyed()) {
@@ -192,6 +197,7 @@ const createMain = () => {
             config.set("maximize", mainWindow.isMaximized())
             mainWindow.destroy()
         } try { settingWindow.close() } catch (e) { }
+        try { trickoWindow.close() } catch (e) { }
     });
     Menu.setApplicationMenu(null)
     //リソーススワップするやつ
@@ -303,6 +309,28 @@ const settingDisplay = (v) => {
     })
 }
 
+const trickoDisplay = (v) => {
+        trickoWindow = new BrowserWindow({
+            height: 800,
+            width: 750,
+            x: 0,
+            y: 0,
+            icon: "./icon.ico",
+            webPreferences: {
+                contextIsolation: true,
+            }
+        })
+    }
+    trickoWindow.loadFile(path.join(__dirname, "./html/tricko.html"))
+    trickoWindow.on('close', function (e) {
+        if (mainWindow.isDestroyed()) {
+        } else if (!mainWindow.isDestroyed()) {
+            e.preventDefault();
+            trickoWindow.hide();
+        }
+    })
+
+
 //設定を保存したりpre-game.jsに送信するためのスクリプト
 ipcMain.on("setting", (e, n, v) => {
     //設定を保存
@@ -327,6 +355,7 @@ ipcMain.on("joinGame", (e, v) => {
     // log.info(e, v)
     mainWindow.loadURL(v);
     settingWindow.hide()
+    trickoWindow.hide()
 })
 //ゲームのリンクを取得する
 ipcMain.handle("invLink", e => {

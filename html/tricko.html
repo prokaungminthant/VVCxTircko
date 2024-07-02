@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tricko</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        #mainframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        html, body {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <iframe id="mainframe" src="https://tricko.pro/voxiom" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    <script>
+        document.getElementById("mainframe").onload = function() {
+            if (document.getElementById("mainframe").src == "https://tricko.pro/") {
+                document.getElementById("mainframe").src = "https://tricko.pro/voxiom";
+            }
+        };
+        
+        document.getElementById("mainframe").onclick = function() {
+            if (document.getElementById("mainframe").src == "https://tricko.pro/") {
+                document.getElementById("mainframe").src = "https://tricko.pro/voxiom";
+            }
+        };
+    </script>
+</body>
+
+</html>
